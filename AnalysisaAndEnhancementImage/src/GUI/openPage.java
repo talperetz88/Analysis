@@ -3,6 +3,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +24,7 @@ public class openPage extends JFrame{
 		private JLabel label = null;
 		private JButton nextButten = null;
 		private JLabel lblName = null;
+		private File file;
 		public openPage() {
 			
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,12 +52,14 @@ public class openPage extends JFrame{
 			openButten.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					JFileChooser chooser = new JFileChooser();
+					FileNameExtensionFilter filter = new FileNameExtensionFilter("Video Files","avi","mp4","mkv");
 		            chooser.setCurrentDirectory(new java.io.File("."));
 		            chooser.setDialogTitle("Browse the folder to process");
 		            chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		            chooser.setFileFilter(filter);
 		            chooser.setAcceptAllFileFilterUsed(true);
 					if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-						File file = chooser.getSelectedFile();
+						file = chooser.getSelectedFile();
 						dirictTextFilde.setText(chooser.getCurrentDirectory().toString());
 		                System.out.println("getCurrentDirectory(): "+ chooser.getCurrentDirectory());
 		                System.out.println("getSelectedFile() : "+ file);
@@ -75,11 +79,13 @@ public class openPage extends JFrame{
  			btnSave.addActionListener(new ActionListener() {
  				public void actionPerformed(ActionEvent arg0) {
  					JFileChooser c = new JFileChooser();
+ 					c.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
  				      // Demonstrate "Save" dialog:
  				      int rVal = c.showSaveDialog(openPage.this);
  				      if (rVal == JFileChooser.APPROVE_OPTION) {
- 				        System.out.println("bla bla " + c.getSelectedFile().getName());
- 				       System.out.println("na na" + c.getCurrentDirectory().toString());
+ 				    
+ 				    	 textField.setText(c.getCurrentDirectory().toString());
+ 				    	 System.out.println("na na" + c.getCurrentDirectory().toString());
  				      }
  				      if (rVal == JFileChooser.CANCEL_OPTION) {
  				       // filename.setText("You pressed cancel");
