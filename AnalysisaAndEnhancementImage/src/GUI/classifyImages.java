@@ -20,8 +20,9 @@ public class classifyImages extends JFrame{
 	
 	private JComboBox comboBox = null;
 	private JPanel panel = null, panel1 =null;
-	private JLabel lblDistanceFunction,lblClassifyMethods,lblChoose,lblHistogramMethods,lblBlockMethods; 
-	
+	private JLabel lblDistanceFunction,lblClassifyMethods,lblChoose,lblHistogramMethods,lblBlockMethods;
+	private JCheckBox MADCheckBox,MSECheckBox;
+	private JButton btnNewButton = null;
 	public classifyImages(){
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,6 +34,7 @@ public class classifyImages extends JFrame{
 		panel.setVisible(false);
 		getContentPane().add(getPanelBlock());
 		panel1.setVisible(false);
+		getContentPane().add(getNextbtn());
 		
 		lblHistogramMethods = new JLabel("Histogram method");
 		lblHistogramMethods.setBounds(45, 149, 132, 16);
@@ -45,9 +47,8 @@ public class classifyImages extends JFrame{
 		getContentPane().add(lblBlockMethods);
 		lblBlockMethods.setVisible(false);
 		
-		JButton btnNewButton = new JButton("Next");
-		btnNewButton.setBounds(537, 375, 111, 40);
-		getContentPane().add(btnNewButton);
+
+		
 		
 		lblClassifyMethods = new JLabel("Split to similarity groups");
 		lblClassifyMethods.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -130,15 +131,31 @@ public class classifyImages extends JFrame{
 		
 		panel1.setLayout(null);
 		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("MAD");
-		chckbxNewCheckBox.setBounds(8, 22, 113, 25);
-		panel1.add(chckbxNewCheckBox);
+		MADCheckBox = new JCheckBox("MAD");
+		MADCheckBox.setBounds(8, 22, 113, 25);
+		panel1.add(MADCheckBox);
 		
-		JCheckBox chckbxNewCheckBox_1 = new JCheckBox("MSE");
-		chckbxNewCheckBox_1.setBounds(8, 70, 113, 25);
-		panel1.add(chckbxNewCheckBox_1);
+		MSECheckBox = new JCheckBox("MSE");
+		MSECheckBox.setBounds(8, 70, 113, 25);
+		panel1.add(MSECheckBox);
 
 		}
 		return panel1;
 	}
+	public JButton getNextbtn(){
+		if(btnNewButton == null){
+		btnNewButton = new JButton("Next");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				closeFrame();
+			}
+		});
+		btnNewButton.setBounds(537, 375, 111, 40);
+		}
+		return btnNewButton;
+	}
+	
+		public void closeFrame(){
+ 			super.dispose();
+ 		}
 }
