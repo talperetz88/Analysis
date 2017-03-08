@@ -115,7 +115,14 @@ public class openPage extends JFrame{
  		}
  		public JButton getnextBtn(){
  			if(nextButten == null){
-	 			nextButten = new JButton("next");
+	 			nextButten = new JButton("Next");
+	 			nextButten.addActionListener(new ActionListener() {
+	 				public void actionPerformed(ActionEvent arg0) {
+	 					closeFrame();
+	 					classifyImages next = new classifyImages();
+	 					
+	 				}
+	 			});
 				nextButten.setBounds(399, 368, 116, 33);
 	 		}
  			return nextButten;
@@ -143,6 +150,9 @@ public class openPage extends JFrame{
 			label.setBounds(22, 246, 175, 21);
  		}
  		return label;
+ 		}
+ 		public void closeFrame(){
+ 			super.dispose();
  		}
 }
  		
