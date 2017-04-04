@@ -23,8 +23,9 @@ public class classifyImages extends JFrame{
 	private JLabel lblDistanceFunction,lblClassifyMethods,lblChoose,lblHistogramMethods,lblBlockMethods;
 	private JCheckBox MADCheckBox,MSECheckBox;
 	private JButton btnNewButton = null;
-	public classifyImages(){
-		
+	private openPage open;
+	public classifyImages(openPage open){
+		this.open = open;
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(100,100,722,533);		
 		getContentPane().setLayout(null);
@@ -64,6 +65,10 @@ public class classifyImages extends JFrame{
 		lblChoose = new JLabel("Choose the methods you want to use");
 		lblChoose.setBounds(45, 83, 227, 21);
 		getContentPane().add(lblChoose);
+		
+
+		
+
 	}
 	
 	
@@ -121,6 +126,8 @@ public class classifyImages extends JFrame{
 			JCheckBox chckbxNewCheckBox_3 = new JCheckBox("Bhattacharyya distance");
 			chckbxNewCheckBox_3.setBounds(155, 70, 168, 25);
 			panel.add(chckbxNewCheckBox_3);
+			
+
 		}
 		return panel;
 	}
@@ -138,7 +145,17 @@ public class classifyImages extends JFrame{
 		MSECheckBox = new JCheckBox("MSE");
 		MSECheckBox.setBounds(8, 70, 113, 25);
 		panel1.add(MSECheckBox);
-
+		JSpinner spinner = new JSpinner();
+		spinner.setBounds(45, 360, 30, 22);
+		panel1.add(spinner);
+		
+		JLabel lblPixel = new JLabel("Pixel");
+		lblPixel.setBounds(105, 363, 56, 16);
+		panel1.add(lblPixel);
+		
+		JLabel lblChosee = new JLabel("Chosee the size of paramter P");
+		lblChosee.setBounds(45, 331, 196, 16);
+		panel1.add(lblChosee);
 		}
 		return panel1;
 	}
@@ -148,6 +165,7 @@ public class classifyImages extends JFrame{
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				closeFrame();
+				//ImageList next1 = new ImageList(open);// new displaySimilarityGroups(open);
 			}
 		});
 		btnNewButton.setBounds(537, 375, 111, 40);

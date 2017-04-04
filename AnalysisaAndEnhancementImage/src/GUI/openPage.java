@@ -24,9 +24,11 @@ public class openPage extends JFrame{
 		private JLabel label = null;
 		private JButton nextButten = null;
 		private JLabel lblName = null;
-		private File file;
+		private File file,file1;
+		private openPage open;
+		private String saveUrl;
 		public openPage() {
-			
+			this.open = this;
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			this.setBounds(100,100,722,533);
 			getContentPane().setLayout(null);
@@ -79,15 +81,14 @@ public class openPage extends JFrame{
  			btnSave.addActionListener(new ActionListener() {
  				public void actionPerformed(ActionEvent arg0) {
  					JFileChooser c = new JFileChooser();
+ 					c.setCurrentDirectory(new java.io.File("."));
  					c.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
- 				      // Demonstrate "Save" dialog:
- 				      int rVal = c.showSaveDialog(openPage.this);
- 				      if (rVal == JFileChooser.APPROVE_OPTION) {
- 				    
+ 				      if (c.showSaveDialog(openPage.this) == JFileChooser.APPROVE_OPTION) {
+ 				    	 file1 = c.getCurrentDirectory();
+ 				    	 saveUrl = c.getCurrentDirectory().toString();
  				    	 textField.setText(c.getCurrentDirectory().toString());
- 				    	 System.out.println("na na" + c.getCurrentDirectory().toString());
- 				      }
- 				      if (rVal == JFileChooser.CANCEL_OPTION) {
+ 				    	 System.out.println("na na" + c.getCurrentDirectory());
+ 				      }else{
  				       // filename.setText("You pressed cancel");
  				     //   dir.setText("");
  				      }
@@ -119,7 +120,7 @@ public class openPage extends JFrame{
 	 			nextButten.addActionListener(new ActionListener() {
 	 				public void actionPerformed(ActionEvent arg0) {
 	 					closeFrame();
-	 					classifyImages next = new classifyImages();
+	 					classifyImages next = new classifyImages(open);
 	 					
 	 				}
 	 			});
@@ -153,6 +154,9 @@ public class openPage extends JFrame{
  		}
  		public void closeFrame(){
  			super.dispose();
+ 		}
+ 		public String getSaveUrl(){
+ 			return saveUrl;
  		}
 }
  		
