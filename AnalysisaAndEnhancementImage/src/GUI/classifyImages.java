@@ -24,6 +24,9 @@ public class classifyImages extends JFrame{
 	private JCheckBox MADCheckBox,MSECheckBox;
 	private JButton btnNewButton = null;
 	private openPage open;
+	private JSpinner spinner_1;
+	private JLabel lblPixel_1;
+	private JLabel lblChoseTheSize;
 	public classifyImages(openPage open){
 		this.open = open;
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -134,7 +137,7 @@ public class classifyImages extends JFrame{
 	public JPanel getPanelBlock(){
 		if(panel1 == null){
 		panel1 = new JPanel();
-		panel1.setBounds(45, 201, 368, 115);
+		panel1.setBounds(45, 201, 368, 272);
 		
 		panel1.setLayout(null);
 		
@@ -145,17 +148,18 @@ public class classifyImages extends JFrame{
 		MSECheckBox = new JCheckBox("MSE");
 		MSECheckBox.setBounds(8, 70, 113, 25);
 		panel1.add(MSECheckBox);
-		JSpinner spinner = new JSpinner();
-		spinner.setBounds(45, 360, 30, 22);
-		panel1.add(spinner);
 		
-		JLabel lblPixel = new JLabel("Pixel");
-		lblPixel.setBounds(105, 363, 56, 16);
-		panel1.add(lblPixel);
+		spinner_1 = new JSpinner();
+		spinner_1.setBounds(12, 150, 48, 22);
+		panel1.add(spinner_1);
 		
-		JLabel lblChosee = new JLabel("Chosee the size of paramter P");
-		lblChosee.setBounds(45, 331, 196, 16);
-		panel1.add(lblChosee);
+		lblPixel_1 = new JLabel("Pixel");
+		lblPixel_1.setBounds(65, 153, 56, 16);
+		panel1.add(lblPixel_1);
+		
+		lblChoseTheSize = new JLabel("Chose the size of paramte P:");
+		lblChoseTheSize.setBounds(8, 121, 205, 19);
+		panel1.add(lblChoseTheSize);
 		}
 		return panel1;
 	}
@@ -165,7 +169,12 @@ public class classifyImages extends JFrame{
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				closeFrame();
-				//ImageList next1 = new ImageList(open);// new displaySimilarityGroups(open);
+				try {
+					ImageList next1 = new ImageList();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}//ImageList next1 = new ImageList(open);// new displaySimilarityGroups(open);
 			}
 		});
 		btnNewButton.setBounds(537, 375, 111, 40);

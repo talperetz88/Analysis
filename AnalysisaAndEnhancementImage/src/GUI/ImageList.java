@@ -17,12 +17,12 @@ public class ImageList extends JFrame {
     private JMenuBar menuBar;
     DefaultListModel model; 
 
-    ImageList(openPage open) throws IOException {
+    ImageList() throws IOException {
     	
         JFrame f = new JFrame("Image Browser");
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         f.add(getGui());
-        f.setJMenuBar(getMenuBar());
+        f.setJMenuBar(menuBar);
         f.setLocationByPlatform(true);
         f.pack();
         f.setSize(800,600);
@@ -56,7 +56,7 @@ public class ImageList extends JFrame {
         fileChooser.setFileFilter(fnf);
         File userHome = new File(System.getProperty("user.home"));
         fileChooser.setSelectedFile(userHome);
-        File dir = new File(open.getSaveDirict().getText());
+        File dir = new File("C:\\Users\\talpe\\Desktop\\DCIM\\101GOPRO");
         
 
         fileNameFilter = new FilenameFilter() {
@@ -115,9 +115,9 @@ public class ImageList extends JFrame {
         return gui;
     }
 
-    public JMenuBar getMenuBar() {
-        return menuBar;
-    }
+   // public JMenuBar getMenuBar() {
+     //   return menuBar;
+    //}
 
  }
 
