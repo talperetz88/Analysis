@@ -1,3 +1,6 @@
+
+package Class;
+
 public class TriangleEdges
 {
 	public Point leftEdge;
