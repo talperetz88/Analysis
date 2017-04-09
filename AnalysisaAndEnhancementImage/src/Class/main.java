@@ -15,14 +15,23 @@ public class main {
 		//loding an image 
 		BufferedImage img = null;
 		try {
-		    img = ImageIO.read(new File("a.jpg"));
+		    img = ImageIO.read(new File("1.jpg"));
+		} catch (IOException e) {
+			System.err.println(e);
+		}
+		//loding an image 
+		BufferedImage img1 = null;
+		try {
+		    img1 = ImageIO.read(new File("2.jpg"));
 		} catch (IOException e) {
 			System.err.println(e);
 		}
 		//
-		Image image = new Image();
-		int color = img.getRGB(0,0);
-		System.out.println(image.RGBtoH(color));
+		Histogram hist = new Histogram(img);
+		Histogram hist1 = new Histogram(img1);
+		System.out.println(hist.Intersection(hist1));
+		
+
 		
 	}
 
