@@ -25,7 +25,7 @@ public class Histogram {
 					int[] HS = RGBtoHSV(color);
 					SBin[HS[0]]++;
 					if(HS[1]>=360)
-						System.out.println(HS[1]);
+						System.out.println("fuck me"+HS[1]);
 					else
 					HBin[HS[1]]++;
 				}
@@ -92,12 +92,24 @@ public class Histogram {
 			
 		}
 
-		public double Intersection(Histogram hist){
+		public double IntersectionHSV(Histogram hist){
 			double sum=0;
 			for(int i=0;i<360;i++)
 				sum+=Math.min(this.HBin[i],hist.HBin[i]);
-			System.out.println(sum+" "+this.sumH);
+			System.out.println("the sum"+sum+" "+this.sumH);
 			return sum/((double)(this.sumH+hist.sumH));
+			
+		}
+		
+		public double IntersectionRGB(Histogram hist){
+			double sum=0;
+			for(int i=0;i<256;i++){
+				sum+=Math.min(this.redBin[i],hist.redBin[i]);
+				sum+=Math.min(this.greenBin[i],hist.greenBin[i]);
+				sum+=Math.min(this.blueBin[i],hist.blueBin[i]);
+			}
+			System.out.println("the sum is "+sum+" "+this.sumRed+hist.sumRed+this.sumGreen+hist.sumGreen+this.sumBlue+hist.sumBlue);
+			return sum/((double)(this.sumRed+hist.sumRed+this.sumGreen+hist.sumGreen+this.sumBlue+hist.sumBlue));
 			
 		}
 		

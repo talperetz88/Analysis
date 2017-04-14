@@ -15,21 +15,21 @@ public class main {
 		//loding an image 
 		BufferedImage img = null;
 		try {
-		    img = ImageIO.read(new File("1.jpg"));
+		    img = ImageIO.read(new File("f.jpg"));
 		} catch (IOException e) {
 			System.err.println(e);
 		}
 		//loding an image 
 		BufferedImage img1 = null;
 		try {
-		    img1 = ImageIO.read(new File("2.jpg"));
+		    img1 = ImageIO.read(new File("u.jpg"));
 		} catch (IOException e) {
 			System.err.println(e);
 		}
 		//
 		Histogram hist = new Histogram(img);
 		Histogram hist1 = new Histogram(img1);
-		System.out.println(hist.Intersection(hist1));
+		System.out.println(hist.IntersectionHSV(hist1));
 		
 
 		
