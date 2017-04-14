@@ -183,13 +183,16 @@ public class Histogram {
 		
 		//the function is in the book page 4 
 		public double chiSquareHSV(Histogram hist){
-			double sumTop=0,sumDown=0;
-			for(int i=0;i<256;i++){
-					sumTop+=(Math.pow((this.HBin[i]-hist.HBin[i]),2));
-					sumDown+=this.HBin[i]+hist.HBin[i];
+			double sumTop=0,sumDown=0,sum=0;
+			for(int i=0;i<360;i++){
+					sumTop=(Math.pow((this.HBin[i]-hist.HBin[i]),2));
+					sumDown=this.HBin[i]+hist.HBin[i];
+					if(sumDown != 0)
+						sum+=sumTop/sumDown;
+					sumTop=sumDown=0;
 			}
 
-			return sumTop/sumDown;
+			return sum;
 		}
 		
 		//the function is in the book page 4 

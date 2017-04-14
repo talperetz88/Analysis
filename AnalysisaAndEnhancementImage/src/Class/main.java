@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 import GUI.*;
 public class main {
 
-	public static void main(String[] arg){
+	public static void main(String[] arg) throws IOException{
 		
 		//startGUI open = new startGUI();
 		
@@ -27,6 +27,9 @@ public class main {
 			System.err.println(e);
 		}
 		//
+		
+		System.out.println("the edeg is:");
+		
 		Histogram hist = new Histogram(img);
 		Histogram hist1 = new Histogram(img1);
 		System.out.println("HSV Intersection "+hist.intersectionHSV(hist1));
@@ -36,6 +39,11 @@ public class main {
 		System.out.println("HSV chiSquare "+hist.chiSquareHSV(hist1));
 		System.out.println("HSV BhattacharyyaDistanceHSV "+hist.BhattacharyyaDistanceHSV(hist1));
 		System.out.println("HSV BhattacharyyaDistanceRGB "+hist.BhattacharyyaDistanceRGB(hist1));
+		BlockMatching blockMatching = new BlockMatching();
+		Point point = new Point(89,30);
+		
+		System.out.println("the med is "+blockMatching.MAD("C:/Users/omri/Desktop/u.jpg","C:/Users/omri/Desktop/fuckcat.jpg",point));
+		System.out.println("the mes is "+blockMatching.MES("C:/Users/omri/Desktop/u.jpg","C:/Users/omri/Desktop/fuckcat.jpg",point));
 	}
 
 }
