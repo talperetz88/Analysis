@@ -209,9 +209,9 @@ public class Histogram {
 		public double BhattacharyyaDistanceRGB(Histogram hist){
 			double sumRedComponent=0,sumGreenComponent=0,sumBlueComponent=0;
 			double sqrtRed,sqrtGreen,sqrtBlue;
-			double red=(1/(Math.sqrt(this.redTop*hist.redTop*360*360)));
-			double green=(1/(Math.sqrt(this.greenTop*hist.greenTop*360*360)));
-			double blue=(1/(Math.sqrt(this.blueTop*hist.blueTop*360*360)));
+			double red=(1/(Math.sqrt(this.redTop*hist.redTop*256*256)));
+			double green=(1/(Math.sqrt(this.greenTop*hist.greenTop*256*256)));
+			double blue=(1/(Math.sqrt(this.blueTop*hist.blueTop*256*256)));
 			for(int i=0;i<256;i++){
 				sumRedComponent+=Math.sqrt((this.redBin[i]*hist.redBin[i]));
 				sumGreenComponent+=Math.sqrt((this.greenBin[i]*hist.greenBin[i]));
