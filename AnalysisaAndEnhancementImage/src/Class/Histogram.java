@@ -201,7 +201,7 @@ public class Histogram {
 			}
 			if(1-(temp*sum)<=0) // in case 1-(temp*sum) is equal to zero or negative 
 				return 0;
-			else
+			else 
 			return Math.sqrt(1-(temp*sum));
 		}
 
