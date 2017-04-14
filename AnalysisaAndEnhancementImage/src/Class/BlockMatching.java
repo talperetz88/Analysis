@@ -15,7 +15,7 @@ public class BlockMatching {
 	
 	
 	//distance function to identify if two images are similer
-	public double MAD(String first,String second) throws IOException{
+	public double MAD(String first,String second,Point point) throws IOException{
 		     
 		BufferedImage image;
 		try{
@@ -24,11 +24,14 @@ public class BlockMatching {
 	      int height = image.getHeight();
 	      int [][] fr = CUtils.ColorImageTo2DArray(first);
 	      int [][] sec = CUtils.ColorImageTo2DArray(second);
-	      int sum = 0;
-	      for (int row = 0; row < height; row++) 
-	         for (int col = 0; col < width; col++) 
+	      TriangleEdges edges = TriangleUtils.FindTriangleEdges(CUtils.BlackWhiteImageToBinaryArray(first));
+	      System.out.println("fuck");
+	      System.out.println(edges.toString());
+	      double sum = 0;
+	      for (int row = point.x; row < height-point.x; row++) 
+	         for (int col = point.y; col < width-point.y; col++) 
 	        	 sum += Math.abs(fr[row][col]-sec[row][col]);
-	         sum =  (int)(1/Math.pow(width, 2.0))*sum;
+	         sum =  (1/Math.pow(width, 2.0))*sum;
 	         return sum;
 		}
 		catch (IOException e){
@@ -37,7 +40,7 @@ public class BlockMatching {
 
 	}
 	//distance function to identify if two images are similer
-	public double MES(String first,String second) throws IOException{
+	public double MES(String first,String second,Point point) throws IOException{
 	     
 		BufferedImage image;
 		try{
@@ -46,11 +49,11 @@ public class BlockMatching {
 	      int height = image.getHeight();
 	      int [][] fr = CUtils.ColorImageTo2DArray(first);
 	      int [][] sec = CUtils.ColorImageTo2DArray(second);
-	      int sum = 0;
-	      for (int row = 0; row < height; row++) 
-	         for (int col = 0; col < width; col++) 
+	      double sum = 0;
+	      for (int row = point.x; row < height-point.x; row++) 
+	         for (int col = point.y; col < width-point.y; col++) 
 	        	 sum += Math.pow(fr[row][col]-sec[row][col],2.0);
-	         sum = (int) (1/Math.pow(width, 2.0))*sum;
+	         sum =  (1/Math.pow(width, 2.0))*sum;
 	         return sum;
 		}
 		catch (IOException e){
