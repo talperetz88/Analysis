@@ -35,6 +35,7 @@ public class main {
 		System.out.println("RGB Correlation "+hist.correlationRGB(hist1));
 		System.out.println("HSV chiSquare "+hist.chiSquareHSV(hist1));
 		System.out.println("HSV BhattacharyyaDistanceHSV "+hist.BhattacharyyaDistanceHSV(hist1));
+		System.out.println("HSV BhattacharyyaDistanceRGB "+hist.BhattacharyyaDistanceRGB(hist1));
 	}
 
 }

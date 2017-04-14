@@ -204,5 +204,35 @@ public class Histogram {
 			else 
 			return Math.sqrt(1-(temp*sum));
 		}
+		
+		//the function is in the book page 4 
+		public double BhattacharyyaDistanceRGB(Histogram hist){
+			double sumRedComponent=0,sumGreenComponent=0,sumBlueComponent=0;
+			double sqrtRed,sqrtGreen,sqrtBlue;
+			double red=(1/(Math.sqrt(this.redTop*hist.redTop*360*360)));
+			double green=(1/(Math.sqrt(this.greenTop*hist.greenTop*360*360)));
+			double blue=(1/(Math.sqrt(this.blueTop*hist.blueTop*360*360)));
+			for(int i=0;i<256;i++){
+				sumRedComponent+=Math.sqrt((this.redBin[i]*hist.redBin[i]));
+				sumGreenComponent+=Math.sqrt((this.greenBin[i]*hist.greenBin[i]));
+				sumBlueComponent+=Math.sqrt((this.blueBin[i]*hist.blueBin[i]));
+			}
+			if(1-(red*sumRedComponent)<=0) // in case 1-(red*sumRedComponent) is equal to zero or negative 
+				 sqrtRed = 0;
+			else 
+				 sqrtRed = Math.sqrt(1-(red*sumRedComponent));
+			
+			if(1-(green*sumGreenComponent)<=0) 
+				 sqrtGreen = 0;
+			else 
+				 sqrtGreen = Math.sqrt(1-(green*sumGreenComponent));
+			
+			if(1-(green*sumBlueComponent)<=0) 
+				 sqrtBlue = 0;
+			else 
+				 sqrtBlue = Math.sqrt(1-(blue*sumBlueComponent));
+			System.out.println("red   "+sqrtRed+" green    "+sqrtGreen+" blue   "+sqrtBlue);
+			return (sqrtRed+sqrtGreen+sqrtBlue)/3;
+		}
 
 }
