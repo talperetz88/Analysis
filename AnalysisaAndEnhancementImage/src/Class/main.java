@@ -22,7 +22,7 @@ public class main {
 		//loding an image 
 		BufferedImage img1 = null;
 		try {
-		    img1 = ImageIO.read(new File("u.jpg"));
+		    img1 = ImageIO.read(new File("f.jpg"));
 		} catch (IOException e) {
 			System.err.println(e);
 		}

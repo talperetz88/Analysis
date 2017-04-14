@@ -101,6 +101,15 @@ public class Histogram {
 			
 		}
 		
+		public double IntersectionHSVA(Histogram hist){
+			double sum=0;
+			for(int i=0;i<360;i++)
+				sum+=Math.abs(this.HBin[i]-hist.HBin[i]);
+			System.out.println("the sum rfdfdsfsdfdsfsdfdsfc"+sum+" the "+this.sumH);
+			return sum/((double)(this.sumH));
+			
+		}
+		
 		public double IntersectionRGB(Histogram hist){
 			double sum=0;
 			for(int i=0;i<256;i++){
