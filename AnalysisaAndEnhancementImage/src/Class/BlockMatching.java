@@ -28,7 +28,7 @@ public class BlockMatching {
 	      for (int row = 0; row < height; row++) 
 	         for (int col = 0; col < width; col++) 
 	        	 sum += Math.abs(fr[row][col]-sec[row][col]);
-	         sum = (int) (1/Math.pow(width, 2.0))*sum;
+	         sum =  (int)(1/Math.pow(width, 2.0))*sum;
 	         return sum;
 		}
 		catch (IOException e){
