@@ -22,7 +22,7 @@ public class main {
 		//loding an image 
 		BufferedImage img1 = null;
 		try {
-		    img1 = ImageIO.read(new File("C:/Users/omri/Desktop/u.jpg"));
+		   img1 = ImageIO.read(new File("u.jpg"));
 		} catch (IOException e) {
 			System.err.println(e);
 		}
@@ -42,8 +42,8 @@ public class main {
 		BlockMatching blockMatching = new BlockMatching();
 		Point point = new Point(89,30);
 		
-		System.out.println("the med is "+blockMatching.MAD("C:/Users/omri/Desktop/u.jpg","C:/Users/omri/Desktop/fuckcat.jpg",point));
-		System.out.println("the mes is "+blockMatching.MES("C:/Users/omri/Desktop/u.jpg","C:/Users/omri/Desktop/fuckcat.jpg",point));
+		System.out.println("the MAD is "+blockMatching.identifyTheRequirArea("MAD"));
+		System.out.println("the MES is "+blockMatching.identifyTheRequirArea("MES"));
 	}
 
 }
