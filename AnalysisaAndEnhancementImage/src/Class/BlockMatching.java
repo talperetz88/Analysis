@@ -31,6 +31,8 @@ public class BlockMatching {
 			if(!TriangleUtils.IsTriangleExist(matrixg, 0.4, 0.4, edges1)){
 				System.out.println("Triangle not found in image");
 			}
+			
+			// Calculate square position
 			int x = 200-Math.abs(edges.leftEdge.x-edges.rightEdge.x);
 			int y = 300-Math.abs(Math.min(edges.leftEdge.y, edges.rightEdge.y)-edges.bottomEdge.y);
 			int x1 = 200-Math.abs(edges1.leftEdge.x-edges1.rightEdge.x);
@@ -39,6 +41,7 @@ public class BlockMatching {
 			y=y/2;
 			x1=x1/2;
 			y1=y1/2;
+			//crop image 
 			BufferedImage out = image.getSubimage(edges.leftEdge.x - x, edges.leftEdge.y - y,image.getWidth() - edges.rightEdge.x + x,image.getHeight() - edges.leftEdge.y + y );
 			BufferedImage out1 = image2.getSubimage(edges1.leftEdge.x - x1, edges1.leftEdge.y - y1,image2.getWidth() - edges1.rightEdge.x + x1,image2.getHeight() - edges1.leftEdge.y + y1 );
 			CUtils.SaveImage(out, "C:\\Project\\pic\\31.png");

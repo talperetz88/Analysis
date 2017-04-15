@@ -40,7 +40,7 @@ public class main {
 		System.out.println("HSV BhattacharyyaDistanceHSV "+hist.BhattacharyyaDistanceHSV(hist1));
 		System.out.println("HSV BhattacharyyaDistanceRGB "+hist.BhattacharyyaDistanceRGB(hist1));
 		BlockMatching blockMatching = new BlockMatching();
-		Point point = new Point(89,30);
+		//Point point = new Point(89,30);
 		
 		System.out.println("the MAD is "+blockMatching.identifyTheRequirArea("MAD"));
 		System.out.println("the MES is "+blockMatching.identifyTheRequirArea("MES"));
