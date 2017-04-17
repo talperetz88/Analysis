@@ -7,12 +7,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Focus {
-	
-	
-	
-	
-	
-	
+
 	//function that gets RGB pixel and returns the grayscale value 
 	public float Grayscale(int color){
 		int blue = color & 0xff;
@@ -239,14 +234,6 @@ public class Focus {
 			 }
 		return sum;
 	}
-	
-	
-
-	
-	
-	
-	
-	
 	
 
 
