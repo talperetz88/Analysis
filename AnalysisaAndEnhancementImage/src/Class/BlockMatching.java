@@ -11,6 +11,7 @@ public class BlockMatching {
 	public double identifyTheRequirArea(String func,int p){
 		BufferedImage image,image2;
 		double [] res = new double [2*p];
+		int flag = 0;
 		try{
 		 image = ImageIO.read(new File("4.png"));
 		 image2 = ImageIO.read(new File("4.png"));
@@ -42,11 +43,14 @@ public class BlockMatching {
 			int y1 = (300-Math.abs(Math.min(edges1.leftEdge.y, edges1.rightEdge.y)-edges1.bottomEdge.y))/2;		
 		
 			//crop image 
-			
+			if(flag ==  0){
 			BufferedImage out = image.getSubimage(edges.leftEdge.x - x  , edges.leftEdge.y - y,image.getWidth() - edges.rightEdge.x + x,image.getHeight() - edges.leftEdge.y + y );
-			BufferedImage out1 = image2.getSubimage(edges1.leftEdge.x - x1, edges1.leftEdge.y - y1,image2.getWidth() - edges1.rightEdge.x + x1 ,image2.getHeight() - edges1.leftEdge.y + y1 );
 			CUtils.SaveImage(out, "C:\\Project\\pic\\31.png");
+			flag = 1;
+			}
+			BufferedImage out1 = image2.getSubimage(edges1.leftEdge.x - x1, edges1.leftEdge.y - y1,image2.getWidth() - edges1.rightEdge.x + x1 ,image2.getHeight() - edges1.leftEdge.y + y1 );
 			CUtils.SaveImage(out1, "C:\\Project\\pic\\42.png");
+			
 			if(func == "MAD"){
 			res[i] = MAD("C:\\Project\\pic\\31.png","C:\\Project\\pic\\42.png");
 				return getMin(res);
