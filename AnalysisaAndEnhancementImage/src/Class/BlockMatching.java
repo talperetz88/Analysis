@@ -8,8 +8,9 @@ import javax.imageio.ImageIO;
 public class BlockMatching {
 
 	
-	public double identifyTheRequirArea(String func){
+	public double identifyTheRequirArea(String func,int p){
 		BufferedImage image,image2;
+		double [] res = new double [2*p];
 		try{
 		 image = ImageIO.read(new File("4.png"));
 		 image2 = ImageIO.read(new File("4.png"));
@@ -32,30 +33,47 @@ public class BlockMatching {
 				System.out.println("Triangle not found in image");
 			}
 			
+			for(int i = 0 ; i < (2*p) ; i++){//p-i
+			int t=i-p;
 			// Calculate square position
 			int x = (200-Math.abs(edges.leftEdge.x-edges.rightEdge.x))/2;
 			int y = (300-Math.abs(Math.min(edges.leftEdge.y, edges.rightEdge.y)-edges.bottomEdge.y))/2;
-			int x1 = (200-Math.abs(edges1.leftEdge.x-edges1.rightEdge.x))/2;
+			int x1 = (200-(Math.abs(edges1.leftEdge.x-edges1.rightEdge.x)+ t))/2;
 			int y1 = (300-Math.abs(Math.min(edges1.leftEdge.y, edges1.rightEdge.y)-edges1.bottomEdge.y))/2;		
 		
 			//crop image 
-			//for(int i = 0 ; i = 2p ; i++){}//p-i
-			BufferedImage out = image.getSubimage(edges.leftEdge.x - x, edges.leftEdge.y - y,image.getWidth() - edges.rightEdge.x + x,image.getHeight() - edges.leftEdge.y + y );
-			BufferedImage out1 = image2.getSubimage(edges1.leftEdge.x - x1, edges1.leftEdge.y - y1,image2.getWidth() - edges1.rightEdge.x + x1,image2.getHeight() - edges1.leftEdge.y + y1 );
+			
+			BufferedImage out = image.getSubimage(edges.leftEdge.x - x  , edges.leftEdge.y - y,image.getWidth() - edges.rightEdge.x + x,image.getHeight() - edges.leftEdge.y + y );
+			BufferedImage out1 = image2.getSubimage(edges1.leftEdge.x - x1, edges1.leftEdge.y - y1,image2.getWidth() - edges1.rightEdge.x + x1 ,image2.getHeight() - edges1.leftEdge.y + y1 );
 			CUtils.SaveImage(out, "C:\\Project\\pic\\31.png");
 			CUtils.SaveImage(out1, "C:\\Project\\pic\\42.png");
-			if(func == "MAD")
-				return MAD("C:\\Project\\pic\\31.png","C:\\Project\\pic\\42.png");
+			if(func == "MAD"){
+			res[i] = MAD("C:\\Project\\pic\\31.png","C:\\Project\\pic\\42.png");
+				return getMin(res);
+			}
 			else
 				return MES("C:\\Project\\pic\\31.png","C:\\Project\\pic\\42.png");
-		      
+			}  
 		}catch (IOException e){
 			System.out.println("Eror");
 			return -1.0;
 		}
+		return -1;
 	}
 	
 	
+
+	private double getMin(double[] res) {
+		double min = res[0];
+		for(int i = 0 ; i < res.length ; i ++){
+		if(res[i] < min)
+			min = res[i];
+		System.out.println("test" + res[i]);
+		}
+		return min;
+	}
+
+
 
 	//distance function to identify if two images are similer
 	public double MAD(String first,String second) throws IOException{
@@ -78,6 +96,7 @@ public class BlockMatching {
 	         }
 	      }
 	         sum =  (1/Math.pow(width, 2.0))*sum;
+	         System.out.println("the sum is:" +sum);
 	         return sum;
 		}
 		catch (IOException e){

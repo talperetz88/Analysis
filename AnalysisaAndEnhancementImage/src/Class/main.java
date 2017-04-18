@@ -42,8 +42,8 @@ public class main {
 		BlockMatching blockMatching = new BlockMatching();
 		//Point point = new Point(89,30);
 		
-		System.out.println("the MAD is "+blockMatching.identifyTheRequirArea("MAD"));
-		System.out.println("the MES is "+blockMatching.identifyTheRequirArea("MES"));
+		System.out.println("the MAD is "+blockMatching.identifyTheRequirArea("MAD",10));
+		//System.out.println("the MES is "+blockMatching.identifyTheRequirArea("MES"));
 	}
 
 }
