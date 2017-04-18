@@ -51,8 +51,12 @@ public class BlockMatching {
 			res[i] = MAD("C:\\Project\\pic\\31.png","C:\\Project\\pic\\42.png");
 				return getMin(res);
 			}
-			else
-				return MES("C:\\Project\\pic\\31.png","C:\\Project\\pic\\42.png");
+			else{
+				res[i] = MES("C:\\Project\\pic\\31.png","C:\\Project\\pic\\42.png");
+				
+				return getMin(res);
+			}
+				
 			}  
 		}catch (IOException e){
 			System.out.println("Eror");
