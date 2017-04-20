@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 public class BlockMatching {
 
 	
+	
 	public double identifyTheRequirArea(String func,int p){
 		BufferedImage image,image2;
 		double [] res = new double [2*p];
@@ -33,13 +34,13 @@ public class BlockMatching {
 			if(!TriangleUtils.IsTriangleExist(matrixg, 0.4, 0.4, edges1)){
 				System.out.println("Triangle not found in image");
 			}
+			for(int i = 0 ; i < 2*p ; i++){
 			
-			for(int i = 0 ; i < (2*p) ; i++){//p-i
 			int t=i-p;
 			// Calculate square position
 			int x = (200-Math.abs(edges.leftEdge.x-edges.rightEdge.x))/2;
 			int y = (300-Math.abs(Math.min(edges.leftEdge.y, edges.rightEdge.y)-edges.bottomEdge.y))/2;
-			int x1 = (200-(Math.abs(edges1.leftEdge.x-edges1.rightEdge.x)+ t))/2;
+			int x1 = ((200-((Math.abs(edges1.leftEdge.x-edges1.rightEdge.x))+2*t)))/2;
 			int y1 = (300-Math.abs(Math.min(edges1.leftEdge.y, edges1.rightEdge.y)-edges1.bottomEdge.y))/2;		
 		
 			//crop image 
@@ -53,15 +54,16 @@ public class BlockMatching {
 			
 			if(func == "MAD"){
 			res[i] = MAD("C:\\Project\\pic\\31.png","C:\\Project\\pic\\42.png");
+			i++;
+			if(i == res.length)
 				return getMin(res);
 			}
 			else{
 				res[i] = MES("C:\\Project\\pic\\31.png","C:\\Project\\pic\\42.png");
-				
+				if(i == res.length)
 				return getMin(res);
 			}
-				
-			}  
+			}
 		}catch (IOException e){
 			System.out.println("Eror");
 			return -1.0;
