@@ -26,8 +26,34 @@ public class main {
 		} catch (IOException e) {
 			System.err.println(e);
 		}
-		//
-		
+		//read image from dir
+		BufferedImage image;
+		File folder = new File("C:\\Users\\talpe\\Desktop\\img\\img\\1\\");
+		File[] listOfFiles = folder.listFiles();
+		for (int i = 0; i < listOfFiles.length; i++){
+			if (listOfFiles[i].isFile()){
+				if(listOfFiles[i]==null)
+					continue ;
+				String fileName = listOfFiles[i].getName();
+				image = ImageIO.read(new File("C:\\Users\\talpe\\Desktop\\img\\img\\1\\" + fileName));
+				Matlab.ExecuteMatlabCode(fileName);
+				byte [][]matrixg = CUtils.BlackWhiteImageToBinaryArray("C:\\Users\\talpe\\Desktop\\img\\img\\1\\res\\"+"MatlabRes"+fileName);
+				TriangleEdges edges = TriangleUtils.FindTriangleEdges(matrixg);
+				if(!TriangleUtils.AreValidTriangleEdges(edges)){
+					System.out.println("Triangle edges are not valid");
+					//Delete matlab result
+					CUtils.DeleteFileByPath("C:\\Users\\talpe\\Desktop\\img\\img\\1\\res\\" + "MatlabRes" + fileName);
+					continue;
+				}
+				if(!TriangleUtils.IsTriangleExist(matrixg, 0.4, 0.4, edges))				{
+					System.out.println("Triangle not found in image #" + fileName);
+					CUtils.DeleteFileByPath("C:\\Users\\talpe\\Desktop\\img\\img\\1\\res\\" + "MatlabRes"+fileName);
+					continue;
+				}
+				
+			} 
+		}
+		/*
 		System.out.println("the edeg is:");
 		
 		Histogram hist = new Histogram(img);
@@ -42,8 +68,10 @@ public class main {
 		BlockMatching blockMatching = new BlockMatching();
 		//Point point = new Point(89,30);
 		
-		System.out.println("the MAD is "+blockMatching.identifyTheRequirArea("MAD"));
-		System.out.println("the MES is "+blockMatching.identifyTheRequirArea("MES"));
+		System.out.println("the MAD is "+blockMatching.identifyTheRequirArea("MAD",10));
+		//System.out.println("the MES is "+blockMatching.identifyTheRequirArea("MES"));
+		 * */
+		 
 	}
 
 }

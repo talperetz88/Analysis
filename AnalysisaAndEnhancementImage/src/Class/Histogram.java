@@ -195,6 +195,39 @@ public class Histogram {
 			return sum;
 		}
 		
+		public double chiSquareRGB(Histogram hist){
+			double sumTop=0,sumDown=0,sum=0;
+			for(int i=0;i<256;i++){
+					sumTop=(Math.pow((this.redBin[i]-hist.redBin[i]),2));
+					sumDown=this.redBin[i]+hist.redBin[i];
+					if(sumDown != 0)
+						sum+=sumTop/sumDown;
+					sumTop=sumDown=0;
+			}
+			double red=sum;
+			sumTop=sumDown=sum=0;
+			for(int i=0;i<256;i++){
+				sumTop=(Math.pow((this.greenBin[i]-hist.greenBin[i]),2));
+				sumDown=this.greenBin[i]+hist.greenBin[i];
+				if(sumDown != 0)
+					sum+=sumTop/sumDown;
+				sumTop=sumDown=0;
+		}
+			double green=sum;
+			
+			sumTop=sumDown=sum=0;
+			for(int i=0;i<256;i++){
+				sumTop=(Math.pow((this.blueBin[i]-hist.blueBin[i]),2));
+				sumDown=this.blueBin[i]+hist.blueBin[i];
+				if(sumDown != 0)
+					sum+=sumTop/sumDown;
+				sumTop=sumDown=0;
+		}
+			double blue=sum;
+
+			return ((1/3)*red)+((1/3)*green)+((1/3)*blue);
+		}
+		
 		//the function is in the book page 4 
 		public double BhattacharyyaDistanceHSV(Histogram hist){
 			double sum=0;

@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 
 public class Focus {
 
+
 	//function that gets RGB pixel and returns the grayscale value 
 	public float Grayscale(int color){
 		int blue = color & 0xff;
@@ -189,7 +190,7 @@ public class Focus {
 		
 	}	
 	
-	//function 2.5.2 [12]
+	//function 2.5.3 [12]
 	public double FocusMeasuresBasedOnImageDifferentiationA(String imageName){
 		
 		double sum=0,v=0;//v is the gradient threshold
@@ -212,7 +213,7 @@ public class Focus {
 		return sum;
 	}
 	
-	//function 2.5.2 [13]
+	//function 2.5.3 [13]
 	public double FocusMeasuresBasedOnImageDifferentiationB(String imageName){
 		
 		double sum=0,v=0;//v is the gradient threshold
