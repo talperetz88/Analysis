@@ -32,10 +32,11 @@ public class main {
 		}
 		
 
-		
-		Check thread = new Check();
+		ImproveFocus t = new ImproveFocus();
+		t.blur(4);
+		//Check thread = new Check();
 		//Check t2 = new Check();
-		thread.start();
+		//thread.start();
 		//t2.start();
 		
 		/*
