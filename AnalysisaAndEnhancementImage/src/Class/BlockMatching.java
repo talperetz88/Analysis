@@ -9,58 +9,126 @@ public class BlockMatching {
 
 	
 	
-	public double identifyTheRequirArea(String func,int p){
+	public double identifyTheRequirArea(String path,String name1,String name2,String func,int p,int q,int treshold){
 		BufferedImage image,image2;
-		double [] res = new double [2*p];
-		int flag = 0;
+		double [][] res = new double [2*p][];
+		int flag = 0,rightCorX = 0,rightCorY = 0,leftCorX = 0, leftCorY = 0;
+		double height = 0, height2 = 0,width = 0,tres = 1.5;
 		try{
 		 image = ImageIO.read(new File("4.png"));
 		 image2 = ImageIO.read(new File("4.png"));
-	      Matlab.ExecuteMatlabCode("4.png");
-	      Matlab.ExecuteMatlabCode("4.png");
-	      byte [][]matrixg =CUtils.BlackWhiteImageToBinaryArray("MatlabResult"+"4.png");
+	     /* Matlab.ExecuteMatlabCode("4.png");
+	      Matlab.ExecuteMatlabCode("4.png");*/
+	      byte [][]matrixg =CUtils.BlackWhiteImageToBinaryArray(path + name1);
+	      byte [][]matrixg2 = CUtils.BlackWhiteImageToBinaryArray(path + name2);
+	      
 	      TriangleEdges edges = TriangleUtils.FindTriangleEdges(matrixg);
-	      TriangleEdges edges1 = TriangleUtils.FindTriangleEdges(CUtils.BlackWhiteImageToBinaryArray("MatlabResult"+"4.png"));
-			if(!TriangleUtils.AreValidTriangleEdges(edges) && !TriangleUtils.AreValidTriangleEdges(edges1))
+	      TriangleEdges edges1 = TriangleUtils.FindTriangleEdges(matrixg2);
+			if(!TriangleUtils.AreValidTriangleEdges(edges))
 			{
 				System.out.println("Triangle edges are not valid");
 				//Delete matlab result
-				CUtils.DeleteFileByPath(CUtils.GetImagesDestPath() + "MatlabResult"+"5.png");
+				CUtils.DeleteFileByPath(path + name1);
+				//continue;
+			}
+			if(!TriangleUtils.AreValidTriangleEdges(edges1)){
+				System.out.println("Triangle edges are not valid");
+				//Delete matlab result
+				CUtils.DeleteFileByPath(path + name2);
 				//continue;
 			}
 			if(!TriangleUtils.IsTriangleExist(matrixg, 0.4, 0.4, edges)){
 				System.out.println("Triangle edges are not valid ind edges");
 			}
-			if(!TriangleUtils.IsTriangleExist(matrixg, 0.4, 0.4, edges1)){
+			if(!TriangleUtils.IsTriangleExist(matrixg2, 0.4, 0.4, edges1)){
 				System.out.println("Triangle not found in image");
 			}
-			for(int i = 0 ; i < 2*p ; i++){
 			
-			int t=i-p;
-			// Calculate square position
-			int x = (200-Math.abs(edges.leftEdge.x-edges.rightEdge.x))/2;
-			int y = (300-Math.abs(Math.min(edges.leftEdge.y, edges.rightEdge.y)-edges.bottomEdge.y))/2;
-			int x1 = ((200-((Math.abs(edges1.leftEdge.x-edges1.rightEdge.x))+2*t)))/2;
-			int y1 = (300-Math.abs(Math.min(edges1.leftEdge.y, edges1.rightEdge.y)-edges1.bottomEdge.y))/2;		
+			height = culcHeightOfTriangle(edges);
+			height2 = culcHeightOfTriangle(edges1);
+			//p is safe distance; tres is the size of the rectangle
+			if(Math.abs(height-height2) <= treshold){
+				if(height2 - height < 0){
+					width = edges.leftEdge.x - edges.rightEdge.x; 
+					width *= tres;
+					height *= tres;
+					leftCorX = edges.leftEdge.x - p;
+					leftCorY= edges.rightEdge.y - p;
+					rightCorX = leftCorX + (int)width;
+					rightCorX = leftCorY + (int)height;
+					
+				}else{
+					width = edges1.leftEdge.x - edges1.rightEdge.x;
+					width *= tres;
+					height2 *= tres;
+					leftCorX = edges1.leftEdge.x - p;
+					leftCorY= edges1.rightEdge.y - p;
+					rightCorX = leftCorX + (int)width;
+					rightCorX = leftCorY + (int)height2;
+				}
+			}
+			
+			
+			//for(int i = 0 ; i < 2*p ; i++){
+			
+			//int t=i-p;
+			//Calculate square position
+			/*
+			double y = (Math.abs(Math.min(edges.leftEdge.y, edges.rightEdge.y)-edges.bottomEdge.y));
+			double x = (Math.abs(edges.leftEdge.x-edges.rightEdge.x));
+			double y1 = Math.abs(Math.min(edges1.leftEdge.y, edges1.rightEdge.y)-edges1.bottomEdge.y);
+			double x1 = Math.abs(edges1.leftEdge.x-edges1.rightEdge.x);
+			
+			//check similarity and culc position of rectangle
+			if(Math.abs(y-y1) <= treshold){
+				 height =Math.max(y, y1);
+				
+				height = Math.round(height*1.5);
+				if(y1-y < 0){
+					width = x;
+					width = Math.round(width*1.5);
+					x = (width -x)/2;
+					y = (height - y)/2;
+					
+					rightCorX = (int)(edges.leftEdge.x - x);
+					rightCorY = (int)( edges.leftEdge.y - y);
+					leftCorX =(int)(image.getWidth() - edges.rightEdge.x + x);
+					leftCorY = (int)(image.getHeight() - edges.leftEdge.y + y);
+					
+				}else{
+					width = x1;
+					width = Math.round(width*1.5);
+					x1 = (width -x1)/2;
+					y1 = (height - y1)/2;
+					
+					rightCorX = (int)(edges1.leftEdge.x - x1);
+					rightCorY = (int)( edges1.leftEdge.y - y1);
+					leftCorX =(int)(image.getWidth() - edges1.rightEdge.x + x1);
+					leftCorY = (int)(image.getHeight() - edges1.leftEdge.y + y1);
+				}
+				
+				
+			}*/
 		
-			//crop image 
+			//crop image q is how far we going to search for a similarity between the images
+			for(int qw = 0 ; qw < q;qw++)
+				for(int qh = 0 ; qh < q ; qh++){
 			if(flag ==  0){
-			BufferedImage out = image.getSubimage(edges.leftEdge.x - x  , edges.leftEdge.y - y,image.getWidth() - edges.rightEdge.x + x,image.getHeight() - edges.leftEdge.y + y );
-			CUtils.SaveImage(out, "C:\\Project\\pic\\31.png");
+			BufferedImage out = image.getSubimage(leftCorX ,leftCorY,rightCorX,rightCorY );
+			CUtils.SaveImage(out, path + "BlockMatching" + name1);
 			flag = 1;
 			}
-			BufferedImage out1 = image2.getSubimage(edges1.leftEdge.x - x1, edges1.leftEdge.y - y1,image2.getWidth() - edges1.rightEdge.x + x1 ,image2.getHeight() - edges1.leftEdge.y + y1 );
-			CUtils.SaveImage(out1, "C:\\Project\\pic\\42.png");
+			BufferedImage out1 = image2.getSubimage(leftCorX + qw ,leftCorY + qh,rightCorX+qw,rightCorY + qh);
+			CUtils.SaveImage(out1, path + "BlockMatching" +name2);
 			
 			if(func == "MAD"){
-			res[i] = MAD("C:\\Project\\pic\\31.png","C:\\Project\\pic\\42.png");
-			i++;
-			if(i == res.length)
+			res[qw][qh] = MAD(path + "BlockMatching" + name1,path + "BlockMatching" + name2);
+			if(qw == res.length)
 				return getMin(res);
 			}
 			else{
-				res[i] = MES("C:\\Project\\pic\\31.png","C:\\Project\\pic\\42.png");
-				if(i == res.length)
+				res[qw][qh] = MES("C:\\Project\\pic\\31.png","C:\\Project\\pic\\42.png");
+				if(qw == res.length)
 				return getMin(res);
 			}
 			}
@@ -72,13 +140,24 @@ public class BlockMatching {
 	}
 	
 	
+	//culc the height of triangle using an area
+	private double culcHeightOfTriangle(TriangleEdges edges) {
+		double area = 0,height = 0;
+		area = 0.5*((edges.leftEdge.x-edges.rightEdge.x)*(edges.leftEdge.y - edges.rightEdge.y)-(edges.leftEdge.x-edges.bottomEdge.x)*(edges.leftEdge.y-edges.bottomEdge.y));
+		height = (2*area) /(edges.leftEdge.x-edges.rightEdge.x);
+		return height;
+	}
 
-	private double getMin(double[] res) {
-		double min = res[0];
+
+	//return the min value of images
+	private double getMin(double[][] res) {
+		double min = res[0][0];
 		for(int i = 0 ; i < res.length ; i ++){
-		if(res[i] < min)
-			min = res[i];
-		System.out.println("test" + res[i]);
+			for(int j = 0 ; j < res.length ; j++)
+		if(res[i][j] < min){
+			min = res[i][j];
+		System.out.println("test" + res[i][j]);
+		}
 		}
 		return min;
 	}

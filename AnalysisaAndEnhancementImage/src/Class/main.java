@@ -2,7 +2,11 @@ package Class;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
+import static java.nio.file.StandardCopyOption.*;
 import javax.imageio.ImageIO;
 
 import GUI.*;
@@ -26,6 +30,15 @@ public class main {
 		} catch (IOException e) {
 			System.err.println(e);
 		}
+		
+
+		
+		Check thread = new Check();
+		//Check t2 = new Check();
+		thread.start();
+		//t2.start();
+		
+		/*
 		//read image from dir
 		BufferedImage image;
 		File folder = new File("C:\\Users\\talpe\\Desktop\\img\\img\\1\\");
@@ -45,14 +58,20 @@ public class main {
 					CUtils.DeleteFileByPath("C:\\Users\\talpe\\Desktop\\img\\img\\1\\res\\" + "MatlabRes" + fileName);
 					continue;
 				}
-				if(!TriangleUtils.IsTriangleExist(matrixg, 0.4, 0.4, edges))				{
+				if(!TriangleUtils.IsTriangleExist(matrixg, 0.4, 0.4, edges)){
 					System.out.println("Triangle not found in image #" + fileName);
 					CUtils.DeleteFileByPath("C:\\Users\\talpe\\Desktop\\img\\img\\1\\res\\" + "MatlabRes"+fileName);
+				}else{
+					try{
+						Files.move(Paths.get("C:\\Users\\talpe\\Desktop\\img\\img\\1\\" + fileName),Paths.get("C:\\Users\\talpe\\Desktop\\img\\img\\1\\goodImage\\" + fileName),REPLACE_EXISTING);
+					}catch (IOException e) {
+						System.err.println(e);
+					}
 					continue;
 				}
 				
 			} 
-		}
+		}*/
 		/*
 		System.out.println("the edeg is:");
 		
@@ -73,5 +92,7 @@ public class main {
 		 * */
 		 
 	}
+	
+	
 
 }

@@ -12,7 +12,7 @@ public class Matlab {
     		MatlabManager.Init();
     	
     		//MatlabManager.ExecuteMatlabCode(CUtils.GetMatlabCodePath(),"C:\\Users\\talpe\\git\\AnalysisaAndEnhancementImage\\AnalysisaAndEnhancementImage\\"+ fileName, "C:\\Users\\talpe\\git\\AnalysisaAndEnhancementImage\\AnalysisaAndEnhancementImage\\"+ "MatlabResult"+fileName);
-    		MatlabManager.ExecuteMatlabCode(CUtils.GetMatlabCodePath(),"C:\\Users\\talpe\\Desktop\\img\\img\\1\\" + fileName,"C:\\Users\\talpe\\Desktop\\img\\img\\1\\res\\" +"MatlabRes"+ fileName);
+    		MatlabManager.ExecuteMatlabCode(CUtils.GetMatlabCodePath(),"C:\\Users\\talpe\\Desktop\\img\\img\\2\\" + fileName,"C:\\Users\\talpe\\Desktop\\img\\img\\2\\res\\" +"MatlabRes"+ fileName);
     		MatlabManager.Finish();
         
     	}
