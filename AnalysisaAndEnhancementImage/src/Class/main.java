@@ -31,9 +31,12 @@ public class main {
 			System.err.println(e);
 		}
 		
-
+		Focus f =new Focus();
 		ImproveFocus t = new ImproveFocus();
 		t.blur(4);
+		System.out.println(f.FocusMeasuresBasedOnImageStatisticsNormalizedVariance("C:\\Users\\omri\\Desktop\\New folder\\" + "blur.png", 1));
+		System.out.println(f.FocusMeasuresBasedOnImageStatisticsNormalizedVariance("4.png", 1));
+		//t.makeKernelGuassian(1, 3);
 		//Check thread = new Check();
 		//Check t2 = new Check();
 		//thread.start();
