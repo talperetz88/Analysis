@@ -31,13 +31,13 @@ public class main {
 			System.err.println(e);
 		}
 		
-		Focus f =new Focus();
-		ImproveFocus t = new ImproveFocus();
+		//Focus f =new Focus();
+		//ImproveFocus t = new ImproveFocus();
 		//t.blur(4);
-		t.creatMask("pathOriginal", "dbsaj");
-		t.cMask();
+		//t.creatMask("pathOriginal", "dbsaj");
+		//t.cMask();
 		//System.out.println(f.FocusMeasuresBasedOnImageStatisticsNormalizedVariance("C:\\Users\\omri\\Desktop\\New folder\\" + "blur.png", 1));
-		System.out.println(f.FocusMeasuresBasedOnImageStatisticsNormalizedVariance("4.png", 1));
+		//System.out.println(f.FocusMeasuresBasedOnImageStatisticsNormalizedVariance("4.png", 1));
 		//t.makeKernelGuassian(1, 3);
 		//Check thread = new Check();
 		//Check t2 = new Check();
@@ -78,22 +78,26 @@ public class main {
 				
 			} 
 		}*/
-		/*
-		System.out.println("the edeg is:");
+	
+		//System.out.println("the edeg is:");
 		
 		Histogram hist = new Histogram(img);
 		Histogram hist1 = new Histogram(img1);
+		
 		System.out.println("HSV Intersection "+hist.intersectionHSV(hist1));
 		System.out.println("RGB Intersection "+hist.intersectionRGB(hist1));
 		System.out.println("HSV Correlation "+hist.correlationHSV(hist1));
 		System.out.println("RGB Correlation "+hist.correlationRGB(hist1));
 		System.out.println("HSV chiSquare "+hist.chiSquareHSV(hist1));
+		System.out.println("RGB chiSquare "+hist.chiSquareRGB(hist1));
+
+		/*
 		System.out.println("HSV BhattacharyyaDistanceHSV "+hist.BhattacharyyaDistanceHSV(hist1));
 		System.out.println("HSV BhattacharyyaDistanceRGB "+hist.BhattacharyyaDistanceRGB(hist1));
-		BlockMatching blockMatching = new BlockMatching();
+		//BlockMatching blockMatching = new BlockMatching();
 		//Point point = new Point(89,30);
 		
-		System.out.println("the MAD is "+blockMatching.identifyTheRequirArea("MAD",10));
+		//System.out.println("the MAD is "+blockMatching.identifyTheRequirArea("MAD",10));
 		//System.out.println("the MES is "+blockMatching.identifyTheRequirArea("MES"));
 		 * */
 		 

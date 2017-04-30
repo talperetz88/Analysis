@@ -25,9 +25,6 @@ public class Histogram {
 					greenBin[green]++;
 					int[] HS = RGBtoHSV(color);
 					SBin[HS[0]]++;
-					if(HS[1]>=360)
-						System.out.println("fuck me"+HS[1]);
-					else
 					HBin[HS[1]]++;
 				}
 			 sumRed=0;  
@@ -192,7 +189,18 @@ public class Histogram {
 					sumTop=sumDown=0;
 			}
 
-			return sum;
+			double sumH =  sum;
+			
+			sumTop=0;sumDown=0;sum=0;
+			for(int i=0;i<256;i++){
+					sumTop=(Math.pow((this.SBin[i]-hist.SBin[i]),2));
+					sumDown=this.SBin[i]+hist.SBin[i];
+					if(sumDown != 0)
+						sum+=sumTop/sumDown;
+					sumTop=sumDown=0;
+			}
+			double sumS =  sum;
+			return 0.5*sumH+0.5*sumS;
 		}
 		
 		public double chiSquareRGB(Histogram hist){
@@ -224,8 +232,8 @@ public class Histogram {
 				sumTop=sumDown=0;
 		}
 			double blue=sum;
-
-			return ((1/3)*red)+((1/3)*green)+((1/3)*blue);
+			sum = 0.33333*red+0.33333*green+0.3333*blue;
+			return sum;
 		}
 		
 		//the function is in the book page 4 
