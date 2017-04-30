@@ -11,7 +11,7 @@ public class Histogram {
 	 int[] HBin = new int[360];
 	 int[] SBin = new int[256];
 	 int sumRed,sumGreen,sumBlue,sumS,sumH, meanRed , meanGreen , meanBlue , meanS, meanH;
-	 float hTop,redTop,greenTop,blueTop;
+	 float sTop,hTop,redTop,greenTop,blueTop;
 	 
 	 public Histogram(BufferedImage img){
 			for(int i=0;i<img.getWidth();i++)
@@ -41,15 +41,16 @@ public class Histogram {
 			redTop=sumRed/256;
 			greenTop=sumGreen/256;
 			blueTop=sumBlue/256;
-				 for(int i=0;i<360;i++)
-					 	sumH+=HBin[i];
-				 hTop=sumH/360;
-			
+			for(int i=0;i<360;i++)
+				 sumH+=HBin[i];
+
+				hTop=sumH/360;
+				sTop=sumS/256;
 				meanRed=sumRed/256;
 				meanGreen=sumGreen/256;
 				meanBlue=sumBlue/256;	
 				meanS=meanS/256;
-				meanH=meanH/180;
+				meanH=meanH/360;
 			
 	 }
 	
