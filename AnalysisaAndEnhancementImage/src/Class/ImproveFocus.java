@@ -167,7 +167,8 @@ public class ImproveFocus {
 				//res = (float) (Math.exp((Math.pow(i, 2)+Math.pow(j, 1))/2*Math.pow(sigma, 2))/(2*Math.PI*Math.pow(sigma, 2)));
 				res = (float) (Math.PI*Math.pow(sigma,2));
 				//res *= 0.5;
-				exp = (float) Math.exp(-(Math.pow(i, 2)+Math.pow(j,2))/(2*Math.pow(sigma,2)));
+				
+				exp = (float) Math.exp(-1*(Math.pow(i, 2)+Math.pow(j,2))/(2*Math.pow(sigma,2)));
 				res = exp/ (2*res);
 				System.out.print(res+"\t");
 				matrix[count]=res;
