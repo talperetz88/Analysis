@@ -31,7 +31,7 @@ public class main {
 			System.err.println(e);
 		}
 		
-		Focus f =new Focus();
+		//Focus f =new Focus();
 		ImproveFocus t = new ImproveFocus();
 		//t.blur(4);
 		//t.creatMask("pathOriginal", "dbsaj");
@@ -78,22 +78,26 @@ public class main {
 				
 			} 
 		}*/
-		/*
-		System.out.println("the edeg is:");
+	
+		//System.out.println("the edeg is:");
 		
 		Histogram hist = new Histogram(img);
 		Histogram hist1 = new Histogram(img1);
+		
 		System.out.println("HSV Intersection "+hist.intersectionHSV(hist1));
 		System.out.println("RGB Intersection "+hist.intersectionRGB(hist1));
 		System.out.println("HSV Correlation "+hist.correlationHSV(hist1));
 		System.out.println("RGB Correlation "+hist.correlationRGB(hist1));
 		System.out.println("HSV chiSquare "+hist.chiSquareHSV(hist1));
+		System.out.println("RGB chiSquare "+hist.chiSquareRGB(hist1));
+
+		/*
 		System.out.println("HSV BhattacharyyaDistanceHSV "+hist.BhattacharyyaDistanceHSV(hist1));
 		System.out.println("HSV BhattacharyyaDistanceRGB "+hist.BhattacharyyaDistanceRGB(hist1));
-		BlockMatching blockMatching = new BlockMatching();
+		//BlockMatching blockMatching = new BlockMatching();
 		//Point point = new Point(89,30);
 		
-		System.out.println("the MAD is "+blockMatching.identifyTheRequirArea("MAD",10));
+		//System.out.println("the MAD is "+blockMatching.identifyTheRequirArea("MAD",10));
 		//System.out.println("the MES is "+blockMatching.identifyTheRequirArea("MES"));
 		 * */
 		 
