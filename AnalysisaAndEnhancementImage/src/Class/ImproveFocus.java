@@ -109,9 +109,11 @@ public class ImproveFocus {
 				int blue = maskimg.getRGB(i, j) & 0xff;
 				int green = (maskimg.getRGB(i, j) & 0xff00) >> 8;
 				int red = (maskimg.getRGB(i, j) & 0xff0000) >> 16;
+			    int alpha = ((maskimg.getRGB(i,j)) & 0xff000000) >>> 24;
 				int blue1 = image.getRGB(i, j) & 0xff;
 				int green1 = (image.getRGB(i, j) & 0xff00) >> 8;
 				int red1 = (image.getRGB(i, j) & 0xff0000) >> 16;
+				int alpha1 = (image.getRGB(i,j) & 0xff000000) >>> 24;
 				int R = red1+red;
 				if(R > 255)
 					R =255;
@@ -121,10 +123,13 @@ public class ImproveFocus {
 				int B = blue1+blue;
 				if(B > 255)
 					B =255;
+				int A = alpha1 + alpha;
+				A = (A << 24 ) & 0xff;
 			    R = (R << 16) & 0x00FF0000;
 			    G = (G << 8) & 0x0000FF00;
 			    B = B & 0x000000FF;
-				sharpImage[i][j] = 0xFF000000 | R | G | B; 
+				//sharpImage[i][j] = 0xFF000000 | R | G | B; 
+			    sharpImage[i][j] = alpha|R|G|B;
 			}
 		
 		image = CUtils.ArrayToColorImage(sharpImage);
@@ -167,7 +172,8 @@ public class ImproveFocus {
 				//res = (float) (Math.exp((Math.pow(i, 2)+Math.pow(j, 1))/2*Math.pow(sigma, 2))/(2*Math.PI*Math.pow(sigma, 2)));
 				res = (float) (Math.PI*Math.pow(sigma,2));
 				//res *= 0.5;
-				exp = (float) Math.exp(-(Math.pow(i, 2)+Math.pow(j,2))/(2*Math.pow(sigma,2)));
+				
+				exp = (float) Math.exp(-1*(Math.pow(i, 2)+Math.pow(j,2))/(2*Math.pow(sigma,2)));
 				res = exp/ (2*res);
 				System.out.print(res+"\t");
 				matrix[count]=res;

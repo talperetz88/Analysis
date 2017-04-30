@@ -32,13 +32,13 @@ public class main {
 		}
 		
 		//Focus f =new Focus();
-		//ImproveFocus t = new ImproveFocus();
+		ImproveFocus t = new ImproveFocus();
 		//t.blur(4);
 		//t.creatMask("pathOriginal", "dbsaj");
-		//t.cMask();
+		t.cMask();
 		//System.out.println(f.FocusMeasuresBasedOnImageStatisticsNormalizedVariance("C:\\Users\\omri\\Desktop\\New folder\\" + "blur.png", 1));
 		//System.out.println(f.FocusMeasuresBasedOnImageStatisticsNormalizedVariance("4.png", 1));
-		//t.makeKernelGuassian(1, 3);
+		t.makeKernelGuassian(1, 3);
 		//Check thread = new Check();
 		//Check t2 = new Check();
 		//thread.start();
@@ -93,13 +93,13 @@ public class main {
 
 		/*
 		System.out.println("HSV BhattacharyyaDistanceHSV "+hist.BhattacharyyaDistanceHSV(hist1));
-		System.out.println("HSV BhattacharyyaDistanceRGB "+hist.BhattacharyyaDistanceRGB(hist1));
-		//BlockMatching blockMatching = new BlockMatching();
+		System.out.println("HSV BhattacharyyaDistanceRGB "+hist.BhattacharyyaDistanceRGB(hist1));*/
+		BlockMatching blockMatching = new BlockMatching();
 		//Point point = new Point(89,30);
 		
-		//System.out.println("the MAD is "+blockMatching.identifyTheRequirArea("MAD",10));
+		System.out.println("the MAD is "+blockMatching.identifyTheRequirArea("C:\\Users\\talpe\\Desktop\\img\\img\\1\\res\\","MatlabRes124.jpg","MatlabRes125.jpg","MAD",10,5,5));
 		//System.out.println("the MES is "+blockMatching.identifyTheRequirArea("MES"));
-		 * */
+		
 		 
 	}
 	
