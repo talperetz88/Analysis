@@ -11,7 +11,7 @@ public class BlockMatching {
 	
 	public double identifyTheRequirArea(String path,String name1,String name2,String func,int p,int q,int treshold){
 		BufferedImage image,image2;
-		double [][] res = new double [2*p][];
+		double [][] res = new double [p][p];
 		int flag = 0,rightCorX = 0,rightCorY = 0,leftCorX = 0, leftCorY = 0;
 		double height = 0, height2 = 0,width = 0,tres = 1.5;
 		try{
@@ -19,7 +19,7 @@ public class BlockMatching {
 		 image2 = ImageIO.read(new File("4.png"));
 	     /* Matlab.ExecuteMatlabCode("4.png");
 	      Matlab.ExecuteMatlabCode("4.png");*/
-	      byte [][]matrixg =CUtils.BlackWhiteImageToBinaryArray(path + name1);
+	      byte [][]matrixg =CUtils.BlackWhiteImageToBinaryArray(path +""+ name1);
 	      byte [][]matrixg2 = CUtils.BlackWhiteImageToBinaryArray(path + name2);
 	      
 	      TriangleEdges edges = TriangleUtils.FindTriangleEdges(matrixg);
@@ -49,22 +49,22 @@ public class BlockMatching {
 			//p is safe distance; tres is the size of the rectangle
 			if(Math.abs(height-height2) <= treshold){
 				if(height2 - height < 0){
-					width = edges.leftEdge.x - edges.rightEdge.x; 
+					width = Math.abs(edges.leftEdge.x - edges.rightEdge.x); 
 					width *= tres;
 					height *= tres;
 					leftCorX = edges.leftEdge.x - p;
-					leftCorY= edges.rightEdge.y - p;
+					leftCorY= edges.leftEdge.y - p;
 					rightCorX = leftCorX + (int)width;
-					rightCorX = leftCorY + (int)height;
+					rightCorY = leftCorY + (int)height;
 					
 				}else{
-					width = edges1.leftEdge.x - edges1.rightEdge.x;
+					width = Math.abs(edges1.leftEdge.x - edges1.rightEdge.x);
 					width *= tres;
 					height2 *= tres;
 					leftCorX = edges1.leftEdge.x - p;
-					leftCorY= edges1.rightEdge.y - p;
+					leftCorY= edges1.leftEdge.y - p;
 					rightCorX = leftCorX + (int)width;
-					rightCorX = leftCorY + (int)height2;
+					rightCorY = leftCorY + (int)height2;
 				}
 			}
 			
@@ -118,11 +118,13 @@ public class BlockMatching {
 			CUtils.SaveImage(out, path + "BlockMatching" + name1);
 			flag = 1;
 			}
-			BufferedImage out1 = image2.getSubimage(leftCorX + qw ,leftCorY + qh,rightCorX+qw,rightCorY + qh);
+			BufferedImage out1 = image2.getSubimage(leftCorX + qw ,leftCorY - qh,rightCorX,rightCorY);
 			CUtils.SaveImage(out1, path + "BlockMatching" +name2);
 			
 			if(func == "MAD"){
-			res[qw][qh] = MAD(path + "BlockMatching" + name1,path + "BlockMatching" + name2);
+			 double res2 = MAD(path + "BlockMatching" + name1,path + "BlockMatching" + name2);
+			 res[qw][qh] = res2;
+			System.out.println("etg"+qw + " dks "+qh);
 			if(qw == res.length)
 				return getMin(res);
 			}
