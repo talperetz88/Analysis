@@ -193,7 +193,7 @@ public class Focus {
 	//function 2.5.3 [12]
 	public double FocusMeasuresBasedOnImageDifferentiationA(String imageName){
 		
-		double sum=0,v=0;//v is the gradient threshold
+		double sum=0,v=30;//v is the gradient threshold
 		BufferedImage img = null;
 		 try {
 			 img = ImageIO.read(new File(imageName));

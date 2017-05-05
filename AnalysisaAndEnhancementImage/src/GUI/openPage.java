@@ -14,6 +14,7 @@ import java.awt.Choice;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Label;
+import Class.CUtils;
 public class openPage extends JFrame{
 		public static Object openPage;
 		private JButton openButten = null;
@@ -26,7 +27,7 @@ public class openPage extends JFrame{
 		private JLabel lblName = null;
 		private File file,file1;
 		private openPage open;
-		private String saveUrl;
+		private String saveUrl,openUrl;
 		public openPage() {
 			this.open = this;
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,16 +56,18 @@ public class openPage extends JFrame{
 				public void actionPerformed(ActionEvent arg0) {
 					JFileChooser chooser = new JFileChooser();
 					FileNameExtensionFilter filter = new FileNameExtensionFilter("Video Files","avi","mp4","mkv");
-		            chooser.setCurrentDirectory(new java.io.File("."));
-		            chooser.setDialogTitle("Browse the folder to process");
+		            chooser.setCurrentDirectory(new java.io.File("C:\\Project\\"));
+		            chooser.setDialogTitle("Select the video file");
 		            chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		            chooser.setFileFilter(filter);
 		            chooser.setAcceptAllFileFilterUsed(true);
 					if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 						file = chooser.getSelectedFile();
+						openUrl = chooser.getSelectedFile().getAbsolutePath();
 						dirictTextFilde.setText(chooser.getCurrentDirectory().toString());
 		                System.out.println("getCurrentDirectory(): "+ chooser.getCurrentDirectory());
 		                System.out.println("getSelectedFile() : "+ file);
+		                CUtils.SetImagesSourcePath(openUrl);;
 		            } else {
 		                System.out.println("No Selection ");
 		            }
@@ -81,16 +84,19 @@ public class openPage extends JFrame{
  			btnSave.addActionListener(new ActionListener() {
  				public void actionPerformed(ActionEvent arg0) {
  					JFileChooser c = new JFileChooser();
- 					c.setCurrentDirectory(new java.io.File("."));
+		            c.setCurrentDirectory(new java.io.File("C:\\Project\\"));
+		            c.setDialogTitle("Select the working folder");
  					c.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
- 				      if (c.showSaveDialog(openPage.this) == JFileChooser.APPROVE_OPTION) {
- 				    	 file1 = c.getCurrentDirectory();
- 				    	 saveUrl = c.getCurrentDirectory().toString();
- 				    	 textField.setText(c.getCurrentDirectory().toString());
- 				    	 System.out.println("na na" + c.getCurrentDirectory());
+ 					c.setAcceptAllFileFilterUsed(false);
+ 				      if (c.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+ 				    	 file1 = c.getSelectedFile();
+ 				    	 saveUrl = c.getSelectedFile().getAbsolutePath();
+ 				    	 textField.setText(saveUrl);
+ 				    	System.out.println("getCurrentDirectory(): " + c.getCurrentDirectory());
+ 				    	System.out.println("getSelectedFile() : " + c.getSelectedFile());
+ 				    	CUtils.SetImagesDestinationPath(saveUrl);
  				      }else{
- 				       // filename.setText("You pressed cancel");
- 				     //   dir.setText("");
+ 				    	 System.out.println("No Selection ");;
  				      }
  				}
  			});
@@ -101,7 +107,7 @@ public class openPage extends JFrame{
  		public JSpinner getSpinner(){
  			if(spinner == null){
 			spinner = new JSpinner();
-			spinner.setModel(new SpinnerNumberModel(0.5, 0.5, 2.0, 0.1));
+			spinner.setModel(new SpinnerNumberModel(1, 1, 10, 1));
 			spinner.setBounds(153, 270, 99, 19);
  			}
 			return spinner;
@@ -119,6 +125,13 @@ public class openPage extends JFrame{
 	 			nextButten = new JButton("Next");
 	 			nextButten.addActionListener(new ActionListener() {
 	 				public void actionPerformed(ActionEvent arg0) {
+	 					ProcessBuilder pb = new ProcessBuilder(CUtils.GetVlcPath(), dirictTextFilde.getText(), "--video-filter=scene", "--scene-ratio="+spinner, "--scene-prefix=img-", "--scene-path="+textField.getText(), "vlc://quit");
+	 					try {
+							Process start = pb.start();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 	 					closeFrame();
 	 					classifyImages next = new classifyImages(open);
 	 					

@@ -11,7 +11,7 @@ public class BlockMatching {
 	
 	public double identifyTheRequirArea(String path,String name1,String name2,String func,int p,int q,int treshold){
 		BufferedImage image,image2;
-		double [][] res = new double [p][p];
+		double [][] res = new double [q][q];
 		int flag = 0,rightCorX = 0,rightCorY = 0,leftCorX = 0, leftCorY = 0;
 		double height = 0, height2 = 0,width = 0,tres = 1.5;
 		try{
@@ -122,23 +122,24 @@ public class BlockMatching {
 			CUtils.SaveImage(out1, path + "BlockMatching" +name2);
 			
 			if(func == "MAD"){
-			 double res2 = MAD(path + "BlockMatching" + name1,path + "BlockMatching" + name2);
-			 res[qw][qh] = res2;
-			System.out.println("etg"+qw + " dks "+qh);
+			 res[qw][qh] = MAD(path + "BlockMatching" + name1,path + "BlockMatching" + name2);
 			if(qw == res.length)
-				return getMin(res);
+				return -1;
 			}
 			else{
-				res[qw][qh] = MES("C:\\Project\\pic\\31.png","C:\\Project\\pic\\42.png");
+				res[qw][qh] = MES(path + "BlockMatching" + name1,path + "BlockMatching" + name2);
 				if(qw == res.length)
-				return getMin(res);
+				return -1;
 			}
 			}
 		}catch (IOException e){
 			System.out.println("Eror");
 			return -1.0;
 		}
-		return -1;
+		double[] result = getMin(res);
+		BufferedImage out1 = image2.getSubimage(leftCorX + (int)result[1] ,leftCorY -(int) result[2],rightCorX,rightCorY);
+		CUtils.SaveImage(out1, path + "BlockMatching" +name2);
+		return result [0];
 	}
 	
 	
@@ -152,12 +153,15 @@ public class BlockMatching {
 
 
 	//return the min value of images
-	private double getMin(double[][] res) {
-		double min = res[0][0];
+	private double[] getMin(double[][] res) {
+		double min[] = new double [res.length];
+			min[0] = res[0][0];
 		for(int i = 0 ; i < res.length ; i ++){
 			for(int j = 0 ; j < res.length ; j++)
-		if(res[i][j] < min){
-			min = res[i][j];
+		if(res[i][j] < min[0] && res[i][j] != -1){
+			min[0] = res[i][j];
+			min[1] = i;
+			min[2] = j;
 		System.out.println("test" + res[i][j]);
 		}
 		}
@@ -210,6 +214,7 @@ public class BlockMatching {
 	         for (int col = 0; col < height; col++) 
 	        	 sum += Math.pow(fr[row][col]-sec[row][col],2.0);
 	         sum =  (1/Math.pow(width, 2.0))*sum;
+	         System.out.println("the sum is:" +sum);
 	         return sum;
 		}
 		catch (IOException e){
