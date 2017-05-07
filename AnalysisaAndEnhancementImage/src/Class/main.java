@@ -117,21 +117,18 @@ public class main {
 
 		
 		System.out.println("HSV BhattacharyyaDistanceHSV "+hist.BhattacharyyaDistanceHSV(hist1));
-<<<<<<< HEAD
+
 		System.out.println("HSV BhattacharyyaDistanceRGB "+hist.BhattacharyyaDistanceRGB(hist1));
 		
-=======
-		System.out.println("HSV BhattacharyyaDistanceRGB "+hist.BhattacharyyaDistanceRGB(hist1));*/
->>>>>>> branch 'master' of https://github.com/talperetz88/Analysis.git
+
+		
 		//BlockMatching blockMatching = new BlockMatching();
 		//Point point = new Point(89,30);
 		
 		//System.out.println("the MAD is "+blockMatching.identifyTheRequirArea("C:\\Users\\talpe\\Desktop\\img\\img\\1\\res\\","MatlabRes124.jpg","MatlabRes125.jpg","MAD",10,5,5));
-<<<<<<< HEAD
-		//System.out.println("the MES is "+blockMatching.identifyTheRequirArea("MES"));
-=======
+
 		//System.out.println("the MES is "+blockMatching.identifyTheRequirArea("C:\\Users\\talpe\\Desktop\\img\\img\\1\\res\\","MatlabRes124.jpg","MatlabRes125.jpg","MES",10,5,5));
->>>>>>> branch 'master' of https://github.com/talperetz88/Analysis.git
+
 		
 		 
 		
