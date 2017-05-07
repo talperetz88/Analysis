@@ -31,14 +31,38 @@ public class main {
 			System.err.println(e);
 		}
 		
-		//Focus f =new Focus();
-		//ImproveFocus t = new ImproveFocus();
-		//t.blur(4);
-		//t.creatMask("pathOriginal", "dbsaj");
-		//t.cMask();
+
+		ImproveFocus t = new ImproveFocus();
+		Focus f =new Focus();
+		File folder = new File("C:\\project\\images\\1\\goodImages\\");
+		File[] listOfFiles = folder.listFiles();
+		for (int i = 0; i < listOfFiles.length; i++){
+			if (listOfFiles[i].isFile()){
+				if(listOfFiles[i]==null)
+					continue ;
+				String fileName = listOfFiles[i].getName();
+				System.out.println("start bluring");
+		t.blur("C:\\project\\images\\1\\goodImages\\","C:\\project\\images\\1\\goodImages\\blurImage\\",fileName);
+		System.out.println("end bluring and start improving");
+
+
+		t.mask("C:\\project\\images\\1\\goodImages\\","C:\\project\\images\\1\\goodImages\\blurImage\\",fileName);
+		t.improveFocus("C:\\project\\images\\1\\goodImages\\", "C:\\project\\images\\1\\goodImages\\maskImages\\", fileName);
+		double fr = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\images\\1\\goodImages\\"+fileName);
+		double se = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\images\\1\\goodImages\\sharpImages\\"+"sharp_"+fileName);
+		System.out.println("the orignalImage is = " +fr +"the sharper Image is =" +se);
+		//t.cMask("C:\\project\\images\\1\\goodImages\\","C:\\project\\images\\1\\goodImages\\blurImage\\",fileName);
+			}
+		}
+		CUtils.CropAndSaveImage("matlab.png","matlab.png",0,0,400,400);
+		//t.blur(C:\Users\talpe\git\\AnalysisaAndEnhancementImage\\AnalysisaAndEnhancementImage\\", "C:\\Users\\talpe\\Desktop\\kjh\\test", "4.png");
+		System.out.println("matlab "+ f.FocusMeasuresBasedOnImageDifferentiationA("matlab.png"));
+
 		//System.out.println(f.FocusMeasuresBasedOnImageStatisticsNormalizedVariance("C:\\Users\\omri\\Desktop\\New folder\\" + "blur.png", 1));
 		//System.out.println(f.FocusMeasuresBasedOnImageStatisticsNormalizedVariance("4.png", 1));
-	//	t.makeKernelGuassian(1, 3);
+
+		//t.makeKernelGuassian(1, 3);
+
 		//Check thread = new Check();
 		//Check t2 = new Check();
 		//thread.start();
@@ -81,25 +105,33 @@ public class main {
 	
 		//System.out.println("the edeg is:");
 		
-		Histogram hist = new Histogram(img);
-		Histogram hist1 = new Histogram(img1);
+	//	Histogram hist = new Histogram(img);
+		//Histogram hist1 = new Histogram(img1);
 		
-		System.out.println("HSV Intersection "+hist.intersectionHSV(hist1));
-		System.out.println("RGB Intersection "+hist.intersectionRGB(hist1));
-		System.out.println("HSV Correlation "+hist.correlationHSV(hist1));
-		System.out.println("RGB Correlation "+hist.correlationRGB(hist1));
-		System.out.println("HSV chiSquare "+hist.chiSquareHSV(hist1));
-		System.out.println("RGB chiSquare "+hist.chiSquareRGB(hist1));
+//		System.out.println("HSV Intersection "+hist.intersectionHSV(hist1));
+	//	System.out.println("RGB Intersection "+hist.intersectionRGB(hist1));
+	//	System.out.println("HSV Correlation "+hist.correlationHSV(hist1));
+	//	System.out.println("RGB Correlation "+hist.correlationRGB(hist1));
+	//	System.out.println("HSV chiSquare "+hist.chiSquareHSV(hist1));
+	//	System.out.println("RGB chiSquare "+hist.chiSquareRGB(hist1));
 
 		
 		System.out.println("HSV BhattacharyyaDistanceHSV "+hist.BhattacharyyaDistanceHSV(hist1));
+<<<<<<< HEAD
 		System.out.println("HSV BhattacharyyaDistanceRGB "+hist.BhattacharyyaDistanceRGB(hist1));
 		
+=======
+		System.out.println("HSV BhattacharyyaDistanceRGB "+hist.BhattacharyyaDistanceRGB(hist1));*/
+>>>>>>> branch 'master' of https://github.com/talperetz88/Analysis.git
 		//BlockMatching blockMatching = new BlockMatching();
 		//Point point = new Point(89,30);
 		
 		//System.out.println("the MAD is "+blockMatching.identifyTheRequirArea("C:\\Users\\talpe\\Desktop\\img\\img\\1\\res\\","MatlabRes124.jpg","MatlabRes125.jpg","MAD",10,5,5));
+<<<<<<< HEAD
 		//System.out.println("the MES is "+blockMatching.identifyTheRequirArea("MES"));
+=======
+		//System.out.println("the MES is "+blockMatching.identifyTheRequirArea("C:\\Users\\talpe\\Desktop\\img\\img\\1\\res\\","MatlabRes124.jpg","MatlabRes125.jpg","MES",10,5,5));
+>>>>>>> branch 'master' of https://github.com/talperetz88/Analysis.git
 		
 		 
 		

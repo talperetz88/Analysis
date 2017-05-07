@@ -11,12 +11,91 @@ import javax.imageio.ImageIO;
 
 public class ImproveFocus {
 
-	
-	public void cMask(){
-		BufferedImage image = null, image1 = null,maskimg = null,sharpImg = null;
+	public void mask(String pathOriginal,String pathBlur,String fileName){
+		BufferedImage orignalImage = null, blurImage = null,maskimg = null,sharpImg = null;
 		try{
-		image =  ImageIO.read(new File("4.png"));
-		image1 =  ImageIO.read(new File("C:\\Users\\talpe\\Desktop\\kjh\\images\\" +"blur.png"));
+		orignalImage =  ImageIO.read(new File(pathOriginal + fileName));
+		blurImage =  ImageIO.read(new File(pathBlur +"blur_"+fileName));
+				
+		}catch (IOException e){
+			e.printStackTrace();
+		}
+		int [][] diff = new int[orignalImage.getWidth()][orignalImage.getHeight()];
+		for(int i = 0 ; i < orignalImage.getWidth(); i ++)
+			for(int j = 0; j < orignalImage.getHeight(); j++){
+				int argb0 = orignalImage.getRGB(i, j);
+				int argb1 = blurImage.getRGB(i,j );
+				int a0 = (argb0 >> 24) & 0xFF;
+				int r0 = (argb0 >> 16) & 0xFF;
+				int g0 = (argb0 >>  8) & 0xFF;
+				int b0 = (argb0      ) & 0xFF;
+
+				int a1 = (argb1 >> 24) & 0xFF;
+				int r1 = (argb1 >> 16) & 0xFF;
+				int g1 = (argb1 >>  8) & 0xFF;
+				int b1 = (argb1      ) & 0xFF;
+
+				int aDiff = Math.abs(a1 - a0);
+				int rDiff = Math.abs(r1 - r0);
+				int gDiff = Math.abs(g1 - g0);
+				int bDiff = Math.abs(b1 - b0);
+				
+				int A = (aDiff < 0 )?0:aDiff;
+				int R = (rDiff < 0 )?0:rDiff;
+				int G = (gDiff < 0)?0:gDiff;
+				int B = (bDiff < 0)?0:bDiff;
+				diff[i][j] = (A << 24) | (R << 16) | (G << 8) | B;
+				
+			}
+		maskimg = CUtils.ArrayToColorImage(diff);
+		CUtils.SaveImage(maskimg, pathOriginal+ "maskImages\\" +"mask_"+fileName);
+				
+	}
+
+	public void improveFocus(String pathOriginal,String pathMask,String fileName){
+		BufferedImage orignalImage = null, blurImage = null,maskimg = null,sharpImg = null;
+		try{
+			orignalImage =  ImageIO.read(new File(pathOriginal + fileName));
+			maskimg =  ImageIO.read(new File(pathMask +"mask_"+fileName));
+					
+			}catch (IOException e){
+				e.printStackTrace();
+			}
+		int [][] diff = new int[orignalImage.getWidth()][orignalImage.getHeight()];
+		for(int i = 0 ; i < orignalImage.getWidth(); i ++)
+			for(int j = 0; j < orignalImage.getHeight(); j++){
+				int argb0 = orignalImage.getRGB(i, j);
+				int argb1 = maskimg.getRGB(i,j );
+				int a0 = (argb0 >> 24) & 0xFF;
+				int r0 = (argb0 >> 16) & 0xFF;
+				int g0 = (argb0 >>  8) & 0xFF;
+				int b0 = (argb0      ) & 0xFF;
+
+				int a1 = (argb1 >> 24) & 0xFF;
+				int r1 = (argb1 >> 16) & 0xFF;
+				int g1 = (argb1 >>  8) & 0xFF;
+				int b1 = (argb1      ) & 0xFF;
+
+				int aDiff = Math.abs(a1 + a0);
+				int rDiff = Math.abs(r1 + r0);
+				int gDiff = Math.abs(g1 + g0);
+				int bDiff = Math.abs(b1 + b0);
+				
+				int A = (aDiff > 255 )?255:aDiff;
+				int R = (rDiff > 255 )?255:rDiff;
+				int G = (gDiff > 255)?255:gDiff;
+				int B = (bDiff > 255)?255:bDiff;
+				diff[i][j] = (A << 24) | (R << 16) | (G << 8) | B;
+				
+			}
+		sharpImg = CUtils.ArrayToColorImage(diff);
+		CUtils.SaveImage(sharpImg, pathOriginal +"sharpImages\\" +"sharp_"+fileName);
+	}
+	public void cMask(String pathOriginal,String pathBlur,String fileName){
+		BufferedImage orignalImage = null, blurImage = null,maskimg = null,sharpImg = null;
+		try{
+		orignalImage =  ImageIO.read(new File(pathOriginal + fileName));
+		blurImage =  ImageIO.read(new File(pathBlur +"blur_"+fileName));
 		}catch (IOException e){
 			e.printStackTrace();
 		}
@@ -28,22 +107,22 @@ public class ImproveFocus {
 		int treshold = 10 ;
 		for(int i = 0 ; i < originalMat.length; i ++)
 			for(int j =	0 ; j < originalMat.length; j ++){
-				int pixel= image.getRGB(i, j) - image1.getRGB(i, j);
-				if(pixel < treshold)
-					mask[i][j]=0;
-				else
+				int pixel= orignalImage.getRGB(i, j) - blurImage.getRGB(i, j);
+			//	if(pixel < treshold)
+				//	mask[i][j]=0;
+			//	else
 					mask[i][j] = pixel;
 			}
 		maskimg = CUtils.ArrayToColorImage(mask);
-		CUtils.SaveImage(maskimg, "C:\\Users\\talpe\\Desktop\\kjh\\images\\" +"maskDoda.png");
+		CUtils.SaveImage(maskimg, pathOriginal+ "maskImages\\" +"mask_"+fileName);
 		for(int i = 0 ; i < originalMat.length; i ++)
 			for(int j =	0 ; j < originalMat.length; j ++){
-			sharpImage[i][j] = image.getRGB(i, j) + maskimg.getRGB(i, j);
+			sharpImage[i][j] = orignalImage.getRGB(i, j) + maskimg.getRGB(i, j);
 			}
 		sharpImg = CUtils.ArrayToColorImage(sharpImage);
-		CUtils.SaveImage(sharpImg, "C:\\Users\\talpe\\Desktop\\kjh\\images\\" +"sharpDoda.png");
+		CUtils.SaveImage(sharpImg, pathOriginal+ "sharpImages\\" +"sharp_"+fileName);
 	}
-	public void creatMask(String pathOriginal,String pathBlur){
+	public void creatMask(String pathOriginal,String pathBlur,String fileName){
 		BufferedImage image = null, image1 = null,maskimg = null;
 		try{
 		image =  ImageIO.read(new File("4.png"));
@@ -138,15 +217,31 @@ public class ImproveFocus {
 	}
 
 	
-	public void blur(int isv){
-		BufferedImage image = null;
+	public void blur(String pathOriginal,String pathBlur,String fileName){
+		BufferedImage orignalImage = null;
 		 int radius = 1;
 		    int size = radius * 2 + 1;
-		    float [] data = new float[] {0.102059f,0.115349f,0.102059f,0.115349f,0.130371f,0.115349f,0.102059f,0.115349f,0.102059f};
-		    //float [] data = new float[]{0.077847f,0.123317f,0.077847f,0.123317f,0.195346f,0.123317f,0.077847f,0.123317f,0.077847f};
-		    float weight =  (1.0f / (size * size));
+		   // float [] data = new float[] {0,-1,0,-1,4,-1,0,-1,0};
+		    float [] sigma2_3X3 = new float[] {0.102059f,0.115349f,0.102059f,
+		    		0.115349f,0.130371f,0.115349f,
+		    		0.102059f,0.115349f,0.102059f};
+		    float [] sigma1_3X3 = new float[]{0.077847f,0.123317f,0.077847f,
+		    		0.123317f,0.195346f,0.123317f,
+		    		0.077847f,0.123317f,0.077847f};
+		    float [] sigma2_5X5 = new float[]{0.023528f,0.033969f,0.038393f,0.033969f,0.023528f,
+		    		0.033969f,0.049045f,0.055432f,0.049045f,0.033969f,
+		    		0.038393f,0.055432f,0.062651f,0.055432f,0.038393f,
+		    		0.033969f,0.049045f,0.055432f,0.049045f,0.033969f,
+		    		0.023528f,0.033969f,0.038393f,0.033969f,0.023528f};
+		    float[] sigma1_5X5 = new float[]{0.003765f,0.015019f,0.023792f,0.015019f,0.003765f,
+		    		0.015019f,0.059912f,0.094907f,0.059912f,0.015019f,
+		    		0.023792f,0.094907f,0.150342f,0.094907f,0.023792f,
+		    		0.015019f,0.059912f,0.094907f,0.059912f,0.015019f,
+		    		0.003765f,0.015019f,0.023792f,0.015019f,0.003765f};
+		    
+		    //  float weight =  (1.0f / (size * size));
 		    try {
-				image = ImageIO.read(new File("4.png"));
+				orignalImage = ImageIO.read(new File(pathOriginal+fileName));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -154,10 +249,10 @@ public class ImproveFocus {
 		    
 		    //for(int i = 0 ; i < 6 ; i ++)
 		 	  //  data[i] = weight;
-			Kernel kernel = new Kernel(3, 3, data);
-			BufferedImageOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_ZERO_FILL, null);
-			BufferedImage blurred = op.filter(image, null);
-			CUtils.SaveImage(blurred, "C:\\Users\\talpe\\Desktop\\kjh\\images\\" +"blur.png");
+			Kernel kernel = new Kernel(5, 5, sigma2_5X5);
+			BufferedImageOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
+			BufferedImage blurred = op.filter(orignalImage, null);
+			CUtils.SaveImage(blurred, pathBlur+"blur_"+fileName);
 			//CUtils.SaveImage(blurred,"C:\\Users\\omri\\Desktop\\New folder\\" + "blur.png");
 	}
 	
