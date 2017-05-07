@@ -116,6 +116,10 @@ public class classifyImages extends JFrame{
 			panel.setLayout(null);
 			
 			JCheckBox chckbxNewCheckBox = new JCheckBox("Correlation");
+			chckbxNewCheckBox.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent e) {
+				}
+			});
 			chckbxNewCheckBox.setBounds(8, 22, 113, 25);
 			panel.add(chckbxNewCheckBox);
 			
@@ -130,11 +134,12 @@ public class classifyImages extends JFrame{
 			JCheckBox chckbxNewCheckBox_3 = new JCheckBox("Bhattacharyya distance");
 			chckbxNewCheckBox_3.setBounds(155, 70, 168, 25);
 			panel.add(chckbxNewCheckBox_3);
-			
+		
 
 		}
 		return panel;
 	}
+
 	public JPanel getPanelBlock(){
 		if(panel1 == null){
 		panel1 = new JPanel();
@@ -195,6 +200,15 @@ public class classifyImages extends JFrame{
 		return classifyImageNextBtn;
 	}
 	
+	public void itemStateChanged(ItemEvent e) {
+		Object source = e.getItemSelectable();
+		
+		if(source == "MAD"){
+			
+		}else if(source == "MES"){
+			
+		}
+	}	
 		public void closeFrame(){
  			super.dispose();
  		}
