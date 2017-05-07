@@ -1,11 +1,12 @@
 package Class;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class AreasOfInterest extends TriangleEdges{
+public class AreasOfInterest  {
 	
 	int pixelsFactor;
-	 List<Point> upperEdge; //area 3 in the book ,
+	 List<Point> upperEdge ; //area 3 in the book ,
 	/*
 	 first argument is the upper left vertex of the rectangle second is the upper right vertex 
 	 Third is the bottom left vertex and the fourth is the bottom right vertex
@@ -36,41 +37,71 @@ public class AreasOfInterest extends TriangleEdges{
 	 the third vertex is the middle  vertex 
 	 */
 	
-	public AreasOfInterest(Point leftEdge, Point rightEdge, Point bottomEdge,int pixelsFactor) { 
-		super(leftEdge, rightEdge, bottomEdge);
-		
+	public AreasOfInterest(int pixelsFactor) { 
 		this.pixelsFactor=pixelsFactor;
-
+		upperEdge = new ArrayList<Point>(); 
+		rightEdge2 = new ArrayList<Point>(); 
+		leftEdge2 = new ArrayList<Point>(); 
 	}
 	/*
 	 * function that puts the area 3 (page 17 on the book) the user will give the rectangle height 
 	 */
-	public void Area3(int height,int width){  
+	public void Area3(TriangleEdges edges,int height,int width){  
 		
-		Point p1 = new Point(leftEdge.x-this.pixelsFactor,leftEdge.y-height); 
+		Point p1 = new Point(edges.leftEdge.x-this.pixelsFactor,edges.leftEdge.y-height); 
 		upperEdge.add(p1);
-		Point p2 = new Point(rightEdge.x+this.pixelsFactor,leftEdge.y-height); //need to check the logic @@!!!!! if it needs to be plus or minus 
+		Point p2 = new Point(edges.rightEdge.x+this.pixelsFactor,edges.leftEdge.y-height); //need to check the logic @@!!!!! if it needs to be plus or minus 
 		upperEdge.add(p2);
-		Point p3 = new Point(leftEdge.x-this.pixelsFactor,leftEdge.y+this.pixelsFactor);
+		Point p3 = new Point(edges.leftEdge.x-this.pixelsFactor,edges.leftEdge.y+this.pixelsFactor);
 		upperEdge.add(p3);
-		Point p4 = new Point(rightEdge.x+this.pixelsFactor,leftEdge.y+this.pixelsFactor);
+		Point p4 = new Point(edges.rightEdge.x+this.pixelsFactor,edges.leftEdge.y+this.pixelsFactor);
 		upperEdge.add(p4);
-
+		
 	}
 	
 	/*
-	 * function that puts the area 3 (page 17 on the book) the user will give the rectangle height and width
+	 * function that puts the area 4 (page 17 on the book) the user will give the rectangle height and width
 	 */
-	public void Area4(int height,int width){  
+	
+	public void Area4(TriangleEdges edges,int height){  
 		
-		Point p1 = new Point(rightEdge.x+this.pixelsFactor,rightEdge.y-this.pixelsFactor);
+		int width=65;
+		Point p1 = new Point(edges.rightEdge.x-this.pixelsFactor,edges.rightEdge.y-this.pixelsFactor);
 		rightEdge2.add(p1);
-		Point p2 = new Point(rightEdge.x-width,rightEdge.y-this.pixelsFactor);
+		Point p2 = new Point(edges.rightEdge.x+width,edges.rightEdge.y);
 		rightEdge2.add(p2);
-		Point p3 = new Point(rightEdge.x+height,rightEdge.y+height); //need to check the logic @@!!!!! need to add or decrease the x and y  
+		Point p3 = new Point(edges.bottomEdge.x-this.pixelsFactor,edges.bottomEdge.y+3*this.pixelsFactor);  
 		rightEdge2.add(p3);
-		Point p4 = new Point(rightEdge.x+height,rightEdge.y+height); //need to check the logic @@!!!!! need to add or decrease the x and y 
+		Point p4 = new Point(edges.bottomEdge.x+width,edges.bottomEdge.y+3*this.pixelsFactor); 
 		rightEdge2.add(p4);
+	}
+	
+	
+	/*
+	 * function that puts the area 5 (page 17 on the book) the user will give the rectangle height and width
+	 */
+	
+	public void Area5(TriangleEdges edges,int height){  
+		
+		int width=65;
+		Point p1 = new Point(edges.leftEdge.x-this.pixelsFactor,edges.leftEdge.y-this.pixelsFactor);
+		leftEdge2.add(p1);
+		Point p2 = new Point(edges.leftEdge.x-width,edges.leftEdge.y);
+		leftEdge2.add(p2);
+		Point p3 = new Point(edges.bottomEdge.x-this.pixelsFactor,edges.bottomEdge.y+3*this.pixelsFactor);  
+		leftEdge2.add(p3);
+		Point p4 = new Point(edges.bottomEdge.x-width,edges.bottomEdge.y+3*this.pixelsFactor); 
+		leftEdge2.add(p4);
+	}
+	
+	public void Area6(TriangleEdges edges,int height){  
+		
+		Point p1 = new Point(edges.leftEdge.x-this.pixelsFactor,edges.leftEdge.y-this.pixelsFactor);
+		leftEdge2.add(p1);
+		Point p2 = new Point(edges.rightEdge.x+this.pixelsFactor,edges.leftEdge.y-this.pixelsFactor);
+		leftEdge2.add(p2);
+		Point p3 = new Point(edges.bottomEdge.x+this.pixelsFactor,edges.bottomEdge.y+this.pixelsFactor);  
+		leftEdge2.add(p3);
 	}
 
 

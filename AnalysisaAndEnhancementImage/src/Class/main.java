@@ -1,4 +1,6 @@
 package Class;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -31,7 +33,7 @@ public class main {
 			System.err.println(e);
 		}
 		
-
+/*
 		ImproveFocus t = new ImproveFocus();
 		Focus f =new Focus();
 		File folder = new File("C:\\project\\images\\1\\goodImages\\");
@@ -56,8 +58,41 @@ public class main {
 		}
 		CUtils.CropAndSaveImage("matlab.png","matlab.png",78,28,400,400);
 		//t.blur(C:\Users\talpe\git\\AnalysisaAndEnhancementImage\\AnalysisaAndEnhancementImage\\", "C:\\Users\\talpe\\Desktop\\kjh\\test", "4.png");
-		System.out.println("matlab "+ f.FocusMeasuresBasedOnImageDifferentiationA("matlab.png"));
+		System.out.println("matlab "+ f.FocusMeasuresBasedOnImageDifferentiationA("matlab.png"));*/
+		//.....
+		
 
+		
+		AreasOfInterest tr = new AreasOfInterest(10);
+		byte [][]matrixg =CUtils.BlackWhiteImageToBinaryArray("MatlabResimg-01255.png");
+	    TriangleEdges edges = TriangleUtils.FindTriangleEdges(matrixg);
+	    tr.Area6(edges, 75);
+	    
+	    System.out.println(tr.leftEdge2.get(0).x+" "+tr.leftEdge2.get(0).y);
+	    System.out.println(tr.leftEdge2.get(1).x+" "+tr.leftEdge2.get(1).y);
+	    System.out.println(tr.leftEdge2.get(2).x+" "+tr.leftEdge2.get(2).y);
+	  //  System.out.println(tr.leftEdge2.get(3).x+" "+tr.leftEdge2.get(3).y);
+	    /*
+	    int lx= tr.rightEdge2.get(0).x; 
+	    int ly= tr.rightEdge2.get(0).y; 
+	    int rx = tr.rightEdge2.get(3).x;
+	    int ry = tr.rightEdge2.get(2).y;
+	    int w = Math.abs(rx - lx);
+	    int h = Math.abs(ry -ly);
+	    BufferedImage image3,out;
+	    image3 = ImageIO.read(new File("img-01255.png"));
+		AffineTransform tx = new AffineTransform();
+	    tx.rotate(0.2, image3.getWidth() / 2, image3.getHeight() / 2);
+	    AffineTransformOp op = new AffineTransformOp(tx,
+	    AffineTransformOp.TYPE_BILINEAR);
+	    image3 = op.filter(image3, null);		
+	    CUtils.SaveImage(image3, "C:\\Users\\omri\\Desktop\\img\\rotate.png");
+	    out = image3.getSubimage(195,145, 200, 100);
+	    CUtils.SaveImage(out, "C:\\Users\\omri\\Desktop\\img\\area3.png");
+	    //.....
+	    */
+		
+		
 		//System.out.println(f.FocusMeasuresBasedOnImageStatisticsNormalizedVariance("C:\\Users\\omri\\Desktop\\New folder\\" + "blur.png", 1));
 		//System.out.println(f.FocusMeasuresBasedOnImageStatisticsNormalizedVariance("4.png", 1));
 
