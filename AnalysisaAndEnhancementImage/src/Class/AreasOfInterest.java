@@ -45,16 +45,17 @@ public class AreasOfInterest extends TriangleEdges{
 	/*
 	 * function that puts the area 3 (page 17 on the book) the user will give the rectangle height 
 	 */
-	public void Area3(int height){  
+	public void Area3(int height,int width){  
 		
-		Point p1 = new Point(leftEdge.x+this.pixelsFactor,leftEdge.y+this.pixelsFactor);
+		Point p1 = new Point(leftEdge.x-this.pixelsFactor,leftEdge.y-height); 
 		upperEdge.add(p1);
-		Point p2 = new Point(rightEdge.x+this.pixelsFactor,rightEdge.y+this.pixelsFactor);
+		Point p2 = new Point(rightEdge.x+this.pixelsFactor,leftEdge.y-height); //need to check the logic @@!!!!! if it needs to be plus or minus 
 		upperEdge.add(p2);
-		Point p3 = new Point(leftEdge.x+height,leftEdge.y+height); //need to check the logic @@!!!!! if it needs to be plus or minus 
+		Point p3 = new Point(leftEdge.x-this.pixelsFactor,leftEdge.y+this.pixelsFactor);
 		upperEdge.add(p3);
-		Point p4 = new Point(rightEdge.x+height,rightEdge.y+height); //need to check the logic @@!!!!! if it needs to be plus or minus 
+		Point p4 = new Point(rightEdge.x+this.pixelsFactor,leftEdge.y+this.pixelsFactor);
 		upperEdge.add(p4);
+
 	}
 	
 	/*
@@ -62,14 +63,14 @@ public class AreasOfInterest extends TriangleEdges{
 	 */
 	public void Area4(int height,int width){  
 		
-		Point p1 = new Point(leftEdge.x+this.pixelsFactor,leftEdge.y+this.pixelsFactor);
-		upperEdge.add(p1);
-		Point p2 = new Point(leftEdge.x+width,leftEdge.y+this.width);
-		upperEdge.add(p2);
-		Point p3 = new Point(leftEdge.x+height,leftEdge.y+height); //need to check the logic @@!!!!! if it needs to be plus or minus 
-		upperEdge.add(p3);
-		Point p4 = new Point(rightEdge.x+height,rightEdge.y+height); //need to check the logic @@!!!!! if it needs to be plus or minus 
-		upperEdge.add(p4);
+		Point p1 = new Point(rightEdge.x+this.pixelsFactor,rightEdge.y-this.pixelsFactor);
+		rightEdge2.add(p1);
+		Point p2 = new Point(rightEdge.x-width,rightEdge.y-this.pixelsFactor);
+		rightEdge2.add(p2);
+		Point p3 = new Point(rightEdge.x+height,rightEdge.y+height); //need to check the logic @@!!!!! need to add or decrease the x and y  
+		rightEdge2.add(p3);
+		Point p4 = new Point(rightEdge.x+height,rightEdge.y+height); //need to check the logic @@!!!!! need to add or decrease the x and y 
+		rightEdge2.add(p4);
 	}
 
 
