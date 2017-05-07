@@ -54,7 +54,7 @@ public class main {
 		//t.cMask("C:\\project\\images\\1\\goodImages\\","C:\\project\\images\\1\\goodImages\\blurImage\\",fileName);
 			}
 		}
-		CUtils.CropAndSaveImage("matlab.png","matlab.png",0,0,400,400);
+		CUtils.CropAndSaveImage("matlab.png","matlab.png",78,28,400,400);
 		//t.blur(C:\Users\talpe\git\\AnalysisaAndEnhancementImage\\AnalysisaAndEnhancementImage\\", "C:\\Users\\talpe\\Desktop\\kjh\\test", "4.png");
 		System.out.println("matlab "+ f.FocusMeasuresBasedOnImageDifferentiationA("matlab.png"));
 

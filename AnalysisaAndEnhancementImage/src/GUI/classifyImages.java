@@ -22,11 +22,12 @@ public class classifyImages extends JFrame{
 	private JPanel panel = null, panel1 =null;
 	private JLabel lblDistanceFunction,lblClassifyMethods,lblChoose,lblHistogramMethods,lblBlockMethods;
 	private JCheckBox MADCheckBox,MSECheckBox;
-	private JButton btnNewButton = null;
+	private JButton classifyImageNextBtn = null;
 	private openPage open;
-	private JSpinner spinner_1;
+	private JSpinner PSpinner,qSpinner;
 	private JLabel lblPixel_1;
-	private JLabel lblChoseTheSize;
+	private JLabel pSizeLbl,qPixelLabel;
+	private JLabel qSizeLbl;
 	public classifyImages(openPage open){
 		this.open = open;
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -115,6 +116,10 @@ public class classifyImages extends JFrame{
 			panel.setLayout(null);
 			
 			JCheckBox chckbxNewCheckBox = new JCheckBox("Correlation");
+			chckbxNewCheckBox.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent e) {
+				}
+			});
 			chckbxNewCheckBox.setBounds(8, 22, 113, 25);
 			panel.add(chckbxNewCheckBox);
 			
@@ -129,11 +134,12 @@ public class classifyImages extends JFrame{
 			JCheckBox chckbxNewCheckBox_3 = new JCheckBox("Bhattacharyya distance");
 			chckbxNewCheckBox_3.setBounds(155, 70, 168, 25);
 			panel.add(chckbxNewCheckBox_3);
-			
+		
 
 		}
 		return panel;
 	}
+
 	public JPanel getPanelBlock(){
 		if(panel1 == null){
 		panel1 = new JPanel();
@@ -149,24 +155,36 @@ public class classifyImages extends JFrame{
 		MSECheckBox.setBounds(8, 70, 113, 25);
 		panel1.add(MSECheckBox);
 		
-		spinner_1 = new JSpinner();
-		spinner_1.setBounds(12, 150, 48, 22);
-		panel1.add(spinner_1);
+		PSpinner = new JSpinner();
+		PSpinner.setBounds(12, 150, 48, 22);
+		panel1.add(PSpinner);
 		
 		lblPixel_1 = new JLabel("Pixel");
 		lblPixel_1.setBounds(65, 153, 56, 16);
 		panel1.add(lblPixel_1);
 		
-		lblChoseTheSize = new JLabel("Chose the size of paramte P:");
-		lblChoseTheSize.setBounds(8, 121, 205, 19);
-		panel1.add(lblChoseTheSize);
+		pSizeLbl = new JLabel("Chose the size of paramte P:");
+		pSizeLbl.setBounds(8, 121, 205, 19);
+		panel1.add(pSizeLbl);
+		
+		qSpinner = new JSpinner();
+		qSpinner.setBounds(12, 223, 48, 25);
+		panel1.add(qSpinner);
+		
+		qPixelLabel = new JLabel("Pixel");
+		qPixelLabel.setBounds(65, 227, 56, 16);
+		panel1.add(qPixelLabel);
+		
+		qSizeLbl = new JLabel("Chose the size of paramte q:");
+		qSizeLbl.setBounds(8, 191, 205, 19);
+		panel1.add(qSizeLbl);
 		}
 		return panel1;
 	}
 	public JButton getNextbtn(){
-		if(btnNewButton == null){
-		btnNewButton = new JButton("Next");
-		btnNewButton.addActionListener(new ActionListener() {
+		if(classifyImageNextBtn == null){
+		classifyImageNextBtn = new JButton("Next");
+		classifyImageNextBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				closeFrame();
 				try {
@@ -177,11 +195,20 @@ public class classifyImages extends JFrame{
 				}//ImageList next1 = new ImageList(open);// new displaySimilarityGroups(open);
 			}
 		});
-		btnNewButton.setBounds(537, 375, 111, 40);
+		classifyImageNextBtn.setBounds(537, 375, 111, 40);
 		}
-		return btnNewButton;
+		return classifyImageNextBtn;
 	}
 	
+	public void itemStateChanged(ItemEvent e) {
+		Object source = e.getItemSelectable();
+		
+		if(source == "MAD"){
+			
+		}else if(source == "MES"){
+			
+		}
+	}	
 		public void closeFrame(){
  			super.dispose();
  		}

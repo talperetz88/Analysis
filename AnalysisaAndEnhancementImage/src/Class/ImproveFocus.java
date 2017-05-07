@@ -253,7 +253,7 @@ public class ImproveFocus {
 			BufferedImageOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
 			BufferedImage blurred = op.filter(orignalImage, null);
 			CUtils.SaveImage(blurred, pathBlur+"blur_"+fileName);
-			//CUtils.SaveImage(blurred,"C:\\Users\\omri\\Desktop\\New folder\\" + "blur.png");
+			
 	}
 	
 	public float[] makeKernelGuassian(float sigma,int size){
