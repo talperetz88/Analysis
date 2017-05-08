@@ -21,14 +21,14 @@ public class main {
 		//loding an image 
 		BufferedImage img = null;
 		try {
-		    img = ImageIO.read(new File("f.jpg"));
+		    img = ImageIO.read(new File("a.jpg"));
 		} catch (IOException e) {
 			System.err.println(e);
 		}
 		//loding an image 
 		BufferedImage img1 = null;
 		try {
-		   img1 = ImageIO.read(new File("u.jpg"));
+		   img1 = ImageIO.read(new File("117.jpg"));
 		} catch (IOException e) {
 			System.err.println(e);
 		}
@@ -63,14 +63,14 @@ public class main {
 		
 
 		
-		AreasOfInterest tr = new AreasOfInterest(10);
-		byte [][]matrixg =CUtils.BlackWhiteImageToBinaryArray("MatlabResimg-01255.png");
-	    TriangleEdges edges = TriangleUtils.FindTriangleEdges(matrixg);
-	    tr.Area6(edges, 75);
+		//AreasOfInterest tr = new AreasOfInterest(10);
+		//byte [][]matrixg =CUtils.BlackWhiteImageToBinaryArray("MatlabResimg-01255.png");
+	    //TriangleEdges edges = TriangleUtils.FindTriangleEdges(matrixg);
+	    //tr.Area6(edges, 75);
 	    
-	    System.out.println(tr.leftEdge2.get(0).x+" "+tr.leftEdge2.get(0).y);
-	    System.out.println(tr.leftEdge2.get(1).x+" "+tr.leftEdge2.get(1).y);
-	    System.out.println(tr.leftEdge2.get(2).x+" "+tr.leftEdge2.get(2).y);
+	    //System.out.println(tr.leftEdge2.get(0).x+" "+tr.leftEdge2.get(0).y);
+	    //System.out.println(tr.leftEdge2.get(1).x+" "+tr.leftEdge2.get(1).y);
+	    //System.out.println(tr.leftEdge2.get(2).x+" "+tr.leftEdge2.get(2).y);
 	  //  System.out.println(tr.leftEdge2.get(3).x+" "+tr.leftEdge2.get(3).y);
 	    /*
 	    int lx= tr.rightEdge2.get(0).x; 
@@ -140,15 +140,15 @@ public class main {
 	
 		//System.out.println("the edeg is:");
 		
-	//	Histogram hist = new Histogram(img);
-		//Histogram hist1 = new Histogram(img1);
+		Histogram hist = new Histogram(img);
+		Histogram hist1 = new Histogram(img1);
 		
-//		System.out.println("HSV Intersection "+hist.intersectionHSV(hist1));
-	//	System.out.println("RGB Intersection "+hist.intersectionRGB(hist1));
-	//	System.out.println("HSV Correlation "+hist.correlationHSV(hist1));
-	//	System.out.println("RGB Correlation "+hist.correlationRGB(hist1));
-	//	System.out.println("HSV chiSquare "+hist.chiSquareHSV(hist1));
-	//	System.out.println("RGB chiSquare "+hist.chiSquareRGB(hist1));
+		System.out.println("HSV Intersection "+hist.intersectionHSV(hist1));
+		System.out.println("RGB Intersection "+hist.intersectionRGB(hist1));
+		System.out.println("HSV Correlation "+hist.correlationHSV(hist1));
+		System.out.println("RGB Correlation "+hist.correlationRGB(hist1));
+		System.out.println("HSV chiSquare "+hist.chiSquareHSV(hist1));
+		System.out.println("RGB chiSquare "+hist.chiSquareRGB(hist1));
 
 		
 		//System.out.println("HSV BhattacharyyaDistanceHSV "+hist.BhattacharyyaDistanceHSV(hist1));
