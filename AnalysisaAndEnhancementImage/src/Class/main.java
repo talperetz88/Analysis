@@ -22,6 +22,7 @@ public class main {
 		BufferedImage img = null;
 		try {
 		    img = ImageIO.read(new File("a.jpg"));
+		   
 		} catch (IOException e) {
 			System.err.println(e);
 		}
@@ -32,6 +33,7 @@ public class main {
 		} catch (IOException e) {
 			System.err.println(e);
 		}
+		
 		
 /*
 		ImproveFocus t = new ImproveFocus();
@@ -61,11 +63,45 @@ public class main {
 		System.out.println("matlab "+ f.FocusMeasuresBasedOnImageDifferentiationA("matlab.png"));*/
 		//.....
 		
-
+		File folder = new File("C:\\project\\images\\1\\goodImages\\");
+		File[] listOfFiles = folder.listFiles();
+		for (int i = 0; i < listOfFiles.length; i++){
+			if (listOfFiles[i].isFile()){
+				if(listOfFiles[i]==null)
+					continue ;
+				String fileName = listOfFiles[i].getName();
+		byte [][]matrixg =CUtils.BlackWhiteImageToBinaryArray("C:\\project\\images\\1\\matlabRes\\" +"MatlabRes" +fileName);
+        TriangleEdges edges = TriangleUtils.FindTriangleEdges(matrixg);
+		AreasOfInterest tr = new AreasOfInterest(10);
+		img = ImageIO.read(new File("C:\\project\\images\\1\\goodImages\\"+fileName));
+		//BufferedImage rounded= tr.Area7(img, 85,edges);
 		
-		//AreasOfInterest tr = new AreasOfInterest(10);
-		//byte [][]matrixg =CUtils.BlackWhiteImageToBinaryArray("MatlabResimg-01255.png");
-	    //TriangleEdges edges = TriangleUtils.FindTriangleEdges(matrixg);
+		BufferedImage rounded= tr.Area1(img,65,edges.leftEdge.x,edges.leftEdge.y);  
+        ImageIO.write(rounded, "png", new File("C:\\project\\images\\1\\areas\\"+"area4"+fileName));
+        
+		BufferedImage rounded1= tr.Area2(img,65,edges.rightEdge.x,edges.rightEdge.y);  
+        ImageIO.write(rounded1, "png", new File("C:\\project\\images\\1\\areas\\"+"area2"+fileName));
+        
+		BufferedImage rounded2= tr.Area3(img,edges,40);  
+        ImageIO.write(rounded2, "png", new File("C:\\project\\images\\1\\areas\\"+"area3"+fileName));
+        
+		BufferedImage rounded3= tr.Area4(img,edges);  
+        ImageIO.write(rounded3, "png", new File("C:\\project\\images\\1\\areas\\"+"area4"+fileName));
+        
+		BufferedImage rounded4= tr.Area5(img,edges);  
+        ImageIO.write(rounded4, "png", new File("C:\\project\\images\\1\\areas\\"+"area5"+fileName));
+        
+		BufferedImage rounded5= tr.Area6(img,edges);  
+        ImageIO.write(rounded5, "png", new File("C:\\project\\images\\1\\areas\\"+"area6"+fileName));
+        
+        System.out.print(fileName);
+		BufferedImage rounded6= tr.Area7(img,edges);  
+        ImageIO.write(rounded6, "png", new File("C:\\project\\images\\1\\areas\\"+"area7"+fileName));
+        
+		BufferedImage rounded7= tr.Area8(img,edges);  
+        ImageIO.write(rounded7, "png", new File("C:\\project\\images\\1\\areas\\"+"area8"+fileName));
+			}
+		}
 	    //tr.Area6(edges, 75);
 	    
 	    //System.out.println(tr.leftEdge2.get(0).x+" "+tr.leftEdge2.get(0).y);
@@ -139,7 +175,7 @@ public class main {
 		}*/
 	
 		//System.out.println("the edeg is:");
-		
+		/*
 		Histogram hist = new Histogram(img);
 		Histogram hist1 = new Histogram(img1);
 		
@@ -149,7 +185,7 @@ public class main {
 		System.out.println("RGB Correlation "+hist.correlationRGB(hist1));
 		System.out.println("HSV chiSquare "+hist.chiSquareHSV(hist1));
 		System.out.println("RGB chiSquare "+hist.chiSquareRGB(hist1));
-
+*/
 		
 		//System.out.println("HSV BhattacharyyaDistanceHSV "+hist.BhattacharyyaDistanceHSV(hist1));
 
