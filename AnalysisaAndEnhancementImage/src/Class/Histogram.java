@@ -181,10 +181,40 @@ public class Histogram {
 		
 		//the function is in the book page 4 
 		public double chiSquareHSV(Histogram hist){
-			double sumTop=0,sumDown=0,sum=0;
+			 float [] H1 = new float[360];
+			 float [] S1 = new float[256]; 
+			 float [] H2 = new float[360];
+			 float [] S2 = new float[256];  
+			double sumTop=0,sumDown=0,sum=0,sumh=0,sums=0;
 			for(int i=0;i<360;i++){
-					sumTop=(Math.pow((this.HBin[i]-hist.HBin[i]),2));
-					sumDown=this.HBin[i]+hist.HBin[i];
+				sumh+=this.HBin[i];
+				if(i<256)
+					sums+=this.SBin[i];
+				
+			}
+			for(int i=0;i<360;i++){
+				H1[i]= (float) (this.HBin[i]/sumh);
+				if(i<256)
+					S1[i]=(float)(this.SBin[i]/sums);
+				
+			}
+			sums=0;sumh=0;
+			for(int i=0;i<360;i++){
+				sumh+=hist.HBin[i];
+				if(i<256)
+					sums+=hist.SBin[i];
+				
+			}
+			for(int i=0;i<360;i++){
+				H2[i]=(float) (hist.HBin[i]/sumh);
+				if(i<256)
+					S2[i]=(float)(hist.SBin[i]/sums);
+				
+			}
+				
+			for(int i=0;i<360;i++){
+					sumTop=(Math.pow((H1[i]-H2[i]),2));
+					sumDown=H1[i]+H2[i];
 					if(sumDown != 0)
 						sum+=sumTop/sumDown;
 					sumTop=sumDown=0;
@@ -194,8 +224,8 @@ public class Histogram {
 			
 			sumTop=0;sumDown=0;sum=0;
 			for(int i=0;i<256;i++){
-					sumTop=(Math.pow((this.SBin[i]-hist.SBin[i]),2));
-					sumDown=this.SBin[i]+hist.SBin[i];
+					sumTop=(Math.pow((S1[i]-S1[i]),2));
+					sumDown=S1[i]+S2[i];
 					if(sumDown != 0)
 						sum+=sumTop/sumDown;
 					sumTop=sumDown=0;

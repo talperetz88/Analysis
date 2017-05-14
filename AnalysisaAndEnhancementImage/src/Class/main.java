@@ -1,4 +1,6 @@
 package Class;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -19,14 +21,15 @@ public class main {
 		//loding an image 
 		BufferedImage img = null;
 		try {
-		    img = ImageIO.read(new File("f.jpg"));
+		    img = ImageIO.read(new File("a.jpg"));
+		   
 		} catch (IOException e) {
 			System.err.println(e);
 		}
 		//loding an image 
 		BufferedImage img1 = null;
 		try {
-		   img1 = ImageIO.read(new File("u.jpg"));
+		   img1 = ImageIO.read(new File("117.jpg"));
 		} catch (IOException e) {
 			System.err.println(e);
 		}
@@ -34,7 +37,9 @@ public class main {
 		CUtils.SetImagesDestinationPath("C:\\project\\images\\101\\");
 	//	Check thread = new Check();
 		//thread.start();
+
 		
+/*
 		ImproveFocus t = new ImproveFocus();
 		Focus f =new Focus();
 		File folder = new File("C:\\project\\images\\101\\goodImages\\");
@@ -63,7 +68,79 @@ public class main {
 		}
 		//CUtils.CropAndSaveImage("matlab.png","matlab.png",78,28,400,400);
 		//t.blur(C:\Users\talpe\git\\AnalysisaAndEnhancementImage\\AnalysisaAndEnhancementImage\\", "C:\\Users\\talpe\\Desktop\\kjh\\test", "4.png");
+
 		//System.out.println("matlab "+ f.FocusMeasuresBasedOnImageDifferentiationA("matlab.png"));
+
+
+		System.out.println("matlab "+ f.FocusMeasuresBasedOnImageDifferentiationA("matlab.png"));*/
+		//.....
+		
+		File folder = new File("C:\\project\\images\\1\\goodImages\\");
+		File[] listOfFiles = folder.listFiles();
+		for (int i = 0; i < listOfFiles.length; i++){
+			if (listOfFiles[i].isFile()){
+				if(listOfFiles[i]==null)
+					continue ;
+				String fileName = listOfFiles[i].getName();
+		byte [][]matrixg =CUtils.BlackWhiteImageToBinaryArray("C:\\project\\images\\1\\matlabRes\\" +"MatlabRes" +fileName);
+        TriangleEdges edges = TriangleUtils.FindTriangleEdges(matrixg);
+		AreasOfInterest tr = new AreasOfInterest(10);
+		img = ImageIO.read(new File("C:\\project\\images\\1\\goodImages\\"+fileName));
+		//BufferedImage rounded= tr.Area7(img, 85,edges);
+		
+		BufferedImage rounded= tr.Area1(img,65,edges.leftEdge.x,edges.leftEdge.y);  
+        ImageIO.write(rounded, "png", new File("C:\\project\\images\\1\\areas\\"+"area4"+fileName));
+        
+		BufferedImage rounded1= tr.Area2(img,65,edges.rightEdge.x,edges.rightEdge.y);  
+        ImageIO.write(rounded1, "png", new File("C:\\project\\images\\1\\areas\\"+"area2"+fileName));
+        
+		BufferedImage rounded2= tr.Area3(img,edges,40);  
+        ImageIO.write(rounded2, "png", new File("C:\\project\\images\\1\\areas\\"+"area3"+fileName));
+        
+		BufferedImage rounded3= tr.Area4(img,edges);  
+        ImageIO.write(rounded3, "png", new File("C:\\project\\images\\1\\areas\\"+"area4"+fileName));
+        
+		BufferedImage rounded4= tr.Area5(img,edges);  
+        ImageIO.write(rounded4, "png", new File("C:\\project\\images\\1\\areas\\"+"area5"+fileName));
+        
+		BufferedImage rounded5= tr.Area6(img,edges);  
+        ImageIO.write(rounded5, "png", new File("C:\\project\\images\\1\\areas\\"+"area6"+fileName));
+        
+        System.out.print(fileName);
+		BufferedImage rounded6= tr.Area7(img,edges);  
+        ImageIO.write(rounded6, "png", new File("C:\\project\\images\\1\\areas\\"+"area7"+fileName));
+        
+		BufferedImage rounded7= tr.Area8(img,edges);  
+        ImageIO.write(rounded7, "png", new File("C:\\project\\images\\1\\areas\\"+"area8"+fileName));
+			}
+		}
+	    //tr.Area6(edges, 75);
+	    
+	    //System.out.println(tr.leftEdge2.get(0).x+" "+tr.leftEdge2.get(0).y);
+	    //System.out.println(tr.leftEdge2.get(1).x+" "+tr.leftEdge2.get(1).y);
+	    //System.out.println(tr.leftEdge2.get(2).x+" "+tr.leftEdge2.get(2).y);
+	  //  System.out.println(tr.leftEdge2.get(3).x+" "+tr.leftEdge2.get(3).y);
+	    /*
+	    int lx= tr.rightEdge2.get(0).x; 
+	    int ly= tr.rightEdge2.get(0).y; 
+	    int rx = tr.rightEdge2.get(3).x;
+	    int ry = tr.rightEdge2.get(2).y;
+	    int w = Math.abs(rx - lx);
+	    int h = Math.abs(ry -ly);
+	    BufferedImage image3,out;
+	    image3 = ImageIO.read(new File("img-01255.png"));
+		AffineTransform tx = new AffineTransform();
+	    tx.rotate(0.2, image3.getWidth() / 2, image3.getHeight() / 2);
+	    AffineTransformOp op = new AffineTransformOp(tx,
+	    AffineTransformOp.TYPE_BILINEAR);
+	    image3 = op.filter(image3, null);		
+	    CUtils.SaveImage(image3, "C:\\Users\\omri\\Desktop\\img\\rotate.png");
+	    out = image3.getSubimage(195,145, 200, 100);
+	    CUtils.SaveImage(out, "C:\\Users\\omri\\Desktop\\img\\area3.png");
+	    //.....
+	    */
+		
+		
 
 		//System.out.println(f.FocusMeasuresBasedOnImageStatisticsNormalizedVariance("C:\\Users\\omri\\Desktop\\New folder\\" + "blur.png", 1));
 		//System.out.println(f.FocusMeasuresBasedOnImageStatisticsNormalizedVariance("4.png", 1));
@@ -111,17 +188,17 @@ public class main {
 		}*/
 	
 		//System.out.println("the edeg is:");
+		/*
+		Histogram hist = new Histogram(img);
+		Histogram hist1 = new Histogram(img1);
 		
-	//	Histogram hist = new Histogram(img);
-		//Histogram hist1 = new Histogram(img1);
-		
-//		System.out.println("HSV Intersection "+hist.intersectionHSV(hist1));
-	//	System.out.println("RGB Intersection "+hist.intersectionRGB(hist1));
-	//	System.out.println("HSV Correlation "+hist.correlationHSV(hist1));
-	//	System.out.println("RGB Correlation "+hist.correlationRGB(hist1));
-	//	System.out.println("HSV chiSquare "+hist.chiSquareHSV(hist1));
-	//	System.out.println("RGB chiSquare "+hist.chiSquareRGB(hist1));
-
+		System.out.println("HSV Intersection "+hist.intersectionHSV(hist1));
+		System.out.println("RGB Intersection "+hist.intersectionRGB(hist1));
+		System.out.println("HSV Correlation "+hist.correlationHSV(hist1));
+		System.out.println("RGB Correlation "+hist.correlationRGB(hist1));
+		System.out.println("HSV chiSquare "+hist.chiSquareHSV(hist1));
+		System.out.println("RGB chiSquare "+hist.chiSquareRGB(hist1));
+*/
 		
 		//System.out.println("HSV BhattacharyyaDistanceHSV "+hist.BhattacharyyaDistanceHSV(hist1));
 

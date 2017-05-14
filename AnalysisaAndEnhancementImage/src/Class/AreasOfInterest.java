@@ -1,11 +1,20 @@
 package Class;
 
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Polygon;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
 
-public class AreasOfInterest extends TriangleEdges{
+public class AreasOfInterest  {
 	
-	int pixelsFactor;
-	 List<Point> upperEdge; //area 3 in the book ,
+	static int pixelsFactor;
+	 List<Point> upperEdge ; //area 3 in the book ,
 	/*
 	 first argument is the upper left vertex of the rectangle second is the upper right vertex 
 	 Third is the bottom left vertex and the fourth is the bottom right vertex
@@ -36,41 +45,305 @@ public class AreasOfInterest extends TriangleEdges{
 	 the third vertex is the middle  vertex 
 	 */
 	
-	public AreasOfInterest(Point leftEdge, Point rightEdge, Point bottomEdge,int pixelsFactor) { 
-		super(leftEdge, rightEdge, bottomEdge);
-		
-		this.pixelsFactor=pixelsFactor;
-
+	public AreasOfInterest(int pixelsFactor) { 
+		AreasOfInterest.pixelsFactor=pixelsFactor;
+		upperEdge = new ArrayList<Point>(); 
+		rightEdge2 = new ArrayList<Point>(); 
+		leftEdge2 = new ArrayList<Point>(); 
 	}
+	
+	public static BufferedImage Area1(BufferedImage image, int cornerRadius,int x,int y ) {
+        int w = image.getWidth();
+        int h = image.getHeight();
+        BufferedImage output = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D g2 = output.createGraphics();
+
+        g2.setComposite(AlphaComposite.Src);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setColor(Color.WHITE);
+        g2.fill(new Ellipse2D.Double((x-40),(y-40), cornerRadius,cornerRadius));
+        g2.setComposite(AlphaComposite.SrcAtop);
+        g2.drawImage(image, 0, 0, null);
+
+        g2.dispose();
+
+        return output;
+    }
+	
+	public static BufferedImage Area2(BufferedImage image, int cornerRadius,int x,int y ) {
+        int w = image.getWidth();
+        int h = image.getHeight();
+        BufferedImage output = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D g2 = output.createGraphics();
+
+        g2.setComposite(AlphaComposite.Src);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setColor(Color.WHITE);
+        g2.fill(new Ellipse2D.Double((x-40),(y-40), cornerRadius,cornerRadius));
+        g2.setComposite(AlphaComposite.SrcAtop);
+        g2.drawImage(image, 0, 0, null);
+
+        g2.dispose();
+
+        return output;
+    }
+	
 	/*
 	 * function that puts the area 3 (page 17 on the book) the user will give the rectangle height 
 	 */
-	public void Area3(int height,int width){  
+	public static BufferedImage Area3(BufferedImage image,TriangleEdges edges,int height){  
 		
-		Point p1 = new Point(leftEdge.x-this.pixelsFactor,leftEdge.y-height); 
+		/*
+		Point p1 = new Point(edges.leftEdge.x-this.pixelsFactor,edges.leftEdge.y-height); 
 		upperEdge.add(p1);
-		Point p2 = new Point(rightEdge.x+this.pixelsFactor,leftEdge.y-height); //need to check the logic @@!!!!! if it needs to be plus or minus 
+		Point p2 = new Point(edges.rightEdge.x+this.pixelsFactor,edges.leftEdge.y-height); //need to check the logic @@!!!!! if it needs to be plus or minus 
 		upperEdge.add(p2);
-		Point p3 = new Point(leftEdge.x-this.pixelsFactor,leftEdge.y+this.pixelsFactor);
+		Point p3 = new Point(edges.leftEdge.x-this.pixelsFactor,edges.leftEdge.y+this.pixelsFactor);
 		upperEdge.add(p3);
-		Point p4 = new Point(rightEdge.x+this.pixelsFactor,leftEdge.y+this.pixelsFactor);
+		Point p4 = new Point(edges.rightEdge.x+this.pixelsFactor,edges.leftEdge.y+this.pixelsFactor);
 		upperEdge.add(p4);
+		*/
+		
+        int [] x = new int [4];
+        int [] y = new int [4];
+        
+        x[0]=edges.leftEdge.x-AreasOfInterest.pixelsFactor;
+        x[1]=edges.rightEdge.x+AreasOfInterest.pixelsFactor;
+        x[2]=edges.leftEdge.x-AreasOfInterest.pixelsFactor;
+        x[3]=edges.rightEdge.x+AreasOfInterest.pixelsFactor;
+        
+        y[0]=edges.leftEdge.y-height;
+        y[1]=edges.leftEdge.y-height;
+        y[2]=edges.leftEdge.y+AreasOfInterest.pixelsFactor;
+        y[3]=edges.leftEdge.y+AreasOfInterest.pixelsFactor;
+      
+        int w = image.getWidth();
+        int h = image.getHeight();
+        BufferedImage output = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        
+		Graphics2D g2 = output.createGraphics();
 
+		g2.setComposite(AlphaComposite.Src);
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2.setColor(Color.WHITE);
+		System.out.println((edges.leftEdge.x-AreasOfInterest.pixelsFactor));
+		g2.fill(new Rectangle((edges.leftEdge.x-AreasOfInterest.pixelsFactor),(edges.leftEdge.y-3*AreasOfInterest.pixelsFactor),(edges.rightEdge.x-edges.leftEdge.x+AreasOfInterest.pixelsFactor*3) ,height));
+		g2.setComposite(AlphaComposite.SrcAtop);
+		g2.drawImage(image, 0, 0, null);
+
+		g2.dispose();		 
+		
+		 return output;
+		
 	}
 	
 	/*
-	 * function that puts the area 3 (page 17 on the book) the user will give the rectangle height and width
+	 * function that puts the area 4 (page 17 on the book) the user will give the rectangle height and width
 	 */
-	public void Area4(int height,int width){  
+	
+	public static BufferedImage Area4(BufferedImage image,TriangleEdges edges){  
 		
-		Point p1 = new Point(rightEdge.x+this.pixelsFactor,rightEdge.y-this.pixelsFactor);
+		int width=(edges.rightEdge.x-edges.leftEdge.x);;
+		/*
+		Point p1 = new Point(edges.rightEdge.x-AreasOfInterest.pixelsFactor,edges.rightEdge.y-AreasOfInterest.pixelsFactor);
 		rightEdge2.add(p1);
-		Point p2 = new Point(rightEdge.x-width,rightEdge.y-this.pixelsFactor);
+		Point p2 = new Point(edges.rightEdge.x+width,edges.rightEdge.y);
 		rightEdge2.add(p2);
-		Point p3 = new Point(rightEdge.x+height,rightEdge.y+height); //need to check the logic @@!!!!! need to add or decrease the x and y  
+		Point p3 = new Point(edges.bottomEdge.x-AreasOfInterest.pixelsFactor,edges.bottomEdge.y+3*AreasOfInterest.pixelsFactor);  
 		rightEdge2.add(p3);
-		Point p4 = new Point(rightEdge.x+height,rightEdge.y+height); //need to check the logic @@!!!!! need to add or decrease the x and y 
+		Point p4 = new Point(edges.bottomEdge.x+width,edges.bottomEdge.y+3*AreasOfInterest.pixelsFactor); 
 		rightEdge2.add(p4);
+		*/
+        int w = image.getWidth();
+        int h = image.getHeight();
+        BufferedImage output = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        int [] x = new int [4];
+        int [] y = new int [4];
+        x[0]=edges.rightEdge.x-AreasOfInterest.pixelsFactor;
+        x[1]=edges.rightEdge.x+width;
+        x[2]=edges.bottomEdge.x+width;
+        x[3]=edges.bottomEdge.x-AreasOfInterest.pixelsFactor;
+
+        
+        y[0]=edges.rightEdge.y-AreasOfInterest.pixelsFactor;
+        y[1]=edges.rightEdge.y;
+        y[2]=edges.bottomEdge.y+3*AreasOfInterest.pixelsFactor;
+        y[3]=edges.bottomEdge.y+3*AreasOfInterest.pixelsFactor;
+
+        	
+        Graphics2D g2 = output.createGraphics();
+
+        g2.setComposite(AlphaComposite.Src);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setColor(Color.WHITE);
+        
+        g2.fill(new Polygon(x,y, 4));
+        g2.setComposite(AlphaComposite.SrcAtop);
+        g2.drawImage(image, 0, 0, null);
+
+        g2.dispose();
+
+        return output;
+	}
+	
+	
+	/*
+	 * function that puts the area 5 (page 17 on the book) the user will give the rectangle height and width
+	 */
+	
+	public static BufferedImage Area5(BufferedImage image,TriangleEdges edges){  
+		
+		
+		int width=65;
+		/*
+		Point p1 = new Point(edges.leftEdge.x-AreasOfInterest.pixelsFactor,edges.leftEdge.y-AreasOfInterest.pixelsFactor);
+		leftEdge2.add(p1);
+		Point p2 = new Point(edges.leftEdge.x-width,edges.leftEdge.y);
+		leftEdge2.add(p2);
+		Point p3 = new Point(edges.bottomEdge.x-AreasOfInterest.pixelsFactor,edges.bottomEdge.y+3*AreasOfInterest.pixelsFactor);  
+		leftEdge2.add(p3);
+		Point p4 = new Point(edges.bottomEdge.x-width,edges.bottomEdge.y+3*AreasOfInterest.pixelsFactor); 
+		leftEdge2.add(p4);
+		*/
+		width=(edges.rightEdge.x-edges.leftEdge.x);
+		int w = image.getWidth();
+        int h = image.getHeight();
+        BufferedImage output = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        int [] x = new int [4];
+        int [] y = new int [4];
+        x[0]=edges.leftEdge.x-AreasOfInterest.pixelsFactor;
+        x[1]=edges.leftEdge.x-width;
+        x[2]=edges.bottomEdge.x-width;
+        x[3]=edges.bottomEdge.x-AreasOfInterest.pixelsFactor;
+
+
+        
+        y[0]=edges.leftEdge.y-AreasOfInterest.pixelsFactor;
+        y[1]=edges.leftEdge.y;
+        y[2]=edges.bottomEdge.y+3*AreasOfInterest.pixelsFactor;
+        y[3]=edges.bottomEdge.y+3*AreasOfInterest.pixelsFactor;
+
+
+        	
+        Graphics2D g2 = output.createGraphics();
+
+        g2.setComposite(AlphaComposite.Src);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setColor(Color.WHITE);
+        
+        g2.fill(new Polygon(x,y, 4));
+        g2.setComposite(AlphaComposite.SrcAtop);
+        g2.drawImage(image, 0, 0, null);
+
+        g2.dispose();
+
+        return output;
+	}
+	
+	public static BufferedImage Area6(BufferedImage image,TriangleEdges edges ){  
+		
+        int w = image.getWidth();
+        int h = image.getHeight();
+        BufferedImage output = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        int [] x = new int [3];
+        int [] y = new int [3];
+        x[0]=edges.rightEdge.x+40;
+        x[1]=edges.leftEdge.x-40;
+        x[2]=edges.bottomEdge.x+10;
+        
+        y[0]=edges.rightEdge.y-30;
+        y[1]=edges.leftEdge.y-30;
+        y[2]=edges.bottomEdge.y+45;
+        	
+        Graphics2D g2 = output.createGraphics();
+
+        g2.setComposite(AlphaComposite.Src);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setColor(Color.WHITE);
+        
+        g2.fill(new Polygon(x,y, 3));
+        g2.setComposite(AlphaComposite.SrcAtop);
+        g2.drawImage(image, 0, 0, null);
+
+        g2.dispose();
+
+        return output;
+		
+
+	}
+	
+	public static BufferedImage Area7(BufferedImage image,TriangleEdges edges ){  
+		
+        int w = image.getWidth();
+        int h = image.getHeight();
+        BufferedImage output = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        int [] x = new int [4];
+        int [] y = new int [4];
+        int hieght = edges.bottomEdge.y-edges.rightEdge.y;
+       // System.out.println(" hieght : "+hieght+"rightEdge.y :"+edges.rightEdge.y);
+        x[0]=edges.rightEdge.x;//+40
+        x[1]=hieght*2;
+        x[2]=hieght*2;
+        x[3]=edges.bottomEdge.x-40;
+        
+        y[0]=edges.rightEdge.y-30;
+        y[1]=(int)(hieght*0.5*0.5)+edges.rightEdge.y;
+        y[2]=(int)(hieght*0.7)+edges.rightEdge.y;
+        y[3]=edges.bottomEdge.y+45;
+        System.out.println(" y1: "+y[1]+" y2 : "+y[2]);
+        Graphics2D g2 = output.createGraphics();
+
+        g2.setComposite(AlphaComposite.Src);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setColor(Color.WHITE);
+        
+        g2.fill(new Polygon(x,y, 4));
+        g2.setComposite(AlphaComposite.SrcAtop);
+        g2.drawImage(image, 0, 0, null);
+
+        g2.dispose();
+        //System.out.println(x[0]+ " "+y[0]);
+        return output;
+		
+
+	}
+	
+	public static BufferedImage Area8(BufferedImage image,TriangleEdges edges ){  
+		
+        int w = image.getWidth();
+        int h = image.getHeight();
+        BufferedImage output = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        int [] x = new int [4];
+        int [] y = new int [4];
+        int hieght = edges.bottomEdge.y-edges.leftEdge.y;
+        x[0]=edges.leftEdge.x+40;
+        x[1]=(int)(hieght/10);
+        x[2]=(int)(hieght/10);
+        x[3]=edges.bottomEdge.x+10;
+        
+        y[0]=edges.leftEdge.y-40;
+        y[1]=(int)(hieght*1.3);
+        y[2]=(int)(hieght*1.3*1.3);
+        y[3]=edges.bottomEdge.y+45;
+        	
+        Graphics2D g2 = output.createGraphics();
+
+        g2.setComposite(AlphaComposite.Src);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setColor(Color.WHITE);
+        
+        g2.fill(new Polygon(x,y, 4));
+        g2.setComposite(AlphaComposite.SrcAtop);
+        g2.drawImage(image, 0, 0, null);
+
+        g2.dispose();
+        
+        
+        return output;
+		
+
 	}
 
 
