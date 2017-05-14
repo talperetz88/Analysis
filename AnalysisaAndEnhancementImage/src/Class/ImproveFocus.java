@@ -91,6 +91,82 @@ public class ImproveFocus {
 		sharpImg = CUtils.ArrayToColorImage(diff);
 		CUtils.SaveImage(sharpImg, pathOriginal +"sharpImages\\" +"sharp_"+fileName);
 	}
+	
+	public void laplacianMask(String pathOriginal,String pathMask,String fileName,int ker){
+		BufferedImage orignalImage = null;
+		float [] kernelType = null;
+		float[] kernel_3X3_90Degre = new float[]{0,1,0,
+				1,-4,1,
+				0,1,0};
+		float[] kernel_3X3 = new float[]{1,1,1,
+				1,-8,1,
+				1,1,1};
+		
+		float[] kernel_5X5 = new float[]{1,1,1,1,1,
+				1,1,-24,1,1,
+				1,1,1,1,1,1};
+		
+		if(ker == 1){
+			kernelType = kernel_3X3_90Degre;
+		}else if(ker == 2){
+			kernelType = kernel_3X3;
+		}else if(ker == 3)
+			kernelType = kernel_5X5;
+		
+		try {
+			orignalImage = ImageIO.read(new File(pathOriginal+"sharp_"+fileName));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		int size = (int) Math.sqrt(kernelType.length);
+		
+		Kernel kernel = new Kernel(size,size, kernelType);
+		BufferedImageOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_ZERO_FILL, null);
+		BufferedImage blurred = op.filter(orignalImage, null);
+		CUtils.SaveImage(blurred, pathMask+"laplacian_"+fileName);
+		
+	}
+	public void improveFocusLaplacian(String pathOriginal,String pathMask,String fileName){
+		BufferedImage orignalImage = null, blurImage = null,maskimg = null,sharpImg = null;
+		try{
+			orignalImage =  ImageIO.read(new File(pathOriginal + fileName));
+			maskimg =  ImageIO.read(new File(pathMask +"laplacian_"+fileName));
+					
+			}catch (IOException e){
+				e.printStackTrace();
+			}
+		int [][] diff = new int[orignalImage.getWidth()][orignalImage.getHeight()];
+		for(int i = 0 ; i < orignalImage.getWidth(); i ++)
+			for(int j = 0; j < orignalImage.getHeight(); j++){
+				int argb0 = orignalImage.getRGB(i, j);
+				int argb1 = maskimg.getRGB(i,j );
+				int a0 = (argb0 >> 24) & 0xFF;
+				int r0 = (argb0 >> 16) & 0xFF;
+				int g0 = (argb0 >>  8) & 0xFF;
+				int b0 = (argb0      ) & 0xFF;
+
+				int a1 = (argb1 >> 24) & 0xFF;
+				int r1 = (argb1 >> 16) & 0xFF;
+				int g1 = (argb1 >>  8) & 0xFF;
+				int b1 = (argb1      ) & 0xFF;
+
+				int aDiff = Math.abs(a1 + a0);
+				int rDiff = Math.abs(r1 + r0);
+				int gDiff = Math.abs(g1 + g0);
+				int bDiff = Math.abs(b1 + b0);
+				
+				int A = (aDiff > 255 )?255:aDiff;
+				int R = (rDiff > 255 )?255:rDiff;
+				int G = (gDiff > 255)?255:gDiff;
+				int B = (bDiff > 255)?255:bDiff;
+				diff[i][j] = (A << 24) | (R << 16) | (G << 8) | B;
+				
+			}
+		sharpImg = CUtils.ArrayToColorImage(diff);
+		CUtils.SaveImage(sharpImg, pathOriginal +"sharpLaplacian\\" +"sharp_"+fileName);
+	}
 	public void cMask(String pathOriginal,String pathBlur,String fileName){
 		BufferedImage orignalImage = null, blurImage = null,maskimg = null,sharpImg = null;
 		try{
@@ -239,7 +315,6 @@ public class ImproveFocus {
 		    		0.015019f,0.059912f,0.094907f,0.059912f,0.015019f,
 		    		0.003765f,0.015019f,0.023792f,0.015019f,0.003765f};
 		    
-		    //  float weight =  (1.0f / (size * size));
 		    try {
 				orignalImage = ImageIO.read(new File(pathOriginal+fileName));
 			} catch (IOException e) {
@@ -247,8 +322,6 @@ public class ImproveFocus {
 				e.printStackTrace();
 			}
 		    
-		    //for(int i = 0 ; i < 6 ; i ++)
-		 	  //  data[i] = weight;
 			Kernel kernel = new Kernel(5, 5, sigma2_5X5);
 			BufferedImageOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
 			BufferedImage blurred = op.filter(orignalImage, null);

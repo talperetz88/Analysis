@@ -9,18 +9,17 @@ public class BlockMatching {
 
 	
 	
-	public double identifyTheRequirArea(String path,String name1,String name2,String func,int p,int q,int treshold){
+	public double identifyTheRequirArea(String path,String savePath,String name1,String name2,String func,int p,int q,int treshold){
 		BufferedImage image,image2;
 		double [][] res = new double [q][q];
 		int flag = 0,rightCorX = 0,rightCorY = 0,leftCorX = 0, leftCorY = 0;
 		double height = 0, height2 = 0,width = 0,tres = 1.5;
 		try{
-		 image = ImageIO.read(new File("4.png"));
-		 image2 = ImageIO.read(new File("4.png"));
-	     /* Matlab.ExecuteMatlabCode("4.png");
-	      Matlab.ExecuteMatlabCode("4.png");*/
-	      byte [][]matrixg =CUtils.BlackWhiteImageToBinaryArray(path +""+ name1);
-	      byte [][]matrixg2 = CUtils.BlackWhiteImageToBinaryArray(path + name2);
+		 image = ImageIO.read(new File(path+"goodImages\\"+name1));
+		 image2 = ImageIO.read(new File(path+"goodImages\\"+name2));
+
+	      byte [][]matrixg =CUtils.BlackWhiteImageToBinaryArray(path +"matlabRes\\" + name1);
+	      byte [][]matrixg2 = CUtils.BlackWhiteImageToBinaryArray(path+ "matlabRes\\" + name2);
 	      
 	      TriangleEdges edges = TriangleUtils.FindTriangleEdges(matrixg);
 	      TriangleEdges edges1 = TriangleUtils.FindTriangleEdges(matrixg2);
@@ -66,79 +65,37 @@ public class BlockMatching {
 					rightCorX = leftCorX + (int)width;
 					rightCorY = leftCorY + (int)height2;
 				}
+			}else{
+				return -1.0;
 			}
 			
 			
-			//for(int i = 0 ; i < 2*p ; i++){
-			
-			//int t=i-p;
-			//Calculate square position
-			/*
-			double y = (Math.abs(Math.min(edges.leftEdge.y, edges.rightEdge.y)-edges.bottomEdge.y));
-			double x = (Math.abs(edges.leftEdge.x-edges.rightEdge.x));
-			double y1 = Math.abs(Math.min(edges1.leftEdge.y, edges1.rightEdge.y)-edges1.bottomEdge.y);
-			double x1 = Math.abs(edges1.leftEdge.x-edges1.rightEdge.x);
-			
-			//check similarity and culc position of rectangle
-			if(Math.abs(y-y1) <= treshold){
-				 height =Math.max(y, y1);
-				
-				height = Math.round(height*1.5);
-				if(y1-y < 0){
-					width = x;
-					width = Math.round(width*1.5);
-					x = (width -x)/2;
-					y = (height - y)/2;
-					
-					rightCorX = (int)(edges.leftEdge.x - x);
-					rightCorY = (int)( edges.leftEdge.y - y);
-					leftCorX =(int)(image.getWidth() - edges.rightEdge.x + x);
-					leftCorY = (int)(image.getHeight() - edges.leftEdge.y + y);
-					
-				}else{
-					width = x1;
-					width = Math.round(width*1.5);
-					x1 = (width -x1)/2;
-					y1 = (height - y1)/2;
-					
-					rightCorX = (int)(edges1.leftEdge.x - x1);
-					rightCorY = (int)( edges1.leftEdge.y - y1);
-					leftCorX =(int)(image.getWidth() - edges1.rightEdge.x + x1);
-					leftCorY = (int)(image.getHeight() - edges1.leftEdge.y + y1);
-				}
-				
-				
-			}*/
-		
 			//crop image q is how far we going to search for a similarity between the images
 			for(int qw = 0 ; qw < q;qw++)
 				for(int qh = 0 ; qh < q ; qh++){
 			if(flag ==  0){
 			BufferedImage out = image.getSubimage(leftCorX ,leftCorY,rightCorX,rightCorY );
-			CUtils.SaveImage(out, path + "BlockMatching" + name1);
+			CUtils.SaveImage(out, savePath + "BlockMatching" + name1);
 			flag = 1;
 			}
 			BufferedImage out1 = image2.getSubimage(leftCorX + qw ,leftCorY - qh,rightCorX,rightCorY);
-			CUtils.SaveImage(out1, path + "BlockMatching" +name2);
+			CUtils.SaveImage(out1, savePath + "BlockMatching" +name2);
 			
 			if(func == "MAD"){
-			 res[qw][qh] = MAD(path + "BlockMatching" + name1,path + "BlockMatching" + name2);
-			if(qw == res.length)
-				return -1;
+			 res[qw][qh] = MAD(savePath + "BlockMatching" + name1,savePath + "BlockMatching" + name2);
+
 			}
 			else{
-				res[qw][qh] = MES(path + "BlockMatching" + name1,path + "BlockMatching" + name2);
-				if(qw == res.length)
-				return -1;
+				res[qw][qh] = MES(savePath + "BlockMatching" + name1,savePath + "BlockMatching" + name2);
 			}
 			}
 		}catch (IOException e){
 			System.out.println("Eror");
-			return -1.0;
+			return -44.0;
 		}
 		double[] result = getMin(res);
 		BufferedImage out1 = image2.getSubimage(leftCorX + (int)result[1] ,leftCorY -(int) result[2],rightCorX,rightCorY);
-		CUtils.SaveImage(out1, path + "BlockMatching" +name2);
+		CUtils.SaveImage(out1, savePath + "BlockMatching" +savePath);
 		return result [0];
 	}
 	
@@ -195,7 +152,7 @@ public class BlockMatching {
 	         return sum;
 		}
 		catch (IOException e){
-			return -1;
+			return -44;
 		}
 
 	}
@@ -218,7 +175,7 @@ public class BlockMatching {
 	         return sum;
 		}
 		catch (IOException e){
-			return -1;
+			return -44;
 		}
 
 	}

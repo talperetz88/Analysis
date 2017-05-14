@@ -31,10 +31,13 @@ public class main {
 			System.err.println(e);
 		}
 		
-
+		CUtils.SetImagesDestinationPath("C:\\project\\images\\101\\");
+	//	Check thread = new Check();
+		//thread.start();
+		
 		ImproveFocus t = new ImproveFocus();
 		Focus f =new Focus();
-		File folder = new File("C:\\project\\images\\1\\goodImages\\");
+		File folder = new File("C:\\project\\images\\101\\goodImages\\");
 		File[] listOfFiles = folder.listFiles();
 		for (int i = 0; i < listOfFiles.length; i++){
 			if (listOfFiles[i].isFile()){
@@ -42,21 +45,25 @@ public class main {
 					continue ;
 				String fileName = listOfFiles[i].getName();
 				System.out.println("start bluring");
-		t.blur("C:\\project\\images\\1\\goodImages\\","C:\\project\\images\\1\\goodImages\\blurImage\\",fileName);
+		t.blur("C:\\project\\images\\101\\goodImages\\","C:\\project\\images\\101\\goodImages\\blurImage\\",fileName);
 		System.out.println("end bluring and start improving");
 
 
-		t.mask("C:\\project\\images\\1\\goodImages\\","C:\\project\\images\\1\\goodImages\\blurImage\\",fileName);
-		t.improveFocus("C:\\project\\images\\1\\goodImages\\", "C:\\project\\images\\1\\goodImages\\maskImages\\", fileName);
-		double fr = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\images\\1\\goodImages\\"+fileName);
-		double se = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\images\\1\\goodImages\\sharpImages\\"+"sharp_"+fileName);
-		System.out.println("the orignalImage is = " +fr +"the sharper Image is =" +se);
+		t.mask("C:\\project\\images\\101\\goodImages\\","C:\\project\\images\\101\\goodImages\\blurImage\\",fileName);
+		
+		t.improveFocus("C:\\project\\images\\101\\goodImages\\", "C:\\project\\images\\101\\goodImages\\maskImages\\", fileName);
+		t.laplacianMask("C:\\project\\images\\101\\goodImages\\sharpImages\\", "C:\\project\\images\\101\\goodImages\\laplacianImages\\", fileName, 1);
+		t.improveFocusLaplacian("C:\\project\\images\\101\\goodImages\\", "C:\\project\\images\\101\\goodImages\\laplacianImages\\", fileName);
+		double fr = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\images\\101\\goodImages\\"+fileName);
+		double se = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\images\\101\\goodImages\\sharpImages\\"+"sharp_"+fileName);
+		double th = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\images\\101\\goodImages\\sharpLaplacian\\"+"sharp_"+fileName);
+		System.out.println("the orignalImage is = " +fr +"the sharper Image is =" +se+"laplacian image is ="+th);
 		//t.cMask("C:\\project\\images\\1\\goodImages\\","C:\\project\\images\\1\\goodImages\\blurImage\\",fileName);
 			}
 		}
-		CUtils.CropAndSaveImage("matlab.png","matlab.png",78,28,400,400);
+		//CUtils.CropAndSaveImage("matlab.png","matlab.png",78,28,400,400);
 		//t.blur(C:\Users\talpe\git\\AnalysisaAndEnhancementImage\\AnalysisaAndEnhancementImage\\", "C:\\Users\\talpe\\Desktop\\kjh\\test", "4.png");
-		System.out.println("matlab "+ f.FocusMeasuresBasedOnImageDifferentiationA("matlab.png"));
+		//System.out.println("matlab "+ f.FocusMeasuresBasedOnImageDifferentiationA("matlab.png"));
 
 		//System.out.println(f.FocusMeasuresBasedOnImageStatisticsNormalizedVariance("C:\\Users\\omri\\Desktop\\New folder\\" + "blur.png", 1));
 		//System.out.println(f.FocusMeasuresBasedOnImageStatisticsNormalizedVariance("4.png", 1));

@@ -15,6 +15,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Label;
 import Class.CUtils;
+import Class.Check;
 public class openPage extends JFrame{
 		public static Object openPage;
 		private JButton openButten = null;
@@ -133,6 +134,8 @@ public class openPage extends JFrame{
 							e.printStackTrace();
 						}
 	 					closeFrame();
+	 					Check thread = new Check();
+	 					thread.start();
 	 					classifyImages next = new classifyImages(open);
 	 					
 	 				}

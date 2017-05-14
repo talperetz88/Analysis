@@ -15,7 +15,8 @@ import java.awt.Choice;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Label;
-
+import Class.CUtils;
+import Class.BlockMatching;
 public class classifyImages extends JFrame{
 	
 	private JComboBox comboBox = null;
@@ -202,11 +203,53 @@ public class classifyImages extends JFrame{
 	
 	public void itemStateChanged(ItemEvent e) {
 		Object source = e.getItemSelectable();
-		
-		if(source == "MAD"){
-			
-		}else if(source == "MES"){
-			
+		BlockMatching block = new BlockMatching(); 
+		int numOfGroup = 1,flag = 0,flagName =0;
+		String fileName = null,fileName1 = null;
+		File folder = new File(CUtils.GetImagesDestPath() +"goodImages\\");
+		File[] listOfFiles = folder.listFiles();
+		for (int i = 0; i < listOfFiles.length -1; i++){
+			if (listOfFiles[i].isFile()){
+				if(listOfFiles[i]==null)
+					continue ;
+				if(flagName == 0){
+					fileName = listOfFiles[i].getName();
+					flagName = 1;
+				}
+				fileName1 = listOfFiles[i+1].getName();
+				if(source == "MAD"){
+					if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\MAD")){
+						break;
+					}
+						if(flag == 0)
+						if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\MAD\\"+numOfGroup+"\\")){
+							flag =1;
+							break;
+						}
+					double res = block.identifyTheRequirArea(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath() + "BloackMatching\\"+numOfGroup+"\\", fileName, fileName1, "MAD", 5, 5, 5);
+					if(res == -1){
+						flag =0;
+						numOfGroup ++;
+						fileName = fileName1;
+					}
+				}
+				if(source == "MES"){
+					if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\MES\\")){
+						break;
+					}
+						if(flag == 0)
+						if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\MES\\"+numOfGroup+"\\")){
+							flag =1;
+							break;
+						}
+					double res = block.identifyTheRequirArea(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath() + "BloackMatching\\"+numOfGroup+"\\", fileName, fileName1, "MAD", 5, 5, 5);
+					if(res == -1){
+						flag =0;
+						numOfGroup ++;
+						fileName = fileName1;
+					}
+				}
+			}
 		}
 	}	
 		public void closeFrame(){
