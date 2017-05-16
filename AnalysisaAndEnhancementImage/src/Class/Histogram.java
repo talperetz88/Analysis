@@ -106,12 +106,12 @@ public class Histogram {
 		}
 		
 		//the function is in the book page 4 
-		public double intersectionRGB(Histogram hist){
+		public double intersectionRGB(Histogram histA,Histogram histB){
 			double sum=0;
 			for(int i=0;i<256;i++){
-				sum+=Math.min(this.redBin[i],hist.redBin[i]);
-				sum+=Math.min(this.greenBin[i],hist.greenBin[i]);
-				sum+=Math.min(this.blueBin[i],hist.blueBin[i]);
+				sum+=Math.min(histA.redBin[i],histB.redBin[i]);
+				sum+=Math.min(histA.greenBin[i],histB.greenBin[i]);
+				sum+=Math.min(histA.blueBin[i],histB.blueBin[i]);
 			}
 			return sum/((double)(this.sumRed+this.sumGreen+this.sumBlue));
 			

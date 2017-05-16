@@ -3,6 +3,9 @@ package GUI;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -17,18 +20,24 @@ import java.awt.Dimension;
 import java.awt.Label;
 import Class.CUtils;
 import Class.BlockMatching;
+import Class.Histogram;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 public class classifyImages extends JFrame{
 	
 	private JComboBox comboBox = null;
 	private JPanel panel = null, panel1 =null;
 	private JLabel lblDistanceFunction,lblClassifyMethods,lblChoose,lblHistogramMethods,lblBlockMethods;
-	private JCheckBox MADCheckBox,MSECheckBox;
+	public JCheckBox MADCheckBox,MSECheckBox;
 	private JButton classifyImageNextBtn = null;
 	private openPage open;
 	private JSpinner PSpinner,qSpinner;
 	private JLabel lblPixel_1;
 	private JLabel pSizeLbl,qPixelLabel;
 	private JLabel qSizeLbl;
+	private boolean MAD = false, MES = false, COR = false, CHI = false, BHATT = false, INTER = false;
+	private JSpinner heightSpinner;
+	private JLabel heightLbl;
 	public classifyImages(openPage open){
 		this.open = open;
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,13 +52,13 @@ public class classifyImages extends JFrame{
 		getContentPane().add(getNextbtn());
 		
 		lblHistogramMethods = new JLabel("Histogram method");
-		lblHistogramMethods.setBounds(45, 149, 132, 16);
+		lblHistogramMethods.setBounds(45, 149, 165, 16);
 		getContentPane().add(lblHistogramMethods);
 		lblHistogramMethods.setVisible(false);
 		
 		
 		lblBlockMethods = new JLabel("Block matching method");
-		lblBlockMethods.setBounds(45, 149, 132, 16);
+		lblBlockMethods.setBounds(45, 149, 179, 16);
 		getContentPane().add(lblBlockMethods);
 		lblBlockMethods.setVisible(false);
 		
@@ -116,25 +125,44 @@ public class classifyImages extends JFrame{
 			getContentPane().add(panel);
 			panel.setLayout(null);
 			
-			JCheckBox chckbxNewCheckBox = new JCheckBox("Correlation");
-			chckbxNewCheckBox.addItemListener(new ItemListener() {
-				public void itemStateChanged(ItemEvent e) {
+			JCheckBox correlationCheckBox = new JCheckBox("Correlation");
+			correlationCheckBox.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					COR = true;
+					
 				}
 			});
-			chckbxNewCheckBox.setBounds(8, 22, 113, 25);
-			panel.add(chckbxNewCheckBox);
 			
-			JCheckBox chckbxNewCheckBox_1 = new JCheckBox("Chi-Square");
-			chckbxNewCheckBox_1.setBounds(8, 70, 113, 25);
-			panel.add(chckbxNewCheckBox_1);
+			correlationCheckBox.setBounds(8, 22, 113, 25);
+			panel.add(correlationCheckBox);
 			
-			JCheckBox chckbxNewCheckBox_2 = new JCheckBox("Intersection");
-			chckbxNewCheckBox_2.setBounds(155, 22, 113, 25);
-			panel.add(chckbxNewCheckBox_2);
+			JCheckBox chiSquareCheckBox = new JCheckBox("Chi-Square");
+			chiSquareCheckBox.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					CHI = true;
+				}
+			});
+
+			chiSquareCheckBox.setBounds(8, 70, 113, 25);
+			panel.add(chiSquareCheckBox);
 			
-			JCheckBox chckbxNewCheckBox_3 = new JCheckBox("Bhattacharyya distance");
-			chckbxNewCheckBox_3.setBounds(155, 70, 168, 25);
-			panel.add(chckbxNewCheckBox_3);
+			JCheckBox intersectionCheckBox = new JCheckBox("Intersection");
+			intersectionCheckBox.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					INTER = true;
+				}
+			});
+			intersectionCheckBox.setBounds(155, 22, 113, 25);
+			panel.add(intersectionCheckBox);
+			
+			JCheckBox bhattCheckBox = new JCheckBox("Bhattacharyya distance");
+			bhattCheckBox.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					BHATT = true;
+				}
+			});
+			bhattCheckBox.setBounds(155, 70, 168, 25);
+			panel.add(bhattCheckBox);
 		
 
 		}
@@ -144,16 +172,26 @@ public class classifyImages extends JFrame{
 	public JPanel getPanelBlock(){
 		if(panel1 == null){
 		panel1 = new JPanel();
-		panel1.setBounds(45, 201, 368, 272);
+		panel1.setBounds(45, 201, 480, 272);
 		
 		panel1.setLayout(null);
 		
 		MADCheckBox = new JCheckBox("MAD");
 		MADCheckBox.setBounds(8, 22, 113, 25);
+		MADCheckBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MAD = true;
+			}
+		});
 		panel1.add(MADCheckBox);
 		
 		MSECheckBox = new JCheckBox("MSE");
 		MSECheckBox.setBounds(8, 70, 113, 25);
+		MSECheckBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MES = true;
+			}
+		});
 		panel1.add(MSECheckBox);
 		
 		PSpinner = new JSpinner();
@@ -179,6 +217,18 @@ public class classifyImages extends JFrame{
 		qSizeLbl = new JLabel("Chose the size of paramte q:");
 		qSizeLbl.setBounds(8, 191, 205, 19);
 		panel1.add(qSizeLbl);
+		
+		JLabel tresholdLbl = new JLabel("Chose how similer the triangle:");
+		tresholdLbl.setBounds(229, 122, 197, 16);
+		panel1.add(tresholdLbl);
+		
+		heightSpinner = new JSpinner();
+		heightSpinner.setBounds(229, 153, 48, 22);
+		panel1.add(heightSpinner);
+		
+		heightLbl = new JLabel("Height diffrents");
+		heightLbl.setBounds(289, 156, 101, 16);
+		panel1.add(heightLbl);
 		}
 		return panel1;
 	}
@@ -188,6 +238,7 @@ public class classifyImages extends JFrame{
 		classifyImageNextBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				closeFrame();
+				checkBox();
 				try {
 					ImageList next1 = new ImageList();
 				} catch (IOException e1) {
@@ -196,17 +247,20 @@ public class classifyImages extends JFrame{
 				}//ImageList next1 = new ImageList(open);// new displaySimilarityGroups(open);
 			}
 		});
-		classifyImageNextBtn.setBounds(537, 375, 111, 40);
+		classifyImageNextBtn.setBounds(581, 433, 111, 40);
 		}
 		return classifyImageNextBtn;
 	}
 	
-	public void itemStateChanged(ItemEvent e) {
-		Object source = e.getItemSelectable();
+	public void checkBox() {
+		//Object source = e.getItemSelectable();
 		BlockMatching block = new BlockMatching(); 
+		
 		int numOfGroup = 1,flag = 0,flagName =0;
 		String fileName = null,fileName1 = null;
 		File folder = new File(CUtils.GetImagesDestPath() +"goodImages\\");
+		BufferedImage image = null;
+		Histogram his = new Histogram(image);
 		File[] listOfFiles = folder.listFiles();
 		for (int i = 0; i < listOfFiles.length -1; i++){
 			if (listOfFiles[i].isFile()){
@@ -217,8 +271,9 @@ public class classifyImages extends JFrame{
 					flagName = 1;
 				}
 				fileName1 = listOfFiles[i+1].getName();
-				if(source == "MAD"){
-					if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\MAD")){
+				if(MAD){
+					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\")){
+						if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\MAD\\"))
 						break;
 					}
 						if(flag == 0)
@@ -226,15 +281,33 @@ public class classifyImages extends JFrame{
 							flag =1;
 							break;
 						}
-					double res = block.identifyTheRequirArea(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath() + "BloackMatching\\"+numOfGroup+"\\", fileName, fileName1, "MAD", 5, 5, 5);
+					double res = block.identifyTheRequirArea(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath() + "BloackMatching\\MAD\\"+numOfGroup+"\\", fileName, fileName1, "MAD", (int)PSpinner.getValue(), (int)qSpinner.getValue(), (int)heightSpinner.getValue());
 					if(res == -1){
 						flag =0;
+						try {
+							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
+							BufferedImage out = image;
+							CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "BloackMatching\\MAD\\"+numOfGroup+"\\"+fileName);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						numOfGroup ++;
 						fileName = fileName1;
+					}else if(res != -44){
+						try{
+							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
+							BufferedImage out = image;
+							CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "BloackMatching\\MAD\\"+numOfGroup+"\\"+fileName);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				}
-				if(source == "MES"){
-					if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\MES\\")){
+				if(MES){
+					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\")){
+						if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\MES\\"))
 						break;
 					}
 						if(flag == 0)
@@ -242,15 +315,45 @@ public class classifyImages extends JFrame{
 							flag =1;
 							break;
 						}
-					double res = block.identifyTheRequirArea(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath() + "BloackMatching\\"+numOfGroup+"\\", fileName, fileName1, "MAD", 5, 5, 5);
+					double res = block.identifyTheRequirArea(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath() + "BloackMatching\\MAD\\"+numOfGroup+"\\", fileName, fileName1, "MES", (int)PSpinner.getValue(), (int)qSpinner.getValue(), (int)heightSpinner.getValue());
 					if(res == -1){
 						flag =0;
+						try {
+							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
+							BufferedImage out = image;
+							CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "BloackMatching\\MES\\"+numOfGroup+"\\"+fileName);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						numOfGroup ++;
 						fileName = fileName1;
+					}else if(res != -44){
+						try{
+							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
+							BufferedImage out = image;
+							CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "BloackMatching\\MES\\"+numOfGroup+"\\"+fileName);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
+				}
+				if(COR){
+					
+				}
+				if(INTER){
+					
+				}
+				if(BHATT){
+					
+				}
+				if(CHI){
+					
 				}
 			}
 		}
+		System.out.println("end loop");
 	}	
 		public void closeFrame(){
  			super.dispose();

@@ -29,6 +29,7 @@ public class openPage extends JFrame{
 		private File file,file1;
 		private openPage open;
 		private String saveUrl,openUrl;
+		private Process start;
 		public openPage() {
 			this.open = this;
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,7 +66,7 @@ public class openPage extends JFrame{
 					if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 						file = chooser.getSelectedFile();
 						openUrl = chooser.getSelectedFile().getAbsolutePath();
-						dirictTextFilde.setText(chooser.getCurrentDirectory().toString());
+						dirictTextFilde.setText(openUrl);
 		                System.out.println("getCurrentDirectory(): "+ chooser.getCurrentDirectory());
 		                System.out.println("getSelectedFile() : "+ file);
 		                CUtils.SetImagesSourcePath(openUrl);;
@@ -126,17 +127,26 @@ public class openPage extends JFrame{
 	 			nextButten = new JButton("Next");
 	 			nextButten.addActionListener(new ActionListener() {
 	 				public void actionPerformed(ActionEvent arg0) {
-	 					ProcessBuilder pb = new ProcessBuilder(CUtils.GetVlcPath(), dirictTextFilde.getText(), "--video-filter=scene", "--scene-ratio="+spinner, "--scene-prefix=img-", "--scene-path="+textField.getText(), "vlc://quit");
+	 					double frameRatio = Double.parseDouble(spinner.getValue().toString());
+	 					ProcessBuilder pb = new ProcessBuilder(CUtils.GetVlcPath(), dirictTextFilde.getText(), "--video-filter=scene", "--scene-ratio="+frameRatio, "--scene-prefix=img-", "--scene-path="+CUtils.GetImagesDestPath(), "vlc://quit");
 	 					try {
-							Process start = pb.start();
+							 start = pb.start();
+							
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+	 					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "goodImages\\"))
+							if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "matlabRes\\"))
+								System.out.println("eror");
+	 					
 	 					closeFrame();
-	 					Check thread = new Check();
+	 					while(start.isAlive());
+	 					Check thread = new Check();					
 	 					thread.start();
+	 					while(thread.isAlive());
 	 					classifyImages next = new classifyImages(open);
+	 					
 	 					
 	 				}
 	 			});

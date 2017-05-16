@@ -100,6 +100,7 @@ public class Check extends Thread{
 			  }
 			 }
 			pb.setValue(100);
+			frame.dispose();
 			}
 			
 

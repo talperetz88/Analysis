@@ -16,7 +16,7 @@ public class main {
 
 	public static void main(String[] arg) throws IOException{
 		
-		//startGUI open = new startGUI();
+		startGUI open = new startGUI();
 		
 		//loding an image 
 		BufferedImage img = null;
@@ -34,7 +34,7 @@ public class main {
 			System.err.println(e);
 		}
 		
-		CUtils.SetImagesDestinationPath("C:\\project\\images\\101\\");
+		//CUtils.SetImagesDestinationPath("C:\\project\\images\\101\\");
 	//	Check thread = new Check();
 		//thread.start();
 
@@ -74,7 +74,7 @@ public class main {
 
 		System.out.println("matlab "+ f.FocusMeasuresBasedOnImageDifferentiationA("matlab.png"));*/
 		//.....
-		
+		/*
 		File folder = new File("C:\\project\\images\\1\\goodImages\\");
 		File[] listOfFiles = folder.listFiles();
 		for (int i = 0; i < listOfFiles.length; i++){

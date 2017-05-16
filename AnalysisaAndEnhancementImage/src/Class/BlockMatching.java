@@ -12,14 +12,14 @@ public class BlockMatching {
 	public double identifyTheRequirArea(String path,String savePath,String name1,String name2,String func,int p,int q,int treshold){
 		BufferedImage image,image2;
 		double [][] res = new double [q][q];
-		int flag = 0,rightCorX = 0,rightCorY = 0,leftCorX = 0, leftCorY = 0;
-		double height = 0, height2 = 0,width = 0,tres = 1.5;
+		int flag = 0,rightCorX = 0,rightCorY = 0,leftCorX = 0, leftCorY = 0,widthX = 0 ,heightY = 0;
+		double height = 0, height2 = 0,width = 0 ,tres = 1.5;
 		try{
-		 image = ImageIO.read(new File(path+"goodImages\\"+name1));
-		 image2 = ImageIO.read(new File(path+"goodImages\\"+name2));
+		 image = ImageIO.read(new File(path +"goodImages\\" + name1));
+		 image2 = ImageIO.read(new File(path +"goodImages\\"+name2));
 
-	      byte [][]matrixg =CUtils.BlackWhiteImageToBinaryArray(path +"matlabRes\\" + name1);
-	      byte [][]matrixg2 = CUtils.BlackWhiteImageToBinaryArray(path+ "matlabRes\\" + name2);
+	      byte [][]matrixg =CUtils.BlackWhiteImageToBinaryArray(path +"matlabRes\\" +"MatlabRes"+ name1);
+	      byte [][]matrixg2 = CUtils.BlackWhiteImageToBinaryArray(path+ "matlabRes\\" +"MatlabRes"+ name2);
 	      
 	      TriangleEdges edges = TriangleUtils.FindTriangleEdges(matrixg);
 	      TriangleEdges edges1 = TriangleUtils.FindTriangleEdges(matrixg2);
@@ -56,6 +56,9 @@ public class BlockMatching {
 					rightCorX = leftCorX + (int)width;
 					rightCorY = leftCorY + (int)height;
 					
+					widthX =(rightCorX + leftCorX  > 400)?400 - leftCorX:rightCorX;
+					heightY = (rightCorY + leftCorY > 400 )?400 - leftCorY:rightCorY; 
+					
 				}else{
 					width = Math.abs(edges1.leftEdge.x - edges1.rightEdge.x);
 					width *= tres;
@@ -64,6 +67,9 @@ public class BlockMatching {
 					leftCorY= edges1.leftEdge.y - p;
 					rightCorX = leftCorX + (int)width;
 					rightCorY = leftCorY + (int)height2;
+					
+					widthX =(rightCorX + leftCorX  > 400)?400 - leftCorX:rightCorX;
+					heightY = (rightCorY + leftCorY > 400 )?400 - leftCorY:rightCorY;
 				}
 			}else{
 				return -1.0;
@@ -74,11 +80,14 @@ public class BlockMatching {
 			for(int qw = 0 ; qw < q;qw++)
 				for(int qh = 0 ; qh < q ; qh++){
 			if(flag ==  0){
-			BufferedImage out = image.getSubimage(leftCorX ,leftCorY,rightCorX,rightCorY );
-			CUtils.SaveImage(out, savePath + "BlockMatching" + name1);
+			//BufferedImage out = image.getSubimage(leftCorX ,leftCorY,rightCorX,rightCorY );
+			CUtils.CropAndSaveImage(path + "goodImages\\" + name1, savePath + "BlockMatching" + name1,leftCorX ,leftCorY,widthX,heightY);
+			//CUtils.SaveImage(out, savePath + "BlockMatching" + name1);
 			flag = 1;
 			}
-			BufferedImage out1 = image2.getSubimage(leftCorX + qw ,leftCorY - qh,rightCorX,rightCorY);
+			int startX =  ((leftCorX + qw)+ widthX > 400)?(400 - (leftCorX + qw)):widthX;
+			int startY = ((leftCorY - qh)+ heightY > 400)?(400 - (leftCorY - qh)):heightY;
+			BufferedImage out1 = image2.getSubimage(leftCorX + qw ,leftCorY - qh,startX,startY);
 			CUtils.SaveImage(out1, savePath + "BlockMatching" +name2);
 			
 			if(func == "MAD"){
@@ -94,8 +103,10 @@ public class BlockMatching {
 			return -44.0;
 		}
 		double[] result = getMin(res);
-		BufferedImage out1 = image2.getSubimage(leftCorX + (int)result[1] ,leftCorY -(int) result[2],rightCorX,rightCorY);
-		CUtils.SaveImage(out1, savePath + "BlockMatching" +savePath);
+		int startX =  ((leftCorX + (int)result[1]) + widthX > 400)?(400 - (leftCorX + (int)result[1])):widthX;
+		int startY = ((leftCorY - (int) result[2]) + heightY> 400)?(400 - (leftCorY - (int) result[2])):heightY;
+		BufferedImage out1 = image2.getSubimage(leftCorX + (int)result[1] ,leftCorY - (int) result[2],startX,startY);
+		CUtils.SaveImage(out1, savePath + "BlockMatching" +name2);
 		return result [0];
 	}
 	
@@ -111,7 +122,7 @@ public class BlockMatching {
 
 	//return the min value of images
 	private double[] getMin(double[][] res) {
-		double min[] = new double [res.length];
+		double min[] = new double [3];
 			min[0] = res[0][0];
 		for(int i = 0 ; i < res.length ; i ++){
 			for(int j = 0 ; j < res.length ; j++)
