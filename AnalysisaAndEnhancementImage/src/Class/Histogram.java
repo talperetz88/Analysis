@@ -96,10 +96,10 @@ public class Histogram {
 		}
 		
 		//the function is in the book page 4 
-		public double intersectionHSV(Histogram hist){
+		public double intersectionHSV(Histogram histA , Histogram histB){
 			double sum=0;
 			for(int i=0;i<360;i++){
-				sum+=Math.min(this.HBin[i],hist.HBin[i]);
+				sum+=Math.min(histA.HBin[i],histB.HBin[i]);
 			}
 			return sum/((double)(this.sumH));
 			
@@ -118,13 +118,13 @@ public class Histogram {
 		}
 		
 		//the function is in the book page 4 
-		public double correlationHSV(Histogram hist){
+		public double correlationHSV(Histogram histA , Histogram histB){
 			
 			double sumTop=0,sumDownFirst=0,sumDownSec=0;
 			for(int i=0;i<360;i++){
-				sumTop+=((this.HBin[i]-this.hTop)*(hist.HBin[i]-hist.hTop));
-				sumDownFirst+=Math.pow((this.HBin[i]-this.hTop),2);
-				sumDownSec+=Math.pow((hist.HBin[i]-hist.hTop),2);
+				sumTop+=((histA.HBin[i]-histA.hTop)*(histB.HBin[i]-histB.hTop));
+				sumDownFirst+=Math.pow((histA.HBin[i]-histA.hTop),2);
+				sumDownSec+=Math.pow((histB.HBin[i]-histB.hTop),2);
 			}
 			double temp = Math.sqrt((sumDownFirst*sumDownSec));
 			return sumTop/temp;
@@ -133,22 +133,22 @@ public class Histogram {
 		
 		//function thats gets index , the index will indicate which component the function will calculate 1 for red 
 		//2 for blue 3 for green
-		public double helpToCorrelationRGB(int index,Histogram hist){ // צריך שם יותר טוב 
+		public double helpToCorrelationRGB(int index , Histogram histA , Histogram histB){ // צריך שם יותר טוב 
 			double sumTop=0,sumDownFirst=0,sumDownSec=0;
 			if(index==1){
 				for(int i=0;i<256;i++){
-					sumTop+=((this.redBin[i]-this.redTop)*(hist.redBin[i]-hist.redTop));
-					sumDownFirst+=Math.pow((this.redBin[i]-this.redTop),2);
-					sumDownSec+=Math.pow((hist.redBin[i]-hist.redTop),2);
+					sumTop+=((histA.redBin[i]-histA.redTop)*(histB.redBin[i]-histB.redTop));
+					sumDownFirst+=Math.pow((histA.redBin[i]-histA.redTop),2);
+					sumDownSec+=Math.pow((histB.redBin[i]-histB.redTop),2);
 				}
 				double temp = Math.sqrt((sumDownFirst*sumDownSec));
 				return sumTop/temp;
 			}
 			if(index==2){
 				for(int i=0;i<256;i++){
-					sumTop+=((this.greenBin[i]-this.greenTop)*(hist.greenBin[i]-hist.greenTop));
-					sumDownFirst+=Math.pow((this.greenBin[i]-this.greenTop),2);
-					sumDownSec+=Math.pow((hist.greenBin[i]-hist.greenTop),2);
+					sumTop+=((histA.greenBin[i]-histA.greenTop)*(histB.greenBin[i]-histB.greenTop));
+					sumDownFirst+=Math.pow((histA.greenBin[i]-histA.greenTop),2);
+					sumDownSec+=Math.pow((histB.greenBin[i]-histB.greenTop),2);
 				}
 				double temp = Math.sqrt((sumDownFirst*sumDownSec));
 				return sumTop/temp;
@@ -156,9 +156,9 @@ public class Histogram {
 			}
 			if(index==3){
 					for(int i=0;i<256;i++){
-					sumTop+=((this.blueBin[i]-this.blueTop)*(hist.blueBin[i]-hist.blueTop));
-					sumDownFirst+=Math.pow((this.blueBin[i]-this.blueTop),2);
-					sumDownSec+=Math.pow((hist.blueBin[i]-hist.blueTop),2);
+					sumTop+=((histA.blueBin[i]-this.blueTop)*(histB.blueBin[i]-histB.blueTop));
+					sumDownFirst+=Math.pow((histA.blueBin[i]-histA.blueTop),2);
+					sumDownSec+=Math.pow((histB.blueBin[i]-histB.blueTop),2);
 				}
 				double temp = Math.sqrt((sumDownFirst*sumDownSec));
 				return sumTop/temp;
@@ -169,46 +169,46 @@ public class Histogram {
 		}
 		
 		//the function is in the book page 4 
-		public double correlationRGB(Histogram hist){
+		public double correlationRGB(Histogram histA , Histogram histB ){
 			double [] sumComponent = new double [3];
 			double sum=0;
 			for(int j=0;j<3;j++){
-				sum+=sumComponent[j]=helpToCorrelationRGB(j+1,hist);
+				sum+=sumComponent[j]=helpToCorrelationRGB(j+1,histA,histB);
 			}
 			return sum/3;
 			
 		}
 		
 		//the function is in the book page 4 
-		public double chiSquareHSV(Histogram hist){
+		public double chiSquareHSV(Histogram histA , Histogram histB){
 			 float [] H1 = new float[360];
 			 float [] S1 = new float[256]; 
 			 float [] H2 = new float[360];
 			 float [] S2 = new float[256];  
 			double sumTop=0,sumDown=0,sum=0,sumh=0,sums=0;
 			for(int i=0;i<360;i++){
-				sumh+=this.HBin[i];
+				sumh+=histA.HBin[i];
 				if(i<256)
-					sums+=this.SBin[i];
+					sums+=histA.SBin[i];
 				
 			}
 			for(int i=0;i<360;i++){
-				H1[i]= (float) (this.HBin[i]/sumh);
+				H1[i]= (float) (histA.HBin[i]/sumh);
 				if(i<256)
-					S1[i]=(float)(this.SBin[i]/sums);
+					S1[i]=(float)(histA.SBin[i]/sums);
 				
 			}
 			sums=0;sumh=0;
 			for(int i=0;i<360;i++){
-				sumh+=hist.HBin[i];
+				sumh+=histB.HBin[i];
 				if(i<256)
-					sums+=hist.SBin[i];
+					sums+=histB.SBin[i];
 				
 			}
 			for(int i=0;i<360;i++){
-				H2[i]=(float) (hist.HBin[i]/sumh);
+				H2[i]=(float) (histB.HBin[i]/sumh);
 				if(i<256)
-					S2[i]=(float)(hist.SBin[i]/sums);
+					S2[i]=(float)(histB.SBin[i]/sums);
 				
 			}
 				
@@ -234,11 +234,11 @@ public class Histogram {
 			return 0.5*sumH+0.5*sumS;
 		}
 		
-		public double chiSquareRGB(Histogram hist){
+		public double chiSquareRGB(Histogram histA , Histogram histB ){
 			double sumTop=0,sumDown=0,sum=0;
 			for(int i=0;i<256;i++){
-					sumTop=(Math.pow((this.redBin[i]-hist.redBin[i]),2));
-					sumDown=this.redBin[i]+hist.redBin[i];
+					sumTop=(Math.pow((histA.redBin[i]-histB.redBin[i]),2));
+					sumDown=histA.redBin[i]+histB.redBin[i];
 					if(sumDown != 0)
 						sum+=sumTop/sumDown;
 					sumTop=sumDown=0;
@@ -246,8 +246,8 @@ public class Histogram {
 			double red=sum;
 			sumTop=sumDown=sum=0;
 			for(int i=0;i<256;i++){
-				sumTop=(Math.pow((this.greenBin[i]-hist.greenBin[i]),2));
-				sumDown=this.greenBin[i]+hist.greenBin[i];
+				sumTop=(Math.pow((histA.greenBin[i]-histB.greenBin[i]),2));
+				sumDown=histA.greenBin[i]+histB.greenBin[i];
 				if(sumDown != 0)
 					sum+=sumTop/sumDown;
 				sumTop=sumDown=0;
@@ -256,8 +256,8 @@ public class Histogram {
 			
 			sumTop=sumDown=sum=0;
 			for(int i=0;i<256;i++){
-				sumTop=(Math.pow((this.blueBin[i]-hist.blueBin[i]),2));
-				sumDown=this.blueBin[i]+hist.blueBin[i];
+				sumTop=(Math.pow((histA.blueBin[i]-histB.blueBin[i]),2));
+				sumDown=histA.blueBin[i]+histB.blueBin[i];
 				if(sumDown != 0)
 					sum+=sumTop/sumDown;
 				sumTop=sumDown=0;
@@ -268,11 +268,11 @@ public class Histogram {
 		}
 		
 		//the function is in the book page 4 
-		public double BhattacharyyaDistanceHSV(Histogram hist){
+		public double BhattacharyyaDistanceHSV(Histogram histA , Histogram histB){
 			double sum=0;
-			double temp=(1/(Math.sqrt(this.hTop*hist.hTop*360*360)));
+			double temp=(1/(Math.sqrt(histA.hTop*histB.hTop*360*360)));
 			for(int i=0;i<360;i++){
-				sum+=Math.sqrt((this.HBin[i]*hist.HBin[i]));
+				sum+=Math.sqrt((histA.HBin[i]*histB.HBin[i]));
 			}
 			if(1-(temp*sum)<=0) // in case 1-(temp*sum) is equal to zero or negative 
 				return 0;
@@ -281,16 +281,16 @@ public class Histogram {
 		}
 		
 		//the function is in the book page 4 
-		public double BhattacharyyaDistanceRGB(Histogram hist){
+		public double BhattacharyyaDistanceRGB(Histogram histA , Histogram histB){
 			double sumRedComponent=0,sumGreenComponent=0,sumBlueComponent=0;
 			double sqrtRed,sqrtGreen,sqrtBlue;
-			double red=(1/(Math.sqrt(this.redTop*hist.redTop*256*256)));
-			double green=(1/(Math.sqrt(this.greenTop*hist.greenTop*256*256)));
-			double blue=(1/(Math.sqrt(this.blueTop*hist.blueTop*256*256)));
+			double red=(1/(Math.sqrt(histA.redTop*histB.redTop*256*256)));
+			double green=(1/(Math.sqrt(histA.greenTop*histB.greenTop*256*256)));
+			double blue=(1/(Math.sqrt(histA.blueTop*histB.blueTop*256*256)));
 			for(int i=0;i<256;i++){
-				sumRedComponent+=Math.sqrt((this.redBin[i]*hist.redBin[i]));
-				sumGreenComponent+=Math.sqrt((this.greenBin[i]*hist.greenBin[i]));
-				sumBlueComponent+=Math.sqrt((this.blueBin[i]*hist.blueBin[i]));
+				sumRedComponent+=Math.sqrt((histA.redBin[i]*histB.redBin[i]));
+				sumGreenComponent+=Math.sqrt((histA.greenBin[i]*histB.greenBin[i]));
+				sumBlueComponent+=Math.sqrt((histA.blueBin[i]*histB.blueBin[i]));
 			}
 			if(1-(red*sumRedComponent)<=0) // in case 1-(red*sumRedComponent) is equal to zero or negative 
 				 sqrtRed = 0;
