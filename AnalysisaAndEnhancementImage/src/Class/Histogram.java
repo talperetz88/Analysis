@@ -306,7 +306,6 @@ public class Histogram {
 				 sqrtBlue = 0;
 			else 
 				 sqrtBlue = Math.sqrt(1-(blue*sumBlueComponent));
-			System.out.println("red   "+sqrtRed+" green    "+sqrtGreen+" blue   "+sqrtBlue);
 			return (sqrtRed+sqrtGreen+sqrtBlue)/3;
 		}
 

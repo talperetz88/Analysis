@@ -21,7 +21,7 @@ public class main {
 		//loding an image 
 		BufferedImage img = null;
 		try {
-		    img = ImageIO.read(new File("a.jpg"));
+		    img = ImageIO.read(new File("1a.jpg"));
 		   
 		} catch (IOException e) {
 			System.err.println(e);
@@ -29,7 +29,7 @@ public class main {
 		//loding an image 
 		BufferedImage img1 = null;
 		try {
-		   img1 = ImageIO.read(new File("117.jpg"));
+		   img1 = ImageIO.read(new File("1a.jpg"));
 		} catch (IOException e) {
 			System.err.println(e);
 		}
@@ -188,21 +188,18 @@ public class main {
 		}*/
 	
 		//System.out.println("the edeg is:");
-		/*
+		
 		Histogram hist = new Histogram(img);
 		Histogram hist1 = new Histogram(img1);
 		
-		System.out.println("HSV Intersection "+hist.intersectionHSV(hist1));
-		System.out.println("RGB Intersection "+hist.intersectionRGB(hist1));
-		System.out.println("HSV Correlation "+hist.correlationHSV(hist1));
-		System.out.println("RGB Correlation "+hist.correlationRGB(hist1));
-		System.out.println("HSV chiSquare "+hist.chiSquareHSV(hist1));
-		System.out.println("RGB chiSquare "+hist.chiSquareRGB(hist1));
-*/
-		
-		//System.out.println("HSV BhattacharyyaDistanceHSV "+hist.BhattacharyyaDistanceHSV(hist1));
-
-		//System.out.println("HSV BhattacharyyaDistanceRGB "+hist.BhattacharyyaDistanceRGB(hist1));
+		System.out.println("HSV Intersection "+hist.intersectionHSV(hist,hist1));
+		System.out.println("RGB Intersection "+hist.intersectionRGB(hist,hist1));
+		System.out.println("HSV Correlation "+hist.correlationHSV(hist,hist1));
+		System.out.println("RGB Correlation "+hist.correlationRGB(hist,hist1));
+		System.out.println("HSV chiSquare "+hist.chiSquareHSV(hist,hist1));
+		System.out.println("RGB chiSquare "+hist.chiSquareRGB(hist,hist1));
+		System.out.println("HSV BhattacharyyaDistanceHSV "+hist.BhattacharyyaDistanceHSV(hist,hist1));
+		System.out.println("HSV BhattacharyyaDistanceRGB "+hist.BhattacharyyaDistanceRGB(hist,hist1));
 		
 
 		
