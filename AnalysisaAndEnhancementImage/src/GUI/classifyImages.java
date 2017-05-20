@@ -121,7 +121,7 @@ public class classifyImages extends JFrame{
 		if(panel == null){
 			panel = new JPanel();
 			panel.setVisible(false);
-			panel.setBounds(45, 201, 368, 115);
+			panel.setBounds(45, 201, 480, 272);
 			getContentPane().add(panel);
 			panel.setLayout(null);
 			

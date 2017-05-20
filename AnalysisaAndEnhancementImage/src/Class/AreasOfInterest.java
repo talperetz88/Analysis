@@ -52,9 +52,11 @@ public class AreasOfInterest  {
 		leftEdge2 = new ArrayList<Point>(); 
 	}
 	
-	public static BufferedImage Area1(BufferedImage image, int cornerRadius,int x,int y ) {
+	public static BufferedImage Area1(BufferedImage image, int cornerRadius,TriangleEdges edges) {
         int w = image.getWidth();
         int h = image.getHeight();
+        int x=	edges.leftEdge.x;
+        int y= edges.leftEdge.y;
         BufferedImage output = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 
         Graphics2D g2 = output.createGraphics();
@@ -71,11 +73,13 @@ public class AreasOfInterest  {
         return output;
     }
 	
-	public static BufferedImage Area2(BufferedImage image, int cornerRadius,int x,int y ) {
+	public static BufferedImage Area2(BufferedImage image, int cornerRadius,TriangleEdges edges ) {
         int w = image.getWidth();
         int h = image.getHeight();
         BufferedImage output = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-
+        
+        int x=	edges.rightEdge.x;
+        int y= edges.rightEdge.y;
         Graphics2D g2 = output.createGraphics();
 
         g2.setComposite(AlphaComposite.Src);

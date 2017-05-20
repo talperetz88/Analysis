@@ -25,12 +25,12 @@ public class Focus {
 		return (float) ((0.2126*red)+(0.7152*green)+(0.0722*blue));
 	}
 	
-	public double MeanGrayscale(String imageName){
+	public double MeanGrayscale(String path){
 		
 		double sum=0;
 		BufferedImage img = null;
 		 try {
-			 img = ImageIO.read(new File(imageName));
+			 img = ImageIO.read(new File(path));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -42,12 +42,12 @@ public class Focus {
 			 return sum/(double)(img.getHeight()*img.getWidth());
 	}
 	
-	public double MeanLuminance(String imageName){
+	public double MeanLuminance(String path){
 		
 		double sum=0;
 		BufferedImage img = null;
 		 try {
-			 img = ImageIO.read(new File(imageName));
+			 img = ImageIO.read(new File(path));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -60,16 +60,16 @@ public class Focus {
 	}
 	
 	//function 2.5.1 [7] in case the index is 1 it means grayscale , if the index is 2 it means Luminance
-	public double FocusMeasuresBasedOnImageStatisticsVariance(String imageName , int index){
+	public double FocusMeasuresBasedOnImageStatisticsVariance(String path , int index){
 			
 			double mean,sum=0;
 			if(index==1)
-				mean=MeanGrayscale(imageName);
+				mean=MeanGrayscale(path);
 			else
-				mean=MeanLuminance(imageName);
+				mean=MeanLuminance(path);
 			BufferedImage img = null;
 			 try {
-				 img = ImageIO.read(new File(imageName));
+				 img = ImageIO.read(new File(path));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -93,15 +93,15 @@ public class Focus {
 		}
 	
 	//function 2.5.1 [8] in case the index is 1 it means grayscale , if the index is 2 it means Luminance
-	public double FocusMeasuresBasedOnImageStatisticsNormalizedVariance(String imageName , int index){
+	public double FocusMeasuresBasedOnImageStatisticsNormalizedVariance(String path , int index){
 			double mean,sum=0;
 			if(index==1)
-				mean=MeanGrayscale(imageName);
+				mean=MeanGrayscale(path);
 			else
-				mean=MeanLuminance(imageName);
+				mean=MeanLuminance(path);
 			BufferedImage img = null;
 			 try {
-				 img = ImageIO.read(new File(imageName));
+				 img = ImageIO.read(new File(path));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -125,12 +125,12 @@ public class Focus {
 		}
 	
 	//function 2.5.2 [9]
-	public double FunctionBasedOnDepthOfPeaksAndValleysA(String imageName , float threshold){
+	public double FunctionBasedOnDepthOfPeaksAndValleysA(String path , float threshold){
 		
 		double sum=0;
 		BufferedImage img = null;
 		 try {
-			 img = ImageIO.read(new File(imageName));
+			 img = ImageIO.read(new File(path));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -147,12 +147,12 @@ public class Focus {
 	}
 	
 	//function 2.5.2 [10]
-	public double FunctionBasedOnDepthOfPeaksAndValleysB(String imageName , float threshold){
+	public double FunctionBasedOnDepthOfPeaksAndValleysB(String path , float threshold){
 		
 		int  sum=0;
 		BufferedImage img = null;
 		 try {
-			 img = ImageIO.read(new File(imageName));
+			 img = ImageIO.read(new File(path));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -169,12 +169,12 @@ public class Focus {
 	}
 	
 	//function 2.5.2 [11]
-	public double FunctionBasedOnDepthOfPeaksAndValleysC(String imageName , float threshold){
+	public double FunctionBasedOnDepthOfPeaksAndValleysC(String path , float threshold){
 		
 		int  sum=0;
 		BufferedImage img = null;
 		 try {
-			 img = ImageIO.read(new File(imageName));
+			 img = ImageIO.read(new File(path));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -191,12 +191,12 @@ public class Focus {
 	}	
 	
 	//function 2.5.3 [12]
-	public double FocusMeasuresBasedOnImageDifferentiationA(String imageName){
+	public double FocusMeasuresBasedOnImageDifferentiationA(String path){
 		
 		double sum=0,v=30;//v is the gradient threshold
 		BufferedImage img = null;
 		 try {
-			 img = ImageIO.read(new File(imageName));
+			 img = ImageIO.read(new File(path));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -214,12 +214,12 @@ public class Focus {
 	}
 	
 	//function 2.5.3 [13]
-	public double FocusMeasuresBasedOnImageDifferentiationB(String imageName){
+	public double FocusMeasuresBasedOnImageDifferentiationB(String path){
 		
 		double sum=0,v=0;//v is the gradient threshold
 		BufferedImage img = null;
 		 try {
-			 img = ImageIO.read(new File(imageName));
+			 img = ImageIO.read(new File(path));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
