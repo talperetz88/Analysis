@@ -24,6 +24,7 @@ public class Histogram {
 					redBin[red]++;
 					greenBin[green]++;
 					int[] HS = RGBtoHSV(color);
+					//System.out.println("the s is : "+HS[0]+" the h is : "+HS[1]);
 					SBin[HS[0]]++;
 					HBin[HS[1]]++;
 				}
@@ -54,19 +55,29 @@ public class Histogram {
 			
 	 }
 	
-		// function that returns the H and s value from the RGB components S is the first in the array and H is the second 
+		// function that returns the H and S value from the RGB components S is the first in the array and H is the second 
 		public int[] RGBtoHSV(int color){
+			
 			int blue = color & 0xff;
 			int green = (color & 0xff00) >> 8;
 			int red = (color & 0xff0000) >> 16;
+			
 		    int min = Math.min(Math.min(red, green), blue);
 		    int max = Math.max(Math.max(red, green), blue);
 		    int delta = max-min;
 		    int s,h;
-		    if(max==0)
+		    
+		    if(max==0&&(max==min))
 		    	s=0;
-		    else
-		    	s=delta/max;
+		    else{
+		    	float deltatemp=(float)delta/255;
+		    	float maxtemp=(float)max/255;
+		    
+		    	float temp =(deltatemp/maxtemp);
+		    	//System.out.println("the temp is "+temp);
+		    	temp=temp*255;
+		    	s =Math.round(temp);
+		    	}
 				if(max==min){
 					h=0;
 					//System.out.println("RGB "+red+" "+green+" "+blue+"   "+h);
@@ -101,7 +112,14 @@ public class Histogram {
 			for(int i=0;i<360;i++){
 				sum+=Math.min(histA.HBin[i],histB.HBin[i]);
 			}
-			return sum/((double)(this.sumH));
+			double sumH=sum/((double)(histA.sumH));
+			 sum=0;
+			for(int i=0;i<256;i++){
+				sum+=Math.min(histA.SBin[i],histB.SBin[i]);
+			}
+			double sumS = sum/((double)(histA.sumH));
+			
+			return sumS*0.5+sumH*0.5;
 			
 		}
 		
@@ -127,7 +145,18 @@ public class Histogram {
 				sumDownSec+=Math.pow((histB.HBin[i]-histB.hTop),2);
 			}
 			double temp = Math.sqrt((sumDownFirst*sumDownSec));
-			return sumTop/temp;
+			double h = sumTop/temp;
+			
+			 sumTop=0;sumDownFirst=0;sumDownSec=0;
+			for(int i=0;i<256;i++){
+				sumTop+=((histA.SBin[i]-histA.sTop)*(histB.SBin[i]-histB.sTop));
+				sumDownFirst+=Math.pow((histA.SBin[i]-histA.sTop),2);
+				sumDownSec+=Math.pow((histB.SBin[i]-histB.sTop),2);
+			}
+			 temp = Math.sqrt((sumDownFirst*sumDownSec));
+			 double s = sumTop/temp;
+			 
+			 return s*0.5+h*0.5;
 			
 		}
 		
@@ -186,6 +215,7 @@ public class Histogram {
 			 float [] H2 = new float[360];
 			 float [] S2 = new float[256];  
 			double sumTop=0,sumDown=0,sum=0,sumh=0,sums=0;
+			
 			for(int i=0;i<360;i++){
 				sumh+=histA.HBin[i];
 				if(i<256)
@@ -235,10 +265,43 @@ public class Histogram {
 		}
 		
 		public double chiSquareRGB(Histogram histA , Histogram histB ){
-			double sumTop=0,sumDown=0,sum=0;
+			double sumTop=0,sumDown=0,sum=0,sumrA=0,sumgA=0,sumbA=0,sumrB=0,sumgB=0,sumbB=0;
+			 float[] NredBinA = new float[256];
+			 float[] NblueBinA = new float[256];
+			 float[] NgreenBinA = new float[256];
+			 float[] NredBinB = new float[256];
+			 float[] NblueBinB = new float[256];
+			 float[] NgreenBinB = new float[256];
+			 
+			 //normalize 
 			for(int i=0;i<256;i++){
-					sumTop=(Math.pow((histA.redBin[i]-histB.redBin[i]),2));
-					sumDown=histA.redBin[i]+histB.redBin[i];
+				
+				sumrA+=histA.redBin[i];
+				sumrB+=histB.redBin[i];
+				
+				sumgA+=histA.greenBin[i];
+				sumgB+=histB.greenBin[i];
+				
+				sumbA+=histA.blueBin[i];
+				sumbB+=histB.blueBin[i];
+				
+			}
+			for(int i=0;i<256;i++){
+				
+				NredBinA[i]=(float) (histA.redBin[i]/sumrA);
+				NredBinB[i]=(float) (histB.redBin[i]/sumrB);
+				
+				NgreenBinA[i]=(float) (histA.greenBin[i]/sumgA);
+				NgreenBinB[i]=(float) (histB.greenBin[i]/sumgB);
+				
+				NblueBinA[i]=(float) (histA.blueBin[i]/sumbA);
+				NblueBinB[i]=(float) (histB.blueBin[i]/sumbB);				
+				
+			}
+			
+			for(int i=0;i<256;i++){
+					sumTop=(Math.pow((NredBinA[i]-NredBinB[i]),2));
+					sumDown=NredBinA[i]+NredBinB[i];
 					if(sumDown != 0)
 						sum+=sumTop/sumDown;
 					sumTop=sumDown=0;
@@ -246,8 +309,8 @@ public class Histogram {
 			double red=sum;
 			sumTop=sumDown=sum=0;
 			for(int i=0;i<256;i++){
-				sumTop=(Math.pow((histA.greenBin[i]-histB.greenBin[i]),2));
-				sumDown=histA.greenBin[i]+histB.greenBin[i];
+				sumTop=(Math.pow((NgreenBinA[i]-NgreenBinB[i]),2));
+				sumDown=NgreenBinA[i]+NgreenBinB[i];
 				if(sumDown != 0)
 					sum+=sumTop/sumDown;
 				sumTop=sumDown=0;
@@ -256,8 +319,8 @@ public class Histogram {
 			
 			sumTop=sumDown=sum=0;
 			for(int i=0;i<256;i++){
-				sumTop=(Math.pow((histA.blueBin[i]-histB.blueBin[i]),2));
-				sumDown=histA.blueBin[i]+histB.blueBin[i];
+				sumTop=(Math.pow((NblueBinA[i]-NblueBinB[i]),2));
+				sumDown=NblueBinA[i]+NblueBinB[i];
 				if(sumDown != 0)
 					sum+=sumTop/sumDown;
 				sumTop=sumDown=0;
@@ -270,14 +333,35 @@ public class Histogram {
 		//the function is in the book page 4 
 		public double BhattacharyyaDistanceHSV(Histogram histA , Histogram histB){
 			double sum=0;
+			double s,h;
 			double temp=(1/(Math.sqrt(histA.hTop*histB.hTop*360*360)));
+			
 			for(int i=0;i<360;i++){
 				sum+=Math.sqrt((histA.HBin[i]*histB.HBin[i]));
 			}
+			
 			if(1-(temp*sum)<=0) // in case 1-(temp*sum) is equal to zero or negative 
-				return 0;
+				h= 0;
 			else 
-			return Math.sqrt(1-(temp*sum));
+			h= Math.sqrt(1-(temp*sum));
+			sum=0;
+			
+			 temp=(1/(Math.sqrt(histA.sTop*histB.sTop*256*256)));
+			
+			for(int i=0;i<256;i++){
+				if(Math.sqrt((histA.SBin[i]*histB.SBin[i]))<0)
+					sum+=Math.sqrt((histA.SBin[i]*histB.SBin[i]));
+			}
+			
+			if(1-(temp*sum)<=0) // in case 1-(temp*sum) is equal to zero or negative 
+				s= 0;
+			else 
+			s= Math.sqrt(1-(temp*sum));
+			
+			return s*0.5+h*0.5;
+			
+			 
+			
 		}
 		
 		//the function is in the book page 4 
@@ -306,7 +390,6 @@ public class Histogram {
 				 sqrtBlue = 0;
 			else 
 				 sqrtBlue = Math.sqrt(1-(blue*sumBlueComponent));
-			System.out.println("red   "+sqrtRed+" green    "+sqrtGreen+" blue   "+sqrtBlue);
 			return (sqrtRed+sqrtGreen+sqrtBlue)/3;
 		}
 

@@ -17,7 +17,9 @@ public class main {
 	public static void main(String[] arg) throws IOException{
 		
 		//startGUI open = new startGUI();
+
 		FocusMeasurement f = new FocusMeasurement();
+
 		//loding an image 
 		BufferedImage img = null;
 		try {
@@ -26,14 +28,8 @@ public class main {
 		} catch (IOException e) {
 			System.err.println(e);
 		}
-		//loding an image 
-		BufferedImage img1 = null;
-		try {
-		   img1 = ImageIO.read(new File("117.jpg"));
-		} catch (IOException e) {
-			System.err.println(e);
-		}
 		
+
 		//CUtils.SetImagesDestinationPath("C:\\project\\images\\101\\");
 	//	Check thread = new Check();
 		//thread.start();
@@ -188,21 +184,71 @@ public class main {
 		}*/
 	
 		//System.out.println("the edeg is:");
-		/*
 		Histogram hist = new Histogram(img);
-		Histogram hist1 = new Histogram(img1);
+		// loading an image 
+		BufferedImage img1 = null;
+		/*
+		String s ,n,t ;
+		double[] res = new double[10];
+		String name[] = new String[10];
+		s= ".jpg";
+		for(int i=0;i<9;i++){
+			n = (i+2)+s;
+			try {
+			   img1 = ImageIO.read(new File(n));
+			} catch (IOException e) {
+				System.err.println(e);
+			}
+			Histogram hist1 = new Histogram(img1);
+			res[i] =hist.chiSquareRGB(hist,hist1);
+			name [i] = n;
+			/*
+			hist.intersectionRGB(hist,hist1);
+			hist.correlationHSV(hist,hist1);
+			hist.correlationRGB(hist,hist1);
+			hist.chiSquareHSV(hist,hist1);
+			hist.chiSquareRGB(hist,hist1);
+			hist.BhattacharyyaDistanceHSV(hist,hist1);
+			hist.BhattacharyyaDistanceRGB(hist,hist1);
+			*/
+			
+			/*
+			
+		}
+		double temp ;
 		
-		System.out.println("HSV Intersection "+hist.intersectionHSV(hist1));
-		System.out.println("RGB Intersection "+hist.intersectionRGB(hist1));
-		System.out.println("HSV Correlation "+hist.correlationHSV(hist1));
-		System.out.println("RGB Correlation "+hist.correlationRGB(hist1));
-		System.out.println("HSV chiSquare "+hist.chiSquareHSV(hist1));
-		System.out.println("RGB chiSquare "+hist.chiSquareRGB(hist1));
-*/
+			for(int i =0; i < res.length; i ++)
+				for(int j=0;j<res.length;j++){
+					if(res[i]>res[j]){
+						temp=res[i];
+						res[i]=res[j];
+						res[j]=temp;
+						t=name[i];
+						name[i]=name[j];
+						name[j]=t;
+						
+					}
+				}
+			for(int i =0;i<9;i++){
+				System.out.println(name[i]+ " "+res[i]);
+			}
 		
-		//System.out.println("HSV BhattacharyyaDistanceHSV "+hist.BhattacharyyaDistanceHSV(hist1));
-
-		//System.out.println("HSV BhattacharyyaDistanceRGB "+hist.BhattacharyyaDistanceRGB(hist1));
+		*/
+			try {
+				   img1 = ImageIO.read(new File("3.jpg"));
+				} catch (IOException e) {
+					System.err.println(e);
+				}
+				Histogram hist1 = new Histogram(img1);
+			
+		System.out.println("HSV Intersection "+hist.intersectionHSV(hist,hist1));
+		System.out.println("RGB Intersection "+hist.intersectionRGB(hist,hist1));
+		System.out.println("HSV Correlation "+hist.correlationHSV(hist,hist1));
+		System.out.println("RGB Correlation "+hist.correlationRGB(hist,hist1));
+		System.out.println("HSV chiSquare "+hist.chiSquareHSV(hist,hist1));
+		System.out.println("RGB chiSquare "+hist.chiSquareRGB(hist,hist1));
+		System.out.println("HSV BhattacharyyaDistanceHSV "+hist.BhattacharyyaDistanceHSV(hist,hist1));
+		System.out.println("RGB BhattacharyyaDistanceRGB "+hist.BhattacharyyaDistanceRGB(hist,hist1));
 		
 
 		
