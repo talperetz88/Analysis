@@ -112,7 +112,7 @@ public class BlockMatching {
 	
 	
 	//culc the height of triangle using an area
-	private double culcHeightOfTriangle(TriangleEdges edges) {
+	public double culcHeightOfTriangle(TriangleEdges edges) {
 		double area = 0,height = 0;
 		area = 0.5*((edges.leftEdge.x-edges.rightEdge.x)*(edges.leftEdge.y - edges.rightEdge.y)-(edges.leftEdge.x-edges.bottomEdge.x)*(edges.leftEdge.y-edges.bottomEdge.y));
 		height = (2*area) /(edges.leftEdge.x-edges.rightEdge.x);

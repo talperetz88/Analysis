@@ -308,6 +308,12 @@ public class FocusMeasurement extends JFrame {
 		differentiationPanel.add(spinner_3);
 		
 		btnNewButton = new JButton("Next");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				closeFrame();
+				ImproveFocusGUI next = new ImproveFocusGUI();
+			}
+		});
 		btnNewButton.setBounds(581, 433, 111, 40);
 		getContentPane().add(btnNewButton);
 		btnNewButton.setVisible(true);

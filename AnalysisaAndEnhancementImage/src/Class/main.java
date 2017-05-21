@@ -17,9 +17,10 @@ public class main {
 	public static void main(String[] arg) throws IOException{
 		
 		//startGUI open = new startGUI();
-
-		FocusMeasurement f = new FocusMeasurement();
-
+		//ImproveFocusGUI j = new ImproveFocusGUI();
+		//FocusMeasurement f = new FocusMeasurement();
+		CUtils.SetImagesDestinationPath("C:\\project\\images\\1\\");
+		classifyImages h = new classifyImages(null);
 		//loding an image 
 		BufferedImage img = null;
 		try {
@@ -37,7 +38,7 @@ public class main {
 		
 /*
 		ImproveFocus t = new ImproveFocus();
-		Focus f =new Focus();
+		//Focus f =new Focus();
 		File folder = new File("C:\\project\\images\\101\\goodImages\\");
 		File[] listOfFiles = folder.listFiles();
 		for (int i = 0; i < listOfFiles.length; i++){
@@ -46,16 +47,18 @@ public class main {
 					continue ;
 				String fileName = listOfFiles[i].getName();
 				System.out.println("start bluring");
-		t.blur("C:\\project\\images\\101\\goodImages\\","C:\\project\\images\\101\\goodImages\\blurImage\\",fileName);
+		t.blur("C:\\project\\images\\101\\goodImages\\","C:\\project\\images\\101\\goodImages\\blurImage\\",fileName,1,1);
 		System.out.println("end bluring and start improving");
 
 
 		t.mask("C:\\project\\images\\101\\goodImages\\","C:\\project\\images\\101\\goodImages\\blurImage\\",fileName);
 		
 		t.improveFocus("C:\\project\\images\\101\\goodImages\\", "C:\\project\\images\\101\\goodImages\\maskImages\\", fileName);
-		t.laplacianMask("C:\\project\\images\\101\\goodImages\\sharpImages\\", "C:\\project\\images\\101\\goodImages\\laplacianImages\\", fileName, 1);
+		t.laplacianMask("C:\\project\\images\\101\\goodImages\\", "C:\\project\\images\\101\\goodImages\\laplacianImages\\", fileName, 1);
 		t.improveFocusLaplacian("C:\\project\\images\\101\\goodImages\\", "C:\\project\\images\\101\\goodImages\\laplacianImages\\", fileName);
-		double fr = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\images\\101\\goodImages\\"+fileName);
+			}
+		}
+		/*	double fr = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\images\\101\\goodImages\\"+fileName);
 		double se = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\images\\101\\goodImages\\sharpImages\\"+"sharp_"+fileName);
 		double th = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\images\\101\\goodImages\\sharpLaplacian\\"+"sharp_"+fileName);
 		System.out.println("the orignalImage is = " +fr +"the sharper Image is =" +se+"laplacian image is ="+th);
@@ -234,7 +237,7 @@ public class main {
 			}
 		
 		*/
-			try {
+		/*	try {
 				   img1 = ImageIO.read(new File("3.jpg"));
 				} catch (IOException e) {
 					System.err.println(e);
@@ -249,7 +252,7 @@ public class main {
 		System.out.println("RGB chiSquare "+hist.chiSquareRGB(hist,hist1));
 		System.out.println("HSV BhattacharyyaDistanceHSV "+hist.BhattacharyyaDistanceHSV(hist,hist1));
 		System.out.println("RGB BhattacharyyaDistanceRGB "+hist.BhattacharyyaDistanceRGB(hist,hist1));
-		
+		*/
 
 		
 		//BlockMatching blockMatching = new BlockMatching();

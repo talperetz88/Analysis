@@ -95,9 +95,9 @@ public class ImproveFocus {
 	public void laplacianMask(String pathOriginal,String pathMask,String fileName,int ker){
 		BufferedImage orignalImage = null;
 		float [] kernelType = null;
-		float[] kernel_3X3_90Degre = new float[]{0,1,0,
-				1,-4,1,
-				0,1,0};
+		float[] kernel_3X3_90Degre = new float[]{0,-1,0,
+				-1,4,-1,
+				0,-1,0};
 		float[] kernel_3X3 = new float[]{1,1,1,
 				1,-8,1,
 				1,1,1};
@@ -114,7 +114,7 @@ public class ImproveFocus {
 			kernelType = kernel_5X5;
 		
 		try {
-			orignalImage = ImageIO.read(new File(pathOriginal+"sharp_"+fileName));
+			orignalImage = ImageIO.read(new File(pathOriginal+fileName));//"sharp_"+fileName));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -293,10 +293,11 @@ public class ImproveFocus {
 	}
 
 	
-	public void blur(String pathOriginal,String pathBlur,String fileName){
+	public void blur(String pathOriginal,String pathBlur,String fileName,int ker,int sigma){
 		BufferedImage orignalImage = null;
-		 int radius = 1;
-		    int size = radius * 2 + 1;
+		float [] kernelType = null;
+		// int radius = 1;
+		 //   int size = radius * 2 + 1;
 		   // float [] data = new float[] {0,-1,0,-1,4,-1,0,-1,0};
 		    float [] sigma2_3X3 = new float[] {0.102059f,0.115349f,0.102059f,
 		    		0.115349f,0.130371f,0.115349f,
@@ -314,6 +315,17 @@ public class ImproveFocus {
 		    		0.023792f,0.094907f,0.150342f,0.094907f,0.023792f,
 		    		0.015019f,0.059912f,0.094907f,0.059912f,0.015019f,
 		    		0.003765f,0.015019f,0.023792f,0.015019f,0.003765f};
+		   
+		    if(ker == 1 && sigma == 1){
+				kernelType = sigma1_3X3;
+			}else if(ker == 2 && sigma == 1){
+				kernelType = sigma1_5X5;
+			}else if(ker == 1 && sigma == 2)
+				kernelType = sigma2_3X3;
+			else if(ker == 2 && sigma == 2)
+				kernelType = sigma2_5X5; 
+		    		    
+		    int size = (int) Math.sqrt(kernelType.length);
 		    
 		    try {
 				orignalImage = ImageIO.read(new File(pathOriginal+fileName));
@@ -322,7 +334,7 @@ public class ImproveFocus {
 				e.printStackTrace();
 			}
 		    
-			Kernel kernel = new Kernel(5, 5, sigma2_5X5);
+			Kernel kernel = new Kernel(size, size, kernelType);
 			BufferedImageOp op = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
 			BufferedImage blurred = op.filter(orignalImage, null);
 			CUtils.SaveImage(blurred, pathBlur+"blur_"+fileName);

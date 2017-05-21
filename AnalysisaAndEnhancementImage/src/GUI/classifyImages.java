@@ -21,6 +21,9 @@ import java.awt.Label;
 import Class.CUtils;
 import Class.BlockMatching;
 import Class.Histogram;
+import Class.TriangleEdges;
+import Class.TriangleUtils;
+
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 public class classifyImages extends JFrame{
@@ -29,6 +32,7 @@ public class classifyImages extends JFrame{
 	private JPanel panel = null, panel1 =null;
 	private JLabel lblDistanceFunction,lblClassifyMethods,lblChoose,lblHistogramMethods,lblBlockMethods;
 	public JCheckBox MADCheckBox,MSECheckBox;
+	private JCheckBox chckbxRgb,chckbxHsv,bhattCheckBox,intersectionCheckBox,chiSquareCheckBox,correlationCheckBox;
 	private JButton classifyImageNextBtn = null;
 	private openPage open;
 	private JSpinner PSpinner,qSpinner;
@@ -125,7 +129,22 @@ public class classifyImages extends JFrame{
 			getContentPane().add(panel);
 			panel.setLayout(null);
 			
-			JCheckBox correlationCheckBox = new JCheckBox("Correlation");
+			correlationCheckBox = new JCheckBox("Correlation");
+			correlationCheckBox.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent e) {
+					if(correlationCheckBox.isSelected()){
+						chckbxRgb.setVisible(true);
+						chckbxHsv.setVisible(true);
+					}
+					if(!chiSquareCheckBox.isSelected() && !intersectionCheckBox.isSelected() && !correlationCheckBox.isSelected() && !bhattCheckBox.isSelected()){
+						chckbxRgb.setVisible(false);
+						chckbxHsv.setVisible(false);
+					}
+					if(bhattCheckBox.isSelected() && correlationCheckBox.isSelected() || correlationCheckBox.isSelected() && chiSquareCheckBox.isSelected() || correlationCheckBox.isSelected() && intersectionCheckBox.isSelected() ){
+						JOptionPane.showMessageDialog(null, "Plese choose one option in each time", "Warning",JOptionPane.WARNING_MESSAGE);
+					}
+				}
+			});
 			correlationCheckBox.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					COR = true;
@@ -136,7 +155,22 @@ public class classifyImages extends JFrame{
 			correlationCheckBox.setBounds(8, 22, 113, 25);
 			panel.add(correlationCheckBox);
 			
-			JCheckBox chiSquareCheckBox = new JCheckBox("Chi-Square");
+			chiSquareCheckBox = new JCheckBox("Chi-Square");
+			chiSquareCheckBox.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent arg0) {
+					if(chiSquareCheckBox.isSelected()){
+						chckbxRgb.setVisible(true);
+						chckbxHsv.setVisible(true);
+					}
+					if(!chiSquareCheckBox.isSelected() && !intersectionCheckBox.isSelected() && !correlationCheckBox.isSelected() && !bhattCheckBox.isSelected()){
+						chckbxRgb.setVisible(false);
+						chckbxHsv.setVisible(false);
+					}
+					if(bhattCheckBox.isSelected() && chiSquareCheckBox.isSelected() || chiSquareCheckBox.isSelected() && intersectionCheckBox.isSelected() || chiSquareCheckBox.isSelected() && correlationCheckBox.isSelected()){
+						JOptionPane.showMessageDialog(null, "Plese choose one option in each time", "Warning",JOptionPane.WARNING_MESSAGE);
+					}	
+				}
+			});
 			chiSquareCheckBox.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					CHI = true;
@@ -146,7 +180,22 @@ public class classifyImages extends JFrame{
 			chiSquareCheckBox.setBounds(8, 70, 113, 25);
 			panel.add(chiSquareCheckBox);
 			
-			JCheckBox intersectionCheckBox = new JCheckBox("Intersection");
+			intersectionCheckBox = new JCheckBox("Intersection");
+			intersectionCheckBox.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent e) {
+					if(intersectionCheckBox.isSelected()){
+						chckbxRgb.setVisible(true);
+						chckbxHsv.setVisible(true);
+					}
+					if(!chiSquareCheckBox.isSelected() && !intersectionCheckBox.isSelected() && !correlationCheckBox.isSelected() && !bhattCheckBox.isSelected()){
+						chckbxRgb.setVisible(false);
+						chckbxHsv.setVisible(false);
+					}
+					if(bhattCheckBox.isSelected() && intersectionCheckBox.isSelected() || intersectionCheckBox.isSelected() && chiSquareCheckBox.isSelected() || intersectionCheckBox.isSelected() && correlationCheckBox.isSelected()){
+						JOptionPane.showMessageDialog(null, "Plese choose one option in each time", "Warning",JOptionPane.WARNING_MESSAGE);
+					}	
+				}
+			});
 			intersectionCheckBox.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					INTER = true;
@@ -155,7 +204,22 @@ public class classifyImages extends JFrame{
 			intersectionCheckBox.setBounds(155, 22, 113, 25);
 			panel.add(intersectionCheckBox);
 			
-			JCheckBox bhattCheckBox = new JCheckBox("Bhattacharyya distance");
+			bhattCheckBox = new JCheckBox("Bhattacharyya distance");
+			bhattCheckBox.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent e) {
+					if(bhattCheckBox.isSelected()){
+						chckbxRgb.setVisible(true);
+						chckbxHsv.setVisible(true);
+					}
+					if(!chiSquareCheckBox.isSelected() && !intersectionCheckBox.isSelected() && !correlationCheckBox.isSelected() && !bhattCheckBox.isSelected()){
+						chckbxRgb.setVisible(false);
+						chckbxHsv.setVisible(false);
+					}
+					if(bhattCheckBox.isSelected() && chiSquareCheckBox.isSelected() || bhattCheckBox.isSelected() && intersectionCheckBox.isSelected() || bhattCheckBox.isSelected() && correlationCheckBox.isSelected()){
+						JOptionPane.showMessageDialog(null, "Plese choose one option in each time", "Warning",JOptionPane.WARNING_MESSAGE);
+					}
+				}
+			});
 			bhattCheckBox.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					BHATT = true;
@@ -163,6 +227,28 @@ public class classifyImages extends JFrame{
 			});
 			bhattCheckBox.setBounds(155, 70, 168, 25);
 			panel.add(bhattCheckBox);
+			
+			chckbxRgb = new JCheckBox("RGB");
+			chckbxRgb.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent e) {
+					if(chckbxRgb.isSelected() && chckbxHsv.isSelected())
+						JOptionPane.showMessageDialog(null, "Plese choose one option in each time", "Warning",JOptionPane.WARNING_MESSAGE);
+				}
+			});
+			chckbxRgb.setBounds(8, 125, 113, 25);
+			chckbxRgb.setVisible(false);
+			panel.add(chckbxRgb);
+			
+			chckbxHsv = new JCheckBox("HSV");
+			chckbxHsv.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent arg0) {
+					if(chckbxRgb.isSelected() && chckbxHsv.isSelected())
+						JOptionPane.showMessageDialog(null, "Plese choose one option in each time", "Warning",JOptionPane.WARNING_MESSAGE);
+				}
+			});
+			chckbxHsv.setBounds(155, 125, 113, 25);
+			chckbxHsv.setVisible(false);
+			panel.add(chckbxHsv);
 		
 
 		}
@@ -239,6 +325,7 @@ public class classifyImages extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				closeFrame();
 				checkBox();
+				FocusMeasurement next = new FocusMeasurement();
 				try {
 					ImageList next1 = new ImageList();
 				} catch (IOException e1) {
@@ -247,7 +334,11 @@ public class classifyImages extends JFrame{
 				}//ImageList next1 = new ImageList(open);// new displaySimilarityGroups(open);
 			}
 		});
+		
 		classifyImageNextBtn.setBounds(581, 433, 111, 40);
+		//classifyImageNextBtn.setIcon(new ImageIcon("next.png"));
+		//classifyImageNextBtn.setBorder(BorderFactory.createEmptyBorder());
+		//classifyImageNextBtn.setContentAreaFilled(false);
 		}
 		return classifyImageNextBtn;
 	}
@@ -260,8 +351,10 @@ public class classifyImages extends JFrame{
 		String fileName = null,fileName1 = null;
 		File folder = new File(CUtils.GetImagesDestPath() +"goodImages\\");
 		BufferedImage image = null;
-		Histogram his = new Histogram(image);
+		//Histogram his = new Histogram(image);
 		File[] listOfFiles = folder.listFiles();
+		
+		if(comboBox.getSelectedItem().toString() == "Block matching"){
 		for (int i = 0; i < listOfFiles.length -1; i++){
 			if (listOfFiles[i].isFile()){
 				if(listOfFiles[i]==null)
@@ -339,19 +432,262 @@ public class classifyImages extends JFrame{
 						}
 					}
 				}
-				if(COR){
+			}
+		}
+		}
+		if(comboBox.getSelectedItem().toString() == "RGB histogram"){
+			numOfGroup = 0;
+			flagName = 0;
+			byte [][]matrixg  = null;
+			TriangleEdges edges = null;
+			int heightTreshold = 5,numOfGroupA = 1, numOfGroupB = 1, numOfGroupC = 1 , numOfGroupD = 1 ;
+			double res = 0 ,res1 = 0,treshold = 0.2;
+			Histogram hist = null,hist1 = null;
+			for (int i = 0; i < listOfFiles.length -1; i++){
+				if (listOfFiles[i].isFile() && listOfFiles[i+1].isFile()){
+					if(listOfFiles[i]==null)
+						continue ;
+					if(flagName == 0){
+						fileName = listOfFiles[i].getName();
+						flagName = 1;
+						matrixg =CUtils.BlackWhiteImageToBinaryArray(CUtils.GetImagesDestPath() +"matlabRes\\" +"MatlabRes"+ fileName);
+						edges = TriangleUtils.FindTriangleEdges(matrixg);
+						try {
+							hist = new Histogram(ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName)));
+							
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					fileName1 = listOfFiles[i+1].getName();	
+					try {
+						hist1 = new Histogram(ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1)));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}  
+				    byte [][]matrixg2 = CUtils.BlackWhiteImageToBinaryArray(CUtils.GetImagesDestPath()+ "matlabRes\\" +"MatlabRes"+ fileName1);  
+				    TriangleEdges edges1 = TriangleUtils.FindTriangleEdges(matrixg2);
+					double height = block.culcHeightOfTriangle(edges);
+					double height1 = block.culcHeightOfTriangle(edges1);
 					
-				}
-				if(INTER){
+					if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\"))
+						break;
 					
-				}
-				if(BHATT){
-					
-				}
-				if(CHI){
+						if(COR){
+							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\"))
+								if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\RGB\\"))
+									if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\HSV\\"))
+										break;
+							if(flag == 0){
+								try {
+									image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								BufferedImage out = image;
+								if(chckbxRgb.isSelected()){
+									if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\RGB\\" +numOfGroupA+"\\" ))
+										CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Correlation\\RGB\\"+numOfGroupA+"\\"+fileName);
+									flag = 1;
+								}
+								if(chckbxHsv.isSelected()){
+									if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\HSV\\" +numOfGroupA+"\\" ))
+										CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Correlation\\HSV\\"+numOfGroupA+"\\"+fileName);
+									flag = 1;
+								}
+								
+							}
+							if(Math.abs(height - height1) < heightTreshold){
+								if(chckbxRgb.isSelected()){
+									res = hist.correlationRGB(hist, hist1);
+								}
+								if(chckbxHsv.isSelected()){
+									res1 = hist.correlationHSV(hist, hist1);
+								}
+							}
+							if((1-res) < treshold || (1-res1) < treshold){
+								res = res1 = 0;
+								try{
+									image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1));
+									BufferedImage out = image;
+									if(chckbxRgb.isSelected())
+									CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Correlation\\RGB\\"+numOfGroupA+"\\"+fileName1);
+									if(chckbxHsv.isSelected())
+										CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Correlation\\HSV\\"+numOfGroupA+"\\"+fileName1);
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}else{
+								flagName = 0;
+								flag = 0;
+								numOfGroupA++;
+							}
+						}
+						if(INTER){
+							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\"))
+								if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\RGB\\"))
+									if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\HSV\\"))
+											break;
+							if(flag == 0){
+								try {
+									image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								BufferedImage out = image;
+									if(chckbxRgb.isSelected()){
+										if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\RGB\\" +numOfGroupB+"\\" ))
+											CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Intersection\\RGB\\"+numOfGroupB+"\\"+fileName);
+										flag = 1;
+									}
+									if(chckbxHsv.isSelected()){
+										if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\HSV\\" +numOfGroupB+"\\" ))
+											CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Intersection\\HSV\\"+numOfGroupB+"\\"+fileName);
+										flag = 1;
+									}
+							}
+							if(Math.abs(height - height1) < heightTreshold){
+								if(chckbxRgb.isSelected()){
+									res = hist.intersectionRGB(hist, hist1);
+								}
+								if(chckbxHsv.isSelected()){
+									res1 = hist.intersectionHSV(hist, hist1);
+								}
+							}
+							if((1 - res) < treshold || (1-res1) < treshold){
+								res = res1 = 0;
+								try{
+									image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1));
+									BufferedImage out = image;
+									if(chckbxRgb.isSelected())
+										CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Intersection\\RGB\\"+numOfGroupB+"\\"+fileName1);
+									if(chckbxHsv.isSelected())
+										CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Intersection\\HSV\\"+numOfGroupB+"\\"+fileName1);
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}else{
+								flagName = 0;
+								flag = 0;
+								numOfGroupB++;
+							}
+						}
+						if(BHATT){
+							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\"))
+								if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\HSV\\"))
+									if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\RGB\\"))
+										break;
+							if(flag == 0){
+								try {
+									image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								BufferedImage out = image;
+								if(chckbxRgb.isSelected()){
+									if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\RGB\\" +numOfGroupC+"\\" ))
+										CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\RGB\\"+numOfGroupC+"\\"+fileName);
+									flag = 1;
+								}
+								if(chckbxHsv.isSelected()){
+									if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\HSV\\" +numOfGroupC+"\\" ))
+										CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\HSV\\"+numOfGroupC+"\\"+fileName);
+									flag = 1;
+								}
+							}
+							if(Math.abs(height - height1) < heightTreshold){
+								if(chckbxRgb.isSelected()){
+									res = hist.BhattacharyyaDistanceRGB(hist, hist1);
+								}
+								if(chckbxHsv.isSelected()){
+									res1 = hist.BhattacharyyaDistanceHSV(hist, hist1);
+								}
+							}
+							if((1-res) < treshold || (1-res1) < treshold){
+								res = res1 = 0;
+								try{
+									image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1));
+									BufferedImage out = image;
+									if(chckbxRgb.isSelected()){
+										CUtils.SaveImage(out, CUtils.GetImagesDestPath() +"Histogram\\BhattacharyyaDistance\\RGB" +numOfGroupC+"\\"+fileName1);
+										
+									}
+									if(chckbxHsv.isSelected()){
+										CUtils.SaveImage(out, CUtils.GetImagesDestPath() +"Histogram\\BhattacharyyaDistance\\HSV\\" +numOfGroupC+"\\"+fileName1);
+									}
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}else{
+								flagName = 0;
+								flag = 0;
+								numOfGroupC++;
+							}
+						}
+						if(CHI){
+							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\"))
+								if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\HSV\\"))
+									if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\RGB\\"))
+								break;
+							if(flag == 0){
+								try {
+									image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								BufferedImage out = image;
+								if(chckbxRgb.isSelected()){
+									if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\HSV\\" +numOfGroupD+"\\" ))
+										CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\RGB\\"+numOfGroupD+"\\"+fileName);
+								flag = 1;
+								}
+								if(chckbxHsv.isSelected()){
+									if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\HSV\\" +numOfGroupD+"\\" ))
+										CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\HSV\\"+numOfGroupD+"\\"+fileName);
+									flag = 1;
+								}
+								
+							}
+							if(Math.abs(height - height1) < heightTreshold){
+								if(chckbxRgb.isSelected()){
+									res = hist.chiSquareRGB(hist, hist1);
+								}
+								if(chckbxHsv.isSelected()){
+									res1 = hist.chiSquareHSV(hist, hist1);
+								}
+							}
+							if(res < treshold || res1 < treshold){
+								res = res1 = 0;
+								try{
+									image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1));
+									BufferedImage out = image;
+									if(chckbxRgb.isSelected())
+									CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\RGB\\"+numOfGroupD+"\\"+fileName1);
+									if(chckbxHsv.isSelected())
+									CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\HSV\\"+numOfGroupD+"\\"+fileName1);
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}else{
+								flagName = 0;
+								flag = 0;
+								numOfGroupD++;
+							}
+						}
 					
 				}
 			}
+		
 		}
 		System.out.println("end loop");
 	}	
