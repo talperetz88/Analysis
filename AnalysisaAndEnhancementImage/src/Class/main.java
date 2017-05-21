@@ -185,7 +185,7 @@ public class main {
 		Histogram hist = new Histogram(img);
 		// loading an image 
 		BufferedImage img1 = null;
-		/*
+		
 		String s ,n,t ;
 		double[] res = new double[10];
 		String name[] = new String[10];
@@ -198,7 +198,7 @@ public class main {
 				System.err.println(e);
 			}
 			Histogram hist1 = new Histogram(img1);
-			res[i] =hist.chiSquareRGB(hist,hist1);
+			res[i] =hist.BhattacharyyaDistanceHSV(hist,hist1);
 			name [i] = n;
 			/*
 			hist.intersectionRGB(hist,hist1);
@@ -210,7 +210,7 @@ public class main {
 			hist.BhattacharyyaDistanceRGB(hist,hist1);
 			*/
 			
-			/*
+			
 			
 		}
 		double temp ;
@@ -231,7 +231,8 @@ public class main {
 				System.out.println(name[i]+ " "+res[i]);
 			}
 		
-		*/
+		
+		/*
 			try {
 				   img1 = ImageIO.read(new File("3.jpg"));
 				} catch (IOException e) {
@@ -248,7 +249,7 @@ public class main {
 		System.out.println("HSV BhattacharyyaDistanceHSV "+hist.BhattacharyyaDistanceHSV(hist,hist1));
 		System.out.println("RGB BhattacharyyaDistanceRGB "+hist.BhattacharyyaDistanceRGB(hist,hist1));
 		
-
+*/
 		
 		//BlockMatching blockMatching = new BlockMatching();
 		//Point point = new Point(89,30);
