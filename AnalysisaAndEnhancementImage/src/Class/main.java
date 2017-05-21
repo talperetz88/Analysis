@@ -17,10 +17,18 @@ public class main {
 	public static void main(String[] arg) throws IOException{
 		
 		//startGUI open = new startGUI();
+
 		//ImproveFocusGUI j = new ImproveFocusGUI();
 		//FocusMeasurement f = new FocusMeasurement();
 		CUtils.SetImagesDestinationPath("C:\\project\\images\\1\\");
 		classifyImages h = new classifyImages(null);
+
+		DisplayImage im1 = new DisplayImage();
+//		displaySimilarityGroups im = new displaySimilarityGroups();
+/*
+		FocusMeasurement f = new FocusMeasurement();
+
+
 		//loding an image 
 		BufferedImage img = null;
 		try {
@@ -185,12 +193,12 @@ public class main {
 				
 			} 
 		}*/
-	
+	/*
 		//System.out.println("the edeg is:");
 		Histogram hist = new Histogram(img);
 		// loading an image 
 		BufferedImage img1 = null;
-		/*
+		
 		String s ,n,t ;
 		double[] res = new double[10];
 		String name[] = new String[10];
@@ -203,7 +211,7 @@ public class main {
 				System.err.println(e);
 			}
 			Histogram hist1 = new Histogram(img1);
-			res[i] =hist.chiSquareRGB(hist,hist1);
+			res[i] =hist.BhattacharyyaDistanceHSV(hist,hist1);
 			name [i] = n;
 			/*
 			hist.intersectionRGB(hist,hist1);
@@ -237,7 +245,10 @@ public class main {
 			}
 		
 		*/
-		/*	try {
+
+		/*
+			try {
+
 				   img1 = ImageIO.read(new File("3.jpg"));
 				} catch (IOException e) {
 					System.err.println(e);
@@ -252,7 +263,9 @@ public class main {
 		System.out.println("RGB chiSquare "+hist.chiSquareRGB(hist,hist1));
 		System.out.println("HSV BhattacharyyaDistanceHSV "+hist.BhattacharyyaDistanceHSV(hist,hist1));
 		System.out.println("RGB BhattacharyyaDistanceRGB "+hist.BhattacharyyaDistanceRGB(hist,hist1));
+
 		*/
+
 
 		
 		//BlockMatching blockMatching = new BlockMatching();

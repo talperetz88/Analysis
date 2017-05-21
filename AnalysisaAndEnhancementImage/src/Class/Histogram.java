@@ -24,7 +24,7 @@ public class Histogram {
 					redBin[red]++;
 					greenBin[green]++;
 					int[] HS = RGBtoHSV(color);
-					//System.out.println("the s is : "+HS[0]+" the h is : "+HS[1]);
+					//tukhSystem.out.println("the s is : "+HS[0]+" the h is : "+HS[1]);
 					SBin[HS[0]]++;
 					HBin[HS[1]]++;
 				}
