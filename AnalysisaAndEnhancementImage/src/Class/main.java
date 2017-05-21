@@ -17,7 +17,9 @@ public class main {
 	public static void main(String[] arg) throws IOException{
 		
 		//startGUI open = new startGUI();
-		
+
+		FocusMeasurement f = new FocusMeasurement();
+
 		//loding an image 
 		BufferedImage img = null;
 		try {

@@ -144,7 +144,7 @@ public class openPage extends JFrame{
 	 					while(start.isAlive());
 	 					Check thread = new Check();					
 	 					thread.start();
-	 					while(thread.isAlive());
+	 					//while(thread.isAlive());
 	 					classifyImages next = new classifyImages(open);
 	 					
 	 					
