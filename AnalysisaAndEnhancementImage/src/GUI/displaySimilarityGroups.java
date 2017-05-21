@@ -39,12 +39,12 @@ public class displaySimilarityGroups extends JFrame {
     private String imagedir;
     //private MissingIcon placeholderIcon = new MissingIcon();
 	//private openPage open;
-	public displaySimilarityGroups(openPage open){
+	public displaySimilarityGroups(){
 		
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBounds(100,100,722,533);
         setTitle("Icon Demo: Please Select an Image");
-        imagedir = open.getSaveDirict().getText();
+        imagedir = "C:\\project\\images\\1\\goodImages\\";//open.getSaveDirict().getText();
         File dir = new File(imagedir);
         getImageFromFolder(images,imageName,dir);
         // A label for displaying the pictures
@@ -71,15 +71,15 @@ public class displaySimilarityGroups extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(100,100,722,533);		
 		getContentPane().setLayout(null);
-		String dirUrl = open.getSaveDirict().getText();//open.getSaveUrl().toString();
-		File dir = new File(dirUrl);
-		getImageFromFolder(images,dir);
+		String dirUrl = "C:\\project\\images\\1\\goodImages\\";//open.getSaveDirict().getText();//open.getSaveUrl().toString();
+		File dir1 = new File(dirUrl);
+		getImageFromFolder(images,imageName, dir1);
 
 		ImageIcon image = new ImageIcon();
 		JLabel lblNewLabel = new JLabel("New label");
 		lblNewLabel.setBounds(62, 58, 145, 48);
-		getContentPane().add(lblNewLabel);*/
-		
+		getContentPane().add(lblNewLabel);
+		*/
 	}
 
     static final FilenameFilter IMAGE_FILTER = new FilenameFilter() {

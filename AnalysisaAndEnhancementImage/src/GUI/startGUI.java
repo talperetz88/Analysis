@@ -5,6 +5,7 @@ public class startGUI {
 	
 		public startGUI(){
 			open = new openPage();
+			
 		}
 	public openPage getOpen(){
 		return open;

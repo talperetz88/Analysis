@@ -17,7 +17,9 @@ public class main {
 	public static void main(String[] arg) throws IOException{
 		
 		//startGUI open = new startGUI();
-
+		DisplayImage im1 = new DisplayImage();
+//		displaySimilarityGroups im = new displaySimilarityGroups();
+/*
 		FocusMeasurement f = new FocusMeasurement();
 
 		//loding an image 
@@ -182,7 +184,7 @@ public class main {
 				
 			} 
 		}*/
-	
+	/*
 		//System.out.println("the edeg is:");
 		Histogram hist = new Histogram(img);
 		// loading an image 
@@ -212,7 +214,7 @@ public class main {
 			hist.BhattacharyyaDistanceRGB(hist,hist1);
 			*/
 			
-			
+			/*
 			
 		}
 		double temp ;
@@ -233,7 +235,7 @@ public class main {
 				System.out.println(name[i]+ " "+res[i]);
 			}
 		
-		
+		*/
 		/*
 			try {
 				   img1 = ImageIO.read(new File("3.jpg"));
