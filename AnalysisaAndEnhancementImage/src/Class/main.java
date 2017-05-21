@@ -16,14 +16,14 @@ public class main {
 
 	public static void main(String[] arg) throws IOException{
 		
-		//startGUI open = new startGUI();
+		startGUI open = new startGUI();
 
 		//ImproveFocusGUI j = new ImproveFocusGUI();
 		//FocusMeasurement f = new FocusMeasurement();
-		CUtils.SetImagesDestinationPath("C:\\project\\images\\1\\");
-		classifyImages h = new classifyImages(null);
+		//CUtils.SetImagesDestinationPath("C:\\project\\images\\1\\");
+		//classifyImages h = new classifyImages(null);
 
-		DisplayImage im1 = new DisplayImage();
+		//DisplayImage im1 = new DisplayImage();
 //		displaySimilarityGroups im = new displaySimilarityGroups();
 /*
 		FocusMeasurement f = new FocusMeasurement();

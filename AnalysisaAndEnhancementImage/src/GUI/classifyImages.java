@@ -84,6 +84,15 @@ public class classifyImages extends JFrame{
 		lblChoose.setBounds(45, 83, 227, 21);
 		getContentPane().add(lblChoose);
 		
+		JButton btnExecute = new JButton("Execute");
+		btnExecute.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				checkBox();
+			}
+		});
+		btnExecute.setBounds(391, 108, 134, 40);
+		getContentPane().add(btnExecute);
+		
 
 		
 
@@ -324,7 +333,7 @@ public class classifyImages extends JFrame{
 		classifyImageNextBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				closeFrame();
-				checkBox();
+				//checkBox();
 				FocusMeasurement next = new FocusMeasurement();
 				try {
 					ImageList next1 = new ImageList();
