@@ -172,7 +172,8 @@ public class ImproveFocusGUI extends JFrame{
 				}
 				
 				if(methodCombo.getSelectedItem().toString() == "Spitial filter"){
-					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\laplacianMask\\"))
+					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\"))
+						if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\laplacianMask\\"))
 							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\sharpLaplacian\\"))
 					improve.laplacianMask(CUtils.GetImagesDestPath()+"ImproveFocus\\sharpImages\\", CUtils.GetImagesDestPath()+"ImproveFocus\\laplacianMask\\", fileName, ker);
 					improve.improveFocusLaplacian(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath()+"ImproveFocus\\laplacianMask\\", fileName);
