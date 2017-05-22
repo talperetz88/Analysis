@@ -127,6 +127,9 @@ public class openPage extends JFrame{
 	 			nextButten = new JButton("Next");
 	 			nextButten.addActionListener(new ActionListener() {
 	 				public void actionPerformed(ActionEvent arg0) {
+	 					if(textField.getText().isEmpty()){
+	 						JOptionPane.showMessageDialog(null, "Plese choose workspace folder", "Warning",JOptionPane.WARNING_MESSAGE);
+	 					}else{
 	 					double frameRatio = Double.parseDouble(spinner.getValue().toString());
 	 					ProcessBuilder pb = new ProcessBuilder(CUtils.GetVlcPath(), dirictTextFilde.getText(), "--video-filter=scene", "--scene-ratio="+frameRatio, "--scene-prefix=img-", "--scene-path="+CUtils.GetImagesDestPath(), "vlc://quit");
 	 					try {
@@ -146,11 +149,11 @@ public class openPage extends JFrame{
 	 					thread.start();
 	 					//while(thread.isAlive());
 	 					classifyImages next = new classifyImages(open);
-	 					
+	 					}
 	 					
 	 				}
 	 			});
-				nextButten.setBounds(399, 368, 116, 33);
+				nextButten.setBounds(581, 433, 111, 40);
 	 		}
  			return nextButten;
  		}
