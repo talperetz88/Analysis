@@ -42,7 +42,7 @@ import java.awt.Component;
 
 //work 
 
-public class IconDemoApp extends JFrame {
+public class DisplayImages extends JFrame {
 
 private JLabel photographLabel = new JLabel();
 private JPanel panel = new JPanel ();
@@ -64,14 +64,14 @@ private String[] imageFileNames ={"2.jpg", "3.jpg" ,"6.jpg" , "7.jpg" , "8.jpg"}
 public static void main(String args[]) {
 SwingUtilities.invokeLater(new Runnable() {
 public void run() {
-IconDemoApp app = new IconDemoApp();
+DisplayImages app = new DisplayImages();
 app.setVisible(true);
 }
 });
 }
 
 
-public IconDemoApp() {
+public DisplayImages() {
 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 setBounds(100,100,722,533);
 setTitle("Display Images : Please Select an Image");
@@ -83,8 +83,7 @@ photographLabel.setHorizontalTextPosition(JLabel.CENTER);
 photographLabel.setHorizontalAlignment(JLabel.CENTER);
 photographLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-scroll.setViewportView(photographLabel);
-photographLabel.add(scroll);
+
 //panel.add(photographLabel);
 
 //panel.add(scroll);
