@@ -16,8 +16,8 @@ public class main {
 
 	public static void main(String[] arg) throws IOException{
 		
-		startGUI open = new startGUI();
-
+		//startGUI open = new startGUI();
+		BufferedImage img = null;
 		//ImproveFocusGUI j = new ImproveFocusGUI();
 		//FocusMeasurement f = new FocusMeasurement();
 		//CUtils.SetImagesDestinationPath("C:\\project\\images\\1\\");
@@ -30,7 +30,7 @@ public class main {
 
 
 		//loding an image 
-		BufferedImage img = null;
+		
 		try {
 		    img = ImageIO.read(new File("a.jpg"));
 		   
@@ -91,14 +91,14 @@ public class main {
 				String fileName = listOfFiles[i].getName();
 		byte [][]matrixg =CUtils.BlackWhiteImageToBinaryArray("C:\\project\\images\\1\\matlabRes\\" +"MatlabRes" +fileName);
         TriangleEdges edges = TriangleUtils.FindTriangleEdges(matrixg);
-		AreasOfInterest tr = new AreasOfInterest(10);
+		AreasOfInterest tr = new AreasOfInterest();
 		img = ImageIO.read(new File("C:\\project\\images\\1\\goodImages\\"+fileName));
 		//BufferedImage rounded= tr.Area7(img, 85,edges);
 		
-		BufferedImage rounded= tr.Area1(img,65,edges.leftEdge.x,edges.leftEdge.y);  
-        ImageIO.write(rounded, "png", new File("C:\\project\\images\\1\\areas\\"+"area4"+fileName));
+		BufferedImage rounded= tr.Area1(img,150,edges);  
+        ImageIO.write(rounded, "png", new File("C:\\project\\images\\1\\areas\\"+"area1"+fileName));
         
-		BufferedImage rounded1= tr.Area2(img,65,edges.rightEdge.x,edges.rightEdge.y);  
+		BufferedImage rounded1= tr.Area2(img,150,edges);  
         ImageIO.write(rounded1, "png", new File("C:\\project\\images\\1\\areas\\"+"area2"+fileName));
         
 		BufferedImage rounded2= tr.Area3(img,edges,40);  

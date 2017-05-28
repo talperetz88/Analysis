@@ -45,8 +45,8 @@ public class AreasOfInterest  {
 	 the third vertex is the middle  vertex 
 	 */
 	
-	public AreasOfInterest(int pixelsFactor) { 
-		AreasOfInterest.pixelsFactor=pixelsFactor;
+	public AreasOfInterest() { 
+		AreasOfInterest.pixelsFactor=10;
 		upperEdge = new ArrayList<Point>(); 
 		rightEdge2 = new ArrayList<Point>(); 
 		leftEdge2 = new ArrayList<Point>(); 
@@ -64,7 +64,7 @@ public class AreasOfInterest  {
         g2.setComposite(AlphaComposite.Src);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(Color.WHITE);
-        g2.fill(new Ellipse2D.Double((x-40),(y-40), cornerRadius,cornerRadius));
+        g2.fill(new Ellipse2D.Double((x-80),(y-80), cornerRadius,cornerRadius));
         g2.setComposite(AlphaComposite.SrcAtop);
         g2.drawImage(image, 0, 0, null);
 
@@ -85,7 +85,7 @@ public class AreasOfInterest  {
         g2.setComposite(AlphaComposite.Src);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(Color.WHITE);
-        g2.fill(new Ellipse2D.Double((x-40),(y-40), cornerRadius,cornerRadius));
+        g2.fill(new Ellipse2D.Double((x-80),(y-80), cornerRadius,cornerRadius));
         g2.setComposite(AlphaComposite.SrcAtop);
         g2.drawImage(image, 0, 0, null);
 
@@ -113,15 +113,15 @@ public class AreasOfInterest  {
         int [] x = new int [4];
         int [] y = new int [4];
         
-        x[0]=edges.leftEdge.x-AreasOfInterest.pixelsFactor;
-        x[1]=edges.rightEdge.x+AreasOfInterest.pixelsFactor;
-        x[2]=edges.leftEdge.x-AreasOfInterest.pixelsFactor;
-        x[3]=edges.rightEdge.x+AreasOfInterest.pixelsFactor;
+        x[0]=edges.leftEdge.x-3*AreasOfInterest.pixelsFactor;
+        x[1]=edges.rightEdge.x+3*AreasOfInterest.pixelsFactor;
+        x[3]=edges.leftEdge.x-3*AreasOfInterest.pixelsFactor;
+        x[2]=edges.rightEdge.x+3*AreasOfInterest.pixelsFactor;
         
-        y[0]=edges.leftEdge.y-height;
-        y[1]=edges.leftEdge.y-height;
-        y[2]=edges.leftEdge.y+AreasOfInterest.pixelsFactor;
-        y[3]=edges.leftEdge.y+AreasOfInterest.pixelsFactor;
+        y[0]=edges.leftEdge.y+height;
+        y[1]=edges.leftEdge.y+height;
+        y[3]=edges.leftEdge.y-height;
+        y[2]=edges.leftEdge.y-height;
       
         int w = image.getWidth();
         int h = image.getHeight();
@@ -132,8 +132,9 @@ public class AreasOfInterest  {
 		g2.setComposite(AlphaComposite.Src);
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g2.setColor(Color.WHITE);
-		System.out.println((edges.leftEdge.x-AreasOfInterest.pixelsFactor));
-		g2.fill(new Rectangle((edges.leftEdge.x-AreasOfInterest.pixelsFactor),(edges.leftEdge.y-3*AreasOfInterest.pixelsFactor),(edges.rightEdge.x-edges.leftEdge.x+AreasOfInterest.pixelsFactor*3) ,height));
+		//System.out.println((edges.leftEdge.x-AreasOfInterest.pixelsFactor));
+		g2.fill(new Polygon(x,y, 4));
+		//g2.fill(new Rectangle((edges.leftEdge.x-AreasOfInterest.pixelsFactor),(edges.leftEdge.y-3*AreasOfInterest.pixelsFactor),(edges.rightEdge.x-edges.leftEdge.x+AreasOfInterest.pixelsFactor*3) ,height));
 		g2.setComposite(AlphaComposite.SrcAtop);
 		g2.drawImage(image, 0, 0, null);
 
@@ -149,7 +150,7 @@ public class AreasOfInterest  {
 	
 	public static BufferedImage Area4(BufferedImage image,TriangleEdges edges){  
 		
-		int width=(edges.rightEdge.x-edges.leftEdge.x);;
+		int width=(edges.rightEdge.x-edges.leftEdge.x);
 		/*
 		Point p1 = new Point(edges.rightEdge.x-AreasOfInterest.pixelsFactor,edges.rightEdge.y-AreasOfInterest.pixelsFactor);
 		rightEdge2.add(p1);
@@ -173,8 +174,8 @@ public class AreasOfInterest  {
         
         y[0]=edges.rightEdge.y-AreasOfInterest.pixelsFactor;
         y[1]=edges.rightEdge.y;
-        y[2]=edges.bottomEdge.y+3*AreasOfInterest.pixelsFactor;
-        y[3]=edges.bottomEdge.y+3*AreasOfInterest.pixelsFactor;
+        y[2]=edges.bottomEdge.y+5*AreasOfInterest.pixelsFactor;
+        y[3]=edges.bottomEdge.y+5*AreasOfInterest.pixelsFactor;
 
         	
         Graphics2D g2 = output.createGraphics();
@@ -217,17 +218,17 @@ public class AreasOfInterest  {
         BufferedImage output = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         int [] x = new int [4];
         int [] y = new int [4];
-        x[0]=edges.leftEdge.x-AreasOfInterest.pixelsFactor;
+        x[0]=edges.leftEdge.x+AreasOfInterest.pixelsFactor;
         x[1]=edges.leftEdge.x-width;
         x[2]=edges.bottomEdge.x-width;
-        x[3]=edges.bottomEdge.x-AreasOfInterest.pixelsFactor;
+        x[3]=edges.bottomEdge.x+AreasOfInterest.pixelsFactor;
 
 
         
         y[0]=edges.leftEdge.y-AreasOfInterest.pixelsFactor;
         y[1]=edges.leftEdge.y;
-        y[2]=edges.bottomEdge.y+3*AreasOfInterest.pixelsFactor;
-        y[3]=edges.bottomEdge.y+3*AreasOfInterest.pixelsFactor;
+        y[2]=edges.bottomEdge.y+5*AreasOfInterest.pixelsFactor;
+        y[3]=edges.bottomEdge.y+5*AreasOfInterest.pixelsFactor;
 
 
         	
