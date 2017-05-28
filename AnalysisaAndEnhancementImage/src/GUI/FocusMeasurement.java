@@ -384,7 +384,7 @@ public class FocusMeasurement extends JFrame {
 						fileName = listOfFiles[i].getName();
 						byte [][]matrixg =CUtils.BlackWhiteImageToBinaryArray(CUtils.GetImagesDestPath() +"matlabRes\\" +"MatlabRes" +fileName);
 				        TriangleEdges edges = TriangleUtils.FindTriangleEdges(matrixg);
-						AreasOfInterest tr = new AreasOfInterest(10);
+						AreasOfInterest tr = new AreasOfInterest();
 						try {
 							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
 						} catch (IOException e1) {
