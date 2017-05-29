@@ -125,7 +125,7 @@ public class classifyImages extends JFrame{
 				}
 			}
 		});
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"", "RGB histogram", "Grayscale histogram", "Block matching"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"", "RGB histogram", "Block matching"}));
 		comboBox.setBounds(45, 105, 214, 31);
 		}
 	return comboBox;
@@ -219,6 +219,7 @@ public class classifyImages extends JFrame{
 					if(bhattCheckBox.isSelected()){
 						chckbxRgb.setVisible(true);
 						chckbxHsv.setVisible(true);
+						
 					}
 					if(!chiSquareCheckBox.isSelected() && !intersectionCheckBox.isSelected() && !correlationCheckBox.isSelected() && !bhattCheckBox.isSelected()){
 						chckbxRgb.setVisible(false);
@@ -272,21 +273,23 @@ public class classifyImages extends JFrame{
 		panel1.setLayout(null);
 		
 		MADCheckBox = new JCheckBox("MAD");
-		MADCheckBox.setBounds(8, 22, 113, 25);
-		MADCheckBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				MAD = true;
+		MADCheckBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if(MADCheckBox.isSelected() && MSECheckBox.isSelected())
+					JOptionPane.showMessageDialog(null, "Plese choose one option in each time", "Warning",JOptionPane.WARNING_MESSAGE);
 			}
 		});
+		MADCheckBox.setBounds(8, 22, 113, 25);
 		panel1.add(MADCheckBox);
 		
 		MSECheckBox = new JCheckBox("MSE");
-		MSECheckBox.setBounds(8, 70, 113, 25);
-		MSECheckBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				MES = true;
+		MSECheckBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				if(MADCheckBox.isSelected() && MSECheckBox.isSelected())
+					JOptionPane.showMessageDialog(null, "Plese choose one option in each time", "Warning",JOptionPane.WARNING_MESSAGE);
 			}
 		});
+		MSECheckBox.setBounds(8, 70, 113, 25);
 		panel1.add(MSECheckBox);
 		
 		PSpinner = new JSpinner();
@@ -364,92 +367,50 @@ public class classifyImages extends JFrame{
 		File[] listOfFiles = folder.listFiles();
 		
 		if(comboBox.getSelectedItem().toString() == "Block matching"){
-		for (int i = 0; i < listOfFiles.length -1; i++){
-			if (listOfFiles[i].isFile()){
-				if(listOfFiles[i]==null)
-					continue ;
-				if(flagName == 0){
-					fileName = listOfFiles[i].getName();
-					flagName = 1;
+				
+				if(MADCheckBox.isSelected()){
+				MadFunc();
 				}
-				fileName1 = listOfFiles[i+1].getName();
-				if(MAD){
-					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\")){
-						if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\MAD\\"))
-						break;
-					}
-						if(flag == 0)
-						if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\MAD\\"+numOfGroup+"\\")){
-							flag =1;
-							break;
-						}
-					double res = block.identifyTheRequirArea(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath() + "BloackMatching\\MAD\\"+numOfGroup+"\\", fileName, fileName1, "MAD", (int)PSpinner.getValue(), (int)qSpinner.getValue(), (int)heightSpinner.getValue());
-					if(res == -1){
-						flag =0;
-						try {
-							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
-							BufferedImage out = image;
-							CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "BloackMatching\\MAD\\"+numOfGroup+"\\"+fileName);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						numOfGroup ++;
-						fileName = fileName1;
-					}else if(res != -44){
-						try{
-							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
-							BufferedImage out = image;
-							CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "BloackMatching\\MAD\\"+numOfGroup+"\\"+fileName);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				}
-				if(MES){
-					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\")){
-						if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\MES\\"))
-						break;
-					}
-						if(flag == 0)
-						if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\MES\\"+numOfGroup+"\\")){
-							flag =1;
-							break;
-						}
-					double res = block.identifyTheRequirArea(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath() + "BloackMatching\\MAD\\"+numOfGroup+"\\", fileName, fileName1, "MES", (int)PSpinner.getValue(), (int)qSpinner.getValue(), (int)heightSpinner.getValue());
-					if(res == -1){
-						flag =0;
-						try {
-							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
-							BufferedImage out = image;
-							CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "BloackMatching\\MES\\"+numOfGroup+"\\"+fileName);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						numOfGroup ++;
-						fileName = fileName1;
-					}else if(res != -44){
-						try{
-							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
-							BufferedImage out = image;
-							CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "BloackMatching\\MES\\"+numOfGroup+"\\"+fileName);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
+				if(MSECheckBox.isSelected()){
+					MesFunc();
+					
 				}
 			}
-		}
-		}
+		
 		if(comboBox.getSelectedItem().toString() == "RGB histogram"){
-			numOfGroup = 0;
-			flagName = 0;
+			
+						if(correlationCheckBox.isSelected()){
+							correlationFunc();
+						
+						}
+						if(intersectionCheckBox.isSelected()){
+							intersectionFunc();
+						}
+					
+						if(bhattCheckBox.isSelected()){
+							bhattFunc();
+						}
+					
+						if(chiSquareCheckBox.isSelected()){
+							chiSquareFunc();
+						}
+					
+					
+				}
+			
+		System.out.println("end loop");
+	}	
+		public void chiSquareFunc() {
+			BlockMatching block = new BlockMatching(); 
+			String fileName = null,fileName1 = null;
+			File folder = new File(CUtils.GetImagesDestPath() +"goodImages\\");
+			BufferedImage image = null;
+			//Histogram his = new Histogram(image);
+			File[] listOfFiles = folder.listFiles();
 			byte [][]matrixg  = null;
 			TriangleEdges edges = null;
 			int heightTreshold = 5,numOfGroupA = 1, numOfGroupB = 1, numOfGroupC = 1 , numOfGroupD = 1 ;
+			int flagName = 0 , flag = 0;
 			double res = 0 ,res1 = 0,treshold = 0.2;
 			Histogram hist = null,hist1 = null;
 			for (int i = 0; i < listOfFiles.length -1; i++){
@@ -483,223 +444,583 @@ public class classifyImages extends JFrame{
 					
 					if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\"))
 						break;
-					
-						if(COR){
-							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\"))
-								if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\RGB\\"))
-									if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\HSV\\"))
+					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\"))
+						if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\HSV\\"))
+							if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\RGB\\"))
+						break;
+					if(flag == 0){
+						try {
+							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						BufferedImage out = image;
+						if(chckbxRgb.isSelected()){
+							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\RGB\\" +numOfGroupD+"\\" ))
+								CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\RGB\\"+numOfGroupD+"\\"+fileName);
+						flag = 1;
+						}
+						if(chckbxHsv.isSelected()){
+							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\HSV\\" +numOfGroupD+"\\" ))
+								CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\HSV\\"+numOfGroupD+"\\"+fileName);
+							flag = 1;
+						}
+						
+					}
+					if(Math.abs(height - height1) < heightTreshold){
+						if(chckbxRgb.isSelected()){
+							res = hist.chiSquareRGB(hist, hist1);
+						}
+						if(chckbxHsv.isSelected()){
+							res1 = hist.chiSquareHSV(hist, hist1);
+						}
+					}
+					if(res < treshold || res1 < treshold){
+						res = res1 = 0;
+						try{
+							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1));
+							BufferedImage out = image;
+							if(chckbxRgb.isSelected())
+							CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\RGB\\"+numOfGroupD+"\\"+fileName1);
+							if(chckbxHsv.isSelected())
+							CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\HSV\\"+numOfGroupD+"\\"+fileName1);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}else{
+						flagName = 0;
+						flag = 0;
+						numOfGroupD++;
+						if(Math.abs((listOfFiles.length -1) - i) == 1){
+							try{
+								if(chckbxRgb.isSelected()){
+									if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\RGB\\" +numOfGroupD+"\\" ))
 										break;
-							if(flag == 0){
-								try {
-									image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
-								} catch (IOException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
 								}
+								if(chckbxHsv.isSelected()){
+									if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\HSV\\" +numOfGroupD+"\\" ))
+									break;
+								}
+								image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1));
 								BufferedImage out = image;
-								if(chckbxRgb.isSelected()){
-									if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\RGB\\" +numOfGroupA+"\\" ))
-										CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Correlation\\RGB\\"+numOfGroupA+"\\"+fileName);
-									flag = 1;
-								}
-								if(chckbxHsv.isSelected()){
-									if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\HSV\\" +numOfGroupA+"\\" ))
-										CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Correlation\\HSV\\"+numOfGroupA+"\\"+fileName);
-									flag = 1;
-								}
-								
-							}
-							if(Math.abs(height - height1) < heightTreshold){
-								if(chckbxRgb.isSelected()){
-									res = hist.correlationRGB(hist, hist1);
-								}
-								if(chckbxHsv.isSelected()){
-									res1 = hist.correlationHSV(hist, hist1);
-								}
-							}
-							if((1-res) < treshold || (1-res1) < treshold){
-								res = res1 = 0;
-								try{
-									image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1));
-									BufferedImage out = image;
-									if(chckbxRgb.isSelected())
-									CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Correlation\\RGB\\"+numOfGroupA+"\\"+fileName1);
-									if(chckbxHsv.isSelected())
-										CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Correlation\\HSV\\"+numOfGroupA+"\\"+fileName1);
-								} catch (IOException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-							}else{
-								flagName = 0;
-								flag = 0;
-								numOfGroupA++;
-							}
-						}
-						if(INTER){
-							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\"))
-								if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\RGB\\"))
-									if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\HSV\\"))
-											break;
-							if(flag == 0){
-								try {
-									image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
-								} catch (IOException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-								BufferedImage out = image;
-									if(chckbxRgb.isSelected()){
-										if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\RGB\\" +numOfGroupB+"\\" ))
-											CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Intersection\\RGB\\"+numOfGroupB+"\\"+fileName);
-										flag = 1;
-									}
-									if(chckbxHsv.isSelected()){
-										if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\HSV\\" +numOfGroupB+"\\" ))
-											CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Intersection\\HSV\\"+numOfGroupB+"\\"+fileName);
-										flag = 1;
-									}
-							}
-							if(Math.abs(height - height1) < heightTreshold){
-								if(chckbxRgb.isSelected()){
-									res = hist.intersectionRGB(hist, hist1);
-								}
-								if(chckbxHsv.isSelected()){
-									res1 = hist.intersectionHSV(hist, hist1);
-								}
-							}
-							if((1 - res) < treshold || (1-res1) < treshold){
-								res = res1 = 0;
-								try{
-									image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1));
-									BufferedImage out = image;
-									if(chckbxRgb.isSelected())
-										CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Intersection\\RGB\\"+numOfGroupB+"\\"+fileName1);
-									if(chckbxHsv.isSelected())
-										CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Intersection\\HSV\\"+numOfGroupB+"\\"+fileName1);
-								} catch (IOException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-							}else{
-								flagName = 0;
-								flag = 0;
-								numOfGroupB++;
-							}
-						}
-						if(BHATT){
-							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\"))
-								if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\HSV\\"))
-									if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\RGB\\"))
-										break;
-							if(flag == 0){
-								try {
-									image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
-								} catch (IOException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-								BufferedImage out = image;
-								if(chckbxRgb.isSelected()){
-									if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\RGB\\" +numOfGroupC+"\\" ))
-										CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\RGB\\"+numOfGroupC+"\\"+fileName);
-									flag = 1;
-								}
-								if(chckbxHsv.isSelected()){
-									if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\HSV\\" +numOfGroupC+"\\" ))
-										CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\HSV\\"+numOfGroupC+"\\"+fileName);
-									flag = 1;
-								}
-							}
-							if(Math.abs(height - height1) < heightTreshold){
-								if(chckbxRgb.isSelected()){
-									res = hist.BhattacharyyaDistanceRGB(hist, hist1);
-								}
-								if(chckbxHsv.isSelected()){
-									res1 = hist.BhattacharyyaDistanceHSV(hist, hist1);
-								}
-							}
-							if((1-res) < treshold || (1-res1) < treshold){
-								res = res1 = 0;
-								try{
-									image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1));
-									BufferedImage out = image;
-									if(chckbxRgb.isSelected()){
-										CUtils.SaveImage(out, CUtils.GetImagesDestPath() +"Histogram\\BhattacharyyaDistance\\RGB" +numOfGroupC+"\\"+fileName1);
-										
-									}
-									if(chckbxHsv.isSelected()){
-										CUtils.SaveImage(out, CUtils.GetImagesDestPath() +"Histogram\\BhattacharyyaDistance\\HSV\\" +numOfGroupC+"\\"+fileName1);
-									}
-								} catch (IOException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-							}else{
-								flagName = 0;
-								flag = 0;
-								numOfGroupC++;
-							}
-						}
-						if(CHI){
-							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\"))
-								if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\HSV\\"))
-									if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\RGB\\"))
-								break;
-							if(flag == 0){
-								try {
-									image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
-								} catch (IOException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-								BufferedImage out = image;
-								if(chckbxRgb.isSelected()){
-									if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\HSV\\" +numOfGroupD+"\\" ))
-										CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\RGB\\"+numOfGroupD+"\\"+fileName);
-								flag = 1;
-								}
-								if(chckbxHsv.isSelected()){
-									if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\HSV\\" +numOfGroupD+"\\" ))
-										CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\HSV\\"+numOfGroupD+"\\"+fileName);
-									flag = 1;
-								}
-								
-							}
-							if(Math.abs(height - height1) < heightTreshold){
-								if(chckbxRgb.isSelected()){
-									res = hist.chiSquareRGB(hist, hist1);
-								}
-								if(chckbxHsv.isSelected()){
-									res1 = hist.chiSquareHSV(hist, hist1);
-								}
-							}
-							if(res < treshold || res1 < treshold){
-								res = res1 = 0;
-								try{
-									image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1));
-									BufferedImage out = image;
-									if(chckbxRgb.isSelected())
-									CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\RGB\\"+numOfGroupD+"\\"+fileName1);
-									if(chckbxHsv.isSelected())
+								if(chckbxRgb.isSelected())
+								CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\RGB\\"+numOfGroupD+"\\"+fileName1);
+								if(chckbxHsv.isSelected())
 									CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\HSV\\"+numOfGroupD+"\\"+fileName1);
-								} catch (IOException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-							}else{
-								flagName = 0;
-								flag = 0;
-								numOfGroupD++;
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
 							}
 						}
+					
+					
+				}
+			}
+			}			
+		
+	}
+
+
+		public void bhattFunc() {
+			BlockMatching block = new BlockMatching(); 
+			String fileName = null,fileName1 = null;
+			File folder = new File(CUtils.GetImagesDestPath() +"goodImages\\");
+			BufferedImage image = null;
+			//Histogram his = new Histogram(image);
+			File[] listOfFiles = folder.listFiles();
+			byte [][]matrixg  = null;
+			TriangleEdges edges = null;
+			int heightTreshold = 5,numOfGroupA = 1, numOfGroupB = 1, numOfGroupC = 1 , numOfGroupD = 1 ;
+			int flagName = 0 , flag = 0;
+			double res = 0 ,res1 = 0,treshold = 0.2;
+			Histogram hist = null,hist1 = null;
+			for (int i = 0; i < listOfFiles.length -1; i++){
+				if (listOfFiles[i].isFile() && listOfFiles[i+1].isFile()){
+					if(listOfFiles[i]==null)
+						continue ;
+					if(flagName == 0){
+						fileName = listOfFiles[i].getName();
+						flagName = 1;
+						matrixg =CUtils.BlackWhiteImageToBinaryArray(CUtils.GetImagesDestPath() +"matlabRes\\" +"MatlabRes"+ fileName);
+						edges = TriangleUtils.FindTriangleEdges(matrixg);
+						try {
+							hist = new Histogram(ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName)));
+							
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					fileName1 = listOfFiles[i+1].getName();	
+					try {
+						hist1 = new Histogram(ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1)));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}  
+				    byte [][]matrixg2 = CUtils.BlackWhiteImageToBinaryArray(CUtils.GetImagesDestPath()+ "matlabRes\\" +"MatlabRes"+ fileName1);  
+				    TriangleEdges edges1 = TriangleUtils.FindTriangleEdges(matrixg2);
+					double height = block.culcHeightOfTriangle(edges);
+					double height1 = block.culcHeightOfTriangle(edges1);
+					
+					if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\"))
+						break;
+			
+					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\"))
+						if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\HSV\\"))
+							if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\RGB\\"))
+								break;
+					if(flag == 0){
+						try {
+							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						BufferedImage out = image;
+						if(chckbxRgb.isSelected()){
+							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\RGB\\" +numOfGroupC+"\\" ))
+								CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\RGB\\"+numOfGroupC+"\\"+fileName);
+							flag = 1;
+						}
+						if(chckbxHsv.isSelected()){
+							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\HSV\\" +numOfGroupC+"\\" ))
+								CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\HSV\\"+numOfGroupC+"\\"+fileName);
+							flag = 1;
+						}
+					}
+					if(Math.abs(height - height1) < heightTreshold){
+						if(chckbxRgb.isSelected()){
+							res = hist.BhattacharyyaDistanceRGB(hist, hist1);
+						}
+						if(chckbxHsv.isSelected()){
+							res1 = hist.BhattacharyyaDistanceHSV(hist, hist1);
+						}
+					}
+					if((1-res) < treshold || (1-res1) < treshold){
+						res = res1 = 0;
+						try{
+							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1));
+							BufferedImage out = image;
+							if(chckbxRgb.isSelected()){
+								CUtils.SaveImage(out, CUtils.GetImagesDestPath() +"Histogram\\BhattacharyyaDistance\\RGB" +numOfGroupC+"\\"+fileName1);
+								
+							}
+							if(chckbxHsv.isSelected()){
+								CUtils.SaveImage(out, CUtils.GetImagesDestPath() +"Histogram\\BhattacharyyaDistance\\HSV\\" +numOfGroupC+"\\"+fileName1);
+							}
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}else{
+						flagName = 0;
+						flag = 0;
+						numOfGroupC++;
+						if(Math.abs((listOfFiles.length -1) - i) == 1){
+							try{
+								if(chckbxRgb.isSelected()){
+									if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\RGB\\" +numOfGroupC+"\\" ))
+										break;
+								}
+								if(chckbxHsv.isSelected()){
+									if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\HSV\\" +numOfGroupC+"\\" ))
+									break;
+								}
+								image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1));
+								BufferedImage out = image;
+								if(chckbxRgb.isSelected())
+								CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\RGB\\"+numOfGroupC+"\\"+fileName1);
+								if(chckbxHsv.isSelected())
+									CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\HSV\\"+numOfGroupC+"\\"+fileName1);
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					}
 					
 				}
 			}
 		
-		}
-		System.out.println("end loop");
-	}	
+	}
+
+
+		public void intersectionFunc() {
+			BlockMatching block = new BlockMatching(); 
+			String fileName = null,fileName1 = null;
+			File folder = new File(CUtils.GetImagesDestPath() +"goodImages\\");
+			BufferedImage image = null;
+			//Histogram his = new Histogram(image);
+			File[] listOfFiles = folder.listFiles();
+			byte [][]matrixg  = null;
+			TriangleEdges edges = null;
+			int heightTreshold = 5,numOfGroupA = 1, numOfGroupB = 1, numOfGroupC = 1 , numOfGroupD = 1 ;
+			int flagName = 0 , flag = 0;
+			double res = 0 ,res1 = 0,treshold = 0.2;
+			Histogram hist = null,hist1 = null;
+			for (int i = 0; i < listOfFiles.length -1; i++){
+				if (listOfFiles[i].isFile() && listOfFiles[i+1].isFile()){
+					if(listOfFiles[i]==null)
+						continue ;
+					if(flagName == 0){
+						fileName = listOfFiles[i].getName();
+						flagName = 1;
+						matrixg =CUtils.BlackWhiteImageToBinaryArray(CUtils.GetImagesDestPath() +"matlabRes\\" +"MatlabRes"+ fileName);
+						edges = TriangleUtils.FindTriangleEdges(matrixg);
+						try {
+							hist = new Histogram(ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName)));
+							
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					fileName1 = listOfFiles[i+1].getName();	
+					try {
+						hist1 = new Histogram(ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1)));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}  
+				    byte [][]matrixg2 = CUtils.BlackWhiteImageToBinaryArray(CUtils.GetImagesDestPath()+ "matlabRes\\" +"MatlabRes"+ fileName1);  
+				    TriangleEdges edges1 = TriangleUtils.FindTriangleEdges(matrixg2);
+					double height = block.culcHeightOfTriangle(edges);
+					double height1 = block.culcHeightOfTriangle(edges1);
+					
+					if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\"))
+						break;
+					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\"))
+						if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\RGB\\"))
+							if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\HSV\\"))
+									break;
+					if(flag == 0){
+						try {
+							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						BufferedImage out = image;
+							if(chckbxRgb.isSelected()){
+								if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\RGB\\" +numOfGroupB+"\\" ))
+									CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Intersection\\RGB\\"+numOfGroupB+"\\"+fileName);
+								flag = 1;
+							}
+							if(chckbxHsv.isSelected()){
+								if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\HSV\\" +numOfGroupB+"\\" ))
+									CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Intersection\\HSV\\"+numOfGroupB+"\\"+fileName);
+								flag = 1;
+							}
+					}
+					if(Math.abs(height - height1) < heightTreshold){
+						if(chckbxRgb.isSelected()){
+							res = hist.intersectionRGB(hist, hist1);
+						}
+						if(chckbxHsv.isSelected()){
+							res1 = hist.intersectionHSV(hist, hist1);
+						}
+					}
+					if((1 - res) < treshold || (1-res1) < treshold){
+						res = res1 = 0;
+						try{
+							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1));
+							BufferedImage out = image;
+							if(chckbxRgb.isSelected())
+								CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Intersection\\RGB\\"+numOfGroupB+"\\"+fileName1);
+							if(chckbxHsv.isSelected())
+								CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Intersection\\HSV\\"+numOfGroupB+"\\"+fileName1);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}else{
+						flagName = 0;
+						flag = 0;
+						numOfGroupB++;
+						if(Math.abs((listOfFiles.length -1) - i) == 1){
+							try{
+								if(chckbxRgb.isSelected()){
+									if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\RGB\\" +numOfGroupB+"\\" ))
+										break;
+								}
+								if(chckbxHsv.isSelected()){
+									if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\HSV\\" +numOfGroupB+"\\" ))
+									break;
+								}
+								image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1));
+								BufferedImage out = image;
+								if(chckbxRgb.isSelected())
+								CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Intersection\\RGB\\"+numOfGroupB+"\\"+fileName1);
+								if(chckbxHsv.isSelected())
+									CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Intersection\\HSV\\"+numOfGroupB+"\\"+fileName1);
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					}
+					
+				}
+			}
+		
+	}
+
+
+		private void correlationFunc() {
+			BlockMatching block = new BlockMatching(); 
+			String fileName = null,fileName1 = null;
+			File folder = new File(CUtils.GetImagesDestPath() +"goodImages\\");
+			BufferedImage image = null;
+			//Histogram his = new Histogram(image);
+			File[] listOfFiles = folder.listFiles();
+			byte [][]matrixg  = null;
+			TriangleEdges edges = null;
+			int heightTreshold = 5,numOfGroupA = 1, numOfGroupB = 1, numOfGroupC = 1 , numOfGroupD = 1 ;
+			int flagName = 0 , flag = 0;
+			double res = 0 ,res1 = 0,treshold = 0.2;
+			Histogram hist = null,hist1 = null;
+			for (int i = 0; i < listOfFiles.length -1; i++){
+				if (listOfFiles[i].isFile() && listOfFiles[i+1].isFile()){
+					if(listOfFiles[i]==null)
+						continue ;
+					if(flagName == 0){
+						fileName = listOfFiles[i].getName();
+						flagName = 1;
+						matrixg =CUtils.BlackWhiteImageToBinaryArray(CUtils.GetImagesDestPath() +"matlabRes\\" +"MatlabRes"+ fileName);
+						edges = TriangleUtils.FindTriangleEdges(matrixg);
+						try {
+							hist = new Histogram(ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName)));
+							
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					fileName1 = listOfFiles[i+1].getName();	
+					try {
+						hist1 = new Histogram(ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1)));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}  
+				    byte [][]matrixg2 = CUtils.BlackWhiteImageToBinaryArray(CUtils.GetImagesDestPath()+ "matlabRes\\" +"MatlabRes"+ fileName1);  
+				    TriangleEdges edges1 = TriangleUtils.FindTriangleEdges(matrixg2);
+					double height = block.culcHeightOfTriangle(edges);
+					double height1 = block.culcHeightOfTriangle(edges1);
+					
+					if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\"))
+						break;
+			
+					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\"))
+						if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\RGB\\"))
+							if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\HSV\\"))
+								break;
+					if(flag == 0){
+						try {
+							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						BufferedImage out = image;
+						if(chckbxRgb.isSelected()){
+							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\RGB\\" +numOfGroupA+"\\" ))
+								CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Correlation\\RGB\\"+numOfGroupA+"\\"+fileName);
+							flag = 1;
+						}
+						if(chckbxHsv.isSelected()){
+							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\HSV\\" +numOfGroupA+"\\" ))
+								CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Correlation\\HSV\\"+numOfGroupA+"\\"+fileName);
+							flag = 1;
+						}
+						
+					}
+					if(Math.abs(height - height1) < heightTreshold){
+						if(chckbxRgb.isSelected()){
+							res = hist.correlationRGB(hist, hist1);
+						}
+						if(chckbxHsv.isSelected()){
+							res1 = hist.correlationHSV(hist, hist1);
+						}
+					}
+					if((1-res) < treshold || (1-res1) < treshold){
+						res = res1 = 0;
+						try{
+							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1));
+							BufferedImage out = image;
+							if(chckbxRgb.isSelected())
+							CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Correlation\\RGB\\"+numOfGroupA+"\\"+fileName1);
+							if(chckbxHsv.isSelected())
+								CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Correlation\\HSV\\"+numOfGroupA+"\\"+fileName1);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}else{
+						flagName = 0;
+						flag = 0;
+						numOfGroupA++;
+						if(Math.abs((listOfFiles.length -1) - i) == 1){
+							try{
+								if(chckbxRgb.isSelected()){
+									if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\RGB\\" +numOfGroupA+"\\" ))
+										break;
+								}
+								if(chckbxHsv.isSelected()){
+									if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\HSV\\" +numOfGroupA+"\\" ))
+									break;
+								}
+								image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1));
+								BufferedImage out = image;
+								if(chckbxRgb.isSelected())
+								CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Correlation\\RGB\\"+numOfGroupA+"\\"+fileName1);
+								if(chckbxHsv.isSelected())
+									CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Correlation\\HSV\\"+numOfGroupA+"\\"+fileName1);
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					}
+				}
+			}
+		
+	}
+
+
+		public void MesFunc() {
+			BlockMatching block = new BlockMatching(); 
+			
+			int numOfGroup = 1,flag = 0,flagName =0;
+			String fileName = null,fileName1 = null;
+			File folder = new File(CUtils.GetImagesDestPath() +"goodImages\\");
+			BufferedImage image = null;
+			//Histogram his = new Histogram(image);
+			File[] listOfFiles = folder.listFiles();
+			
+			for (int i = 0; i < listOfFiles.length -1; i++){
+				if (listOfFiles[i].isFile()){
+					if(listOfFiles[i]==null)
+						continue ;
+					if(flagName == 0){
+						fileName = listOfFiles[i].getName();
+						flagName = 1;
+					}
+					fileName1 = listOfFiles[i+1].getName();
+					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\")){
+						if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\MES\\"))
+						;
+					}
+					if(flag == 0){
+						try {
+							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						BufferedImage out = image;
+						if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\MES\\"+numOfGroup+"\\"))
+							CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "BloackMatching\\MES\\"+numOfGroup+"\\"+fileName);
+						flag =1;
+					}
+					double res = block.identifyTheRequirArea(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath() + "BloackMatching\\MES\\"+numOfGroup+"\\", fileName, fileName1, "MES", (int)PSpinner.getValue(), (int)qSpinner.getValue(), (int)heightSpinner.getValue());
+					if(res == -1){
+						flag =0;
+						flagName = 0;
+					/*	try {
+							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
+							BufferedImage out = image;
+							CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "BloackMatching\\MES\\"+numOfGroup+"\\"+fileName);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}*/
+						numOfGroup ++;
+						
+					}else if(res != -44){
+						try{
+							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1));
+							BufferedImage out = image;
+							CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "BloackMatching\\MES\\"+numOfGroup+"\\"+fileName1);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+					
+	}
+
+		public void MadFunc() {
+			BlockMatching block = new BlockMatching(); 
+			
+			int numOfGroup = 1,flag = 0,flagName =0;
+			String fileName = null,fileName1 = null;
+			File folder = new File(CUtils.GetImagesDestPath() +"goodImages\\");
+			BufferedImage image = null;
+			//Histogram his = new Histogram(image);
+			File[] listOfFiles = folder.listFiles();
+			
+			for (int i = 0; i < listOfFiles.length -1; i++){
+				if (listOfFiles[i].isFile()){
+					if(listOfFiles[i]==null)
+						continue ;
+					if(flagName == 0){
+						fileName = listOfFiles[i].getName();
+						flagName = 1;
+					}
+					fileName1 = listOfFiles[i+1].getName();
+			if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\")){
+				if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\MAD\\"))
+				break;
+			}
+				if(flag == 0){
+					try {
+						image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					BufferedImage out = image;
+					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\MAD\\"+numOfGroup+"\\"))
+						CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "BloackMatching\\MAD\\"+numOfGroup+"\\"+fileName);
+					flag =1;
+				}
+										
+			double res = block.identifyTheRequirArea(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath() + "BloackMatching\\MAD\\"+numOfGroup+"\\", fileName, fileName1, "MAD", (int)PSpinner.getValue(), (int)qSpinner.getValue(), (int)heightSpinner.getValue());
+			if(res == -1){
+				flag = 0;
+				flagName = 0;
+				/*try {
+					image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1));
+					BufferedImage out = image;
+					CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "BloackMatching\\MAD\\"+numOfGroup+"\\"+fileName);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}*/
+				numOfGroup ++;
+				//fileName = fileName1;
+			}else if(res != -44){
+				try{
+					image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1));
+					BufferedImage out = image;
+					CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "BloackMatching\\MAD\\"+numOfGroup+"\\"+fileName1);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			}
+			}
+		
+	}
+
+
 		public void closeFrame(){
  			super.dispose();
  		}

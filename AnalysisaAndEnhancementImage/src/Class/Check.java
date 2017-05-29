@@ -36,6 +36,7 @@ public class Check extends Thread{
 	        frame.getContentPane().add(pb);
 	 
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	        frame.setBounds(100, 100, 300, 200);
 	        frame.setSize(300, 200);
 	        frame.setVisible(true);
 			
