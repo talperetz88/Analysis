@@ -34,63 +34,89 @@ public class TestFocusFunctionMeasures {
 		
 		Focus f= new Focus();
 		double orignal, blur;
-		
+		boolean bool =true;
 
-		/*
-		System.out.println("FocusMeasuresBasedOnImageStatisticsVariance grauscale");
+		
+		//System.out.println("FocusMeasuresBasedOnImageStatisticsVariance grauscale");
 		orignal = f.FocusMeasuresBasedOnImageStatisticsVariance("C:\\project\\focusfunctiontest\\orignal.png",1);
 		blur = f.FocusMeasuresBasedOnImageStatisticsVariance("C:\\project\\focusfunctiontest\\blur.png",1);
-		System.out.println("the orignal is : "+orignal+"the blur is :"+blur);
+		//System.out.println("the orignal is : "+orignal+"the blur is :"+blur);
 		
-		System.out.println("FocusMeasuresBasedOnImageStatisticsVariance luminace");
+		if(orignal<blur)
+			bool=false;
+
+		//System.out.println("FocusMeasuresBasedOnImageStatisticsVariance luminace");
 		orignal = f.FocusMeasuresBasedOnImageStatisticsVariance("C:\\project\\focusfunctiontest\\orignal.png",2);
 		blur = f.FocusMeasuresBasedOnImageStatisticsVariance("C:\\project\\focusfunctiontest\\blur.png",2);
-		System.out.println("the orignal is : "+orignal+"the blur is :"+blur);
+		//System.out.println("the orignal is : "+orignal+"the blur is :"+blur);
 		
-		System.out.println("FocusMeasuresBasedOnImageStatisticsNormalizedVariance grayscale");
+		if(orignal<blur)
+			bool=false;
+		
+		//System.out.println("FocusMeasuresBasedOnImageStatisticsNormalizedVariance grayscale");
 		orignal = f.FocusMeasuresBasedOnImageStatisticsNormalizedVariance("C:\\project\\focusfunctiontest\\orignal.png",1);
 		blur = f.FocusMeasuresBasedOnImageStatisticsNormalizedVariance("C:\\project\\focusfunctiontest\\blur.png",1);
-		System.out.println("the orignal is : "+orignal+"the blur is :"+blur);
+		//System.out.println("the orignal is : "+orignal+"the blur is :"+blur);
+		
+		if(orignal<blur)
+			bool=false;
 		
 		
-		System.out.println("FocusMeasuresBasedOnImageStatisticsNormalizedVariance luminace");
+		//System.out.println("FocusMeasuresBasedOnImageStatisticsNormalizedVariance luminace");
 		orignal = f.FocusMeasuresBasedOnImageStatisticsNormalizedVariance("C:\\project\\focusfunctiontest\\orignal.png",2);
 		blur = f.FocusMeasuresBasedOnImageStatisticsNormalizedVariance("C:\\project\\focusfunctiontest\\blur.png",2);
-		System.out.println("the orignal is : "+orignal+"the blur is :"+blur);
+		//System.out.println("the orignal is : "+orignal+"the blur is :"+blur);
+		
+		if(orignal<blur)
+			bool=false;
 		
 
-		System.out.println("FunctionBasedOnDepthOfPeaksAndValleysA");
+		//System.out.println("FunctionBasedOnDepthOfPeaksAndValleysA");
 		orignal = f.FunctionBasedOnDepthOfPeaksAndValleysA("C:\\project\\focusfunctiontest\\orignal.png",120);
 		blur = f.FunctionBasedOnDepthOfPeaksAndValleysA("C:\\project\\focusfunctiontest\\blur.png",120);
-		System.out.println("the orignal is : "+orignal+"the blur is :"+blur);
+		//System.out.println("the orignal is : "+orignal+"the blur is :"+blur);
+		
+		if(orignal<blur)
+			bool=false;
 	
 		
-		System.out.println("FunctionBasedOnDepthOfPeaksAndValleysB");
+		//System.out.println("FunctionBasedOnDepthOfPeaksAndValleysB");
 		orignal = f.FunctionBasedOnDepthOfPeaksAndValleysB("C:\\project\\focusfunctiontest\\orignal.png",120);
 		blur = f.FunctionBasedOnDepthOfPeaksAndValleysB("C:\\project\\focusfunctiontest\\blur.png",120);
-		System.out.println("the orignal is : "+orignal+" the blur is :"+blur);
+		//System.out.println("the orignal is : "+orignal+" the blur is :"+blur);
+		
+		if(orignal<blur)
+			bool=false;
 			
 		
-		System.out.println("FunctionBasedOnDepthOfPeaksAndValleysC");
+		//System.out.println("FunctionBasedOnDepthOfPeaksAndValleysC");
 		orignal = f.FunctionBasedOnDepthOfPeaksAndValleysC("C:\\project\\focusfunctiontest\\orignal.png",120);
 		blur = f.FunctionBasedOnDepthOfPeaksAndValleysC("C:\\project\\focusfunctiontest\\blur.png",120);
-		System.out.println("the orignal is : "+orignal+" the blur is :"+blur);
+		//System.out.println("the orignal is : "+orignal+" the blur is :"+blur);
+		
+		if(orignal<blur)
+			bool=false;
 		
 		
-		System.out.println("FocusMeasuresBasedOnImageDifferentiationA");
+		//System.out.println("FocusMeasuresBasedOnImageDifferentiationA");
 		orignal = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\focusfunctiontest\\orignal.png",(float) 20);
 		blur = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\focusfunctiontest\\blur.png",(float) 20);
-		System.out.println("the orignal is : "+orignal+" the blur is :"+blur);
+		//System.out.println("the orignal is : "+orignal+" the blur is :"+blur);
 		
-		*/
+		if(orignal<blur)
+			bool=false;
 		
 		
-		System.out.println("FocusMeasuresBasedOnImageDifferentiationB");
+		//System.out.println("FocusMeasuresBasedOnImageDifferentiationB");
 		orignal = f.FocusMeasuresBasedOnImageDifferentiationB("C:\\project\\focusfunctiontest\\orignal.png",(float) 9700);
 		blur = f.FocusMeasuresBasedOnImageDifferentiationB("C:\\project\\focusfunctiontest\\blur.png",(float) 9700);
-		System.out.println("the orignal is : "+orignal+" the blur is :"+blur);
+		//System.out.println("the orignal is : "+orignal+" the blur is :"+blur);
 		
-		Assert.assertTrue(orignal>blur);
+		
+		if(orignal<blur)
+			bool=false;
+		
+		Assert.assertTrue(bool);
 		
 	}
 
