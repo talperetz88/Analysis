@@ -19,7 +19,7 @@ import Class.CUtils;
 import Class.Focus;
 import Class.ImproveFocus;
 
-public class TestFocus {
+public class TestImageSharping {
 	@Test
 	public void test() {
 		Focus f= new Focus();
