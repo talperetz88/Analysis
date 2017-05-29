@@ -31,19 +31,11 @@ public class TestImageSharping {
 				System.err.println(e);
 			}
 			*/
-		improve.blur("C:\\project\\foucs\\","C:\\project\\foucs\\blurImage\\","R.png",1,2);//CUtils.GetImagesDestPath() + "goodImages\\", CUtils.GetImagesDestPath()+"ImproveFocus\\blurImage\\", fileName,ker,sigma
-		improve.mask("C:\\project\\foucs\\","C:\\project\\foucs\\blurImage\\","R.png");//CUtils.GetImagesDestPath() + "goodImages\\", CUtils.GetImagesDestPath()+"ImproveFocus\\blurImage\\", fileName
-		improve.improveFocus("C:\\project\\foucs\\","C:\\project\\foucs\\maskImages\\","R.png");//CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath()+"ImproveFocus\\maskImages\\", fileName
-		try {
-			   BufferedImage imgI = ImageIO.read(new File("C:\\project\\foucs\\blurImage\\"+"blur_R.png"));
-			} catch (IOException e) {
-				System.err.println(e);
-			}
-		
-		
-		double sharp = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\foucs\\sharpImages\\"+"sharp_R.png");
-		double r = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\foucs\\R.png");
-		System.out.println(sharp+"    "+r);
+		improve.blur("C:\\project\\foucs\\","C:\\project\\foucs\\blurImage\\","R.png",1,2);
+		improve.mask("C:\\project\\foucs\\","C:\\project\\foucs\\blurImage\\","R.png");
+		improve.improveFocus("C:\\project\\foucs\\","C:\\project\\foucs\\maskImages\\","R.png");
+		double sharp = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\foucs\\sharpImages\\"+"sharp_R.png",(float) 20);
+		double r = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\foucs\\R.png",(float) 20);
 		Assert.assertTrue(sharp>r);
 			
 	}

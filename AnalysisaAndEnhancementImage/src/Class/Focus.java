@@ -127,7 +127,7 @@ public class Focus {
 	//function 2.5.2 [9]
 	public double FunctionBasedOnDepthOfPeaksAndValleysA(String path , float threshold){
 		
-		double sum=0;
+		double sum=0,sumtest=0;
 		BufferedImage img = null;
 		 try {
 			 img = ImageIO.read(new File(path));
@@ -138,10 +138,13 @@ public class Focus {
 		 for(int i =0;i<img.getWidth();i++)
 			 for(int j=0;j<img.getHeight()-1;j++){
 				 float temp = Luminance(img.getRGB(i,j));
+				 sumtest+=temp;
 				 if(temp>=threshold)
 					 sum+=temp;
 				 
 			 }
+		 sumtest=sumtest/(img.getWidth()*img.getHeight());
+		 //System.out.println(sumtest);
 		 return sum;
 		
 	}
@@ -149,7 +152,7 @@ public class Focus {
 	//function 2.5.2 [10]
 	public double FunctionBasedOnDepthOfPeaksAndValleysB(String path , float threshold){
 		
-		int  sum=0;
+		int  sum=0,sumtest=0;
 		BufferedImage img = null;
 		 try {
 			 img = ImageIO.read(new File(path));
@@ -160,10 +163,12 @@ public class Focus {
 		 for(int i =0;i<img.getWidth();i++)
 			 for(int j=0;j<img.getHeight()-1;j++){
 				 float temp = Luminance(img.getRGB(i,j));
+				 sumtest+=temp;
 				 if(temp>=threshold)
 					 sum++;
-				 
 			 }
+		 sumtest=sumtest/(img.getHeight()*img.getWidth());
+		 System.out.println("sum test"+sumtest);
 		 return sum;
 		
 	}
@@ -171,7 +176,7 @@ public class Focus {
 	//function 2.5.2 [11]
 	public double FunctionBasedOnDepthOfPeaksAndValleysC(String path , float threshold){
 		
-		int  sum=0;
+		int  sum=0,sumtest=0;
 		BufferedImage img = null;
 		 try {
 			 img = ImageIO.read(new File(path));
@@ -182,19 +187,23 @@ public class Focus {
 		 for(int i =0;i<img.getWidth();i++)
 			 for(int j=0;j<img.getHeight()-1;j++){
 				 float temp = Luminance(img.getRGB(i,j));
+				 sumtest+=temp;
 				 if(temp>=threshold)
 					 sum+=Math.pow(temp, 2);
 				 
 			 }
+		 sumtest=sumtest/(img.getHeight()*img.getWidth());
+		 System.out.println("the tset sum is  : "+sumtest);
 		 return sum;
 		
 	}	
 	
 	//function 2.5.3 [12]
 	//high value is better
-	public double FocusMeasuresBasedOnImageDifferentiationA(String path){
-		
-		double sum=0,v=30;//v is the gradient threshold
+	
+	public double FocusMeasuresBasedOnImageDifferentiationA(String path,float threshold){
+		double sum=0,sumtest=0,v;//v is the gradient threshold
+		v=threshold;
 		BufferedImage img = null;
 		 try {
 			 img = ImageIO.read(new File(path));
@@ -207,17 +216,20 @@ public class Focus {
 					float gray1 = Grayscale(img.getRGB(i,j));
 					float gray2 = Grayscale(img.getRGB(i,j+1));
 					double temp =Math.abs(gray2-gray1);
+					sumtest+=Math.pow(temp, 2);
 					if(Math.pow(temp, 2)>=v)
 						sum+=temp;
 
 			 }
+		 sumtest=sumtest/(img.getHeight()*img.getWidth());
+		 System.out.println("the test sum is "+sumtest);
 		return sum;
 	}
 	
 	//function 2.5.3 [13]
-	public double FocusMeasuresBasedOnImageDifferentiationB(String path){
+	public double FocusMeasuresBasedOnImageDifferentiationB(String path,float threshold){
 		
-		double sum=0,v=0;//v is the gradient threshold
+		double sumtest=0,sum=0,v=threshold;//v is the gradient threshold
 		BufferedImage img = null;
 		 try {
 			 img = ImageIO.read(new File(path));
@@ -230,10 +242,13 @@ public class Focus {
 					float gray1 = Grayscale(img.getRGB(i,j));
 					float gray2 = Grayscale(img.getRGB(i,j+1));
 					double temp = Math.pow((gray2-gray1),2);
+					sumtest+=Math.pow(temp, 2);
 					if(Math.pow(temp, 2)>=v)
 						sum+=temp;
 
 			 }
+		 sumtest=sumtest/(img.getHeight()*img.getWidth());
+		 System.out.println("the sum test "+ sumtest);
 		return sum;
 	}
 	
