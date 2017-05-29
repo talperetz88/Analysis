@@ -180,7 +180,8 @@ public class BlockMatching {
 	      double sum = 0;
 	      for (int row = 0; row < width; row++) 
 	         for (int col = 0; col < height; col++) 
-	        	 sum += Math.pow(fr[row][col]-sec[row][col],2.0);
+	        	 if(row <= height-1)
+	        		 sum += Math.pow(fr[row][col]-sec[row][col],2.0);
 	         sum =  (1/Math.pow(width, 2.0))*sum;
 	         System.out.println("the sum is:" +sum);
 	         return sum;
