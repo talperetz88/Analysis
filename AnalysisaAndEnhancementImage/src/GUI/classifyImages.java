@@ -769,7 +769,7 @@ public class classifyImages extends JFrame{
 	}
 
 
-		private void correlationFunc() {
+		public void correlationFunc() {
 			BlockMatching block = new BlockMatching(); 
 			String fileName = null,fileName1 = null;
 			File folder = new File(CUtils.GetImagesDestPath() +"goodImages\\");

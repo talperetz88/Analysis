@@ -38,7 +38,12 @@ public class ImageSimilarity {
 	public void test() {
 		CUtils.SetImagesDestinationPath("C:\\project\\testImageSimilarity\\");
 		classifyImages c = new classifyImages(null);
-		
+		/*c.MadFunc();
+		c.MesFunc();
+		c.intersectionFunc();
+		c.bhattFunc();
+		c.chiSquareFunc();*/
+		c.correlationFunc();
 		
 		}
 		
