@@ -8,14 +8,22 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+
+
 import static java.nio.file.StandardCopyOption.*;
 import javax.imageio.ImageIO;
+
+import org.apothem.mediainfo.api.MediaInfo;
 
 import GUI.*;
 public class main {
 
 	public static void main(String[] arg) throws IOException{
 		
+		
+		
+		//();
+
 		//startGUI open = new startGUI();
 		BufferedImage img = null;
 		//ImproveFocusGUI j = new ImproveFocusGUI();
@@ -193,7 +201,11 @@ public class main {
 				
 			} 
 		}*/
-	/*
+		try {
+			   img = ImageIO.read(new File("a.jpg"));
+			} catch (IOException e) {
+				System.err.println(e);
+			}
 		//System.out.println("the edeg is:");
 		Histogram hist = new Histogram(img);
 		// loading an image 
@@ -211,9 +223,9 @@ public class main {
 				System.err.println(e);
 			}
 			Histogram hist1 = new Histogram(img1);
-			res[i] =hist.BhattacharyyaDistanceHSV(hist,hist1);
+			res[i] =hist.chiSquareHSV(hist,hist1);
 			name [i] = n;
-			/*
+			
 			hist.intersectionRGB(hist,hist1);
 			hist.correlationHSV(hist,hist1);
 			hist.correlationRGB(hist,hist1);
@@ -221,9 +233,9 @@ public class main {
 			hist.chiSquareRGB(hist,hist1);
 			hist.BhattacharyyaDistanceHSV(hist,hist1);
 			hist.BhattacharyyaDistanceRGB(hist,hist1);
-			*/
 			
-			/*
+			
+			
 			
 		}
 		double temp ;
@@ -244,7 +256,7 @@ public class main {
 				System.out.println(name[i]+ " "+res[i]);
 			}
 		
-		*/
+		
 
 		/*
 			try {

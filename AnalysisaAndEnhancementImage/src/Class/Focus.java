@@ -191,6 +191,7 @@ public class Focus {
 	}	
 	
 	//function 2.5.3 [12]
+	//high value is better
 	public double FocusMeasuresBasedOnImageDifferentiationA(String path){
 		
 		double sum=0,v=30;//v is the gradient threshold

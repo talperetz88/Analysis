@@ -133,6 +133,7 @@ public class openPage extends JFrame{
 	 					double frameRatio = Double.parseDouble(spinner.getValue().toString());
 	 					ProcessBuilder pb = new ProcessBuilder(CUtils.GetVlcPath(), dirictTextFilde.getText(), "--video-filter=scene", "--scene-ratio="+frameRatio, "--scene-prefix=img-", "--scene-path="+CUtils.GetImagesDestPath(), "vlc://quit");
 	 					try {
+	 						
 							 start = pb.start();
 							
 						} catch (IOException e) {
