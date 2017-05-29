@@ -219,6 +219,7 @@ public class classifyImages extends JFrame{
 					if(bhattCheckBox.isSelected()){
 						chckbxRgb.setVisible(true);
 						chckbxHsv.setVisible(true);
+						
 					}
 					if(!chiSquareCheckBox.isSelected() && !intersectionCheckBox.isSelected() && !correlationCheckBox.isSelected() && !bhattCheckBox.isSelected()){
 						chckbxRgb.setVisible(false);
