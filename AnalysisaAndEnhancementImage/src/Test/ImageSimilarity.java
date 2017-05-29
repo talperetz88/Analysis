@@ -23,6 +23,7 @@ public class ImageSimilarity {
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
+		
 	}
 
 	@Before
