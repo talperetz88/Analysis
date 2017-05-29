@@ -168,7 +168,7 @@ public class Focus {
 					 sum++;
 			 }
 		 sumtest=sumtest/(img.getHeight()*img.getWidth());
-		 System.out.println("sum test"+sumtest);
+		 //System.out.println("sum test"+sumtest);
 		 return sum;
 		
 	}
@@ -193,7 +193,7 @@ public class Focus {
 				 
 			 }
 		 sumtest=sumtest/(img.getHeight()*img.getWidth());
-		 System.out.println("the tset sum is  : "+sumtest);
+		// System.out.println("the tset sum is  : "+sumtest);
 		 return sum;
 		
 	}	
@@ -222,7 +222,7 @@ public class Focus {
 
 			 }
 		 sumtest=sumtest/(img.getHeight()*img.getWidth());
-		 System.out.println("the test sum is "+sumtest);
+		// System.out.println("the test sum is "+sumtest);
 		return sum;
 	}
 	
@@ -248,7 +248,7 @@ public class Focus {
 
 			 }
 		 sumtest=sumtest/(img.getHeight()*img.getWidth());
-		 System.out.println("the sum test "+ sumtest);
+		// System.out.println("the sum test "+ sumtest);
 		return sum;
 	}
 	

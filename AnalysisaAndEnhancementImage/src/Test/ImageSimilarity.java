@@ -39,9 +39,10 @@ public class ImageSimilarity {
 			temp=n.equals(listOfFiles[i].getName());
 			if (temp==false)
 				bool = false;
+		}
 		Assert.assertTrue(bool);
 
-		}
+		
 	}
 }
 		

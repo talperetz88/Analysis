@@ -189,6 +189,8 @@ public class FocusMeasurement extends JFrame {
 					normalCheckBox.setVisible(true);
 				if(!LuminanceCheckBox.isSelected() && !grayScaleCheckBox.isSelected())
 					normalCheckBox.setVisible(false);
+				if(LuminanceCheckBox.isSelected() && grayScaleCheckBox.isSelected())
+					JOptionPane.showMessageDialog(null, "Plese choose one option in each time", "Warning",JOptionPane.WARNING_MESSAGE);
 			}
 		});
 		LuminanceCheckBox.setBounds(8, 20, 113, 25);
@@ -201,6 +203,8 @@ public class FocusMeasurement extends JFrame {
 					normalCheckBox.setVisible(true);
 				if(!grayScaleCheckBox.isSelected() && !LuminanceCheckBox.isSelected())
 					normalCheckBox.setVisible(false);
+				if(LuminanceCheckBox.isSelected() && grayScaleCheckBox.isSelected())
+					JOptionPane.showMessageDialog(null, "Plese choose one option in each time", "Warning",JOptionPane.WARNING_MESSAGE);
 			}
 			
 		});
@@ -229,6 +233,8 @@ public class FocusMeasurement extends JFrame {
 				spinner.setVisible(false);
 				if(!chckbxImagePower.isSelected() && !chckbxNewCheckBox_1.isSelected() && !chckbxNewCheckBox.isSelected())
 					lblTreshold.setVisible(false);
+				if(chckbxImagePower.isSelected() && chckbxNewCheckBox_1.isSelected() || chckbxNewCheckBox.isSelected() && chckbxNewCheckBox_1.isSelected() && chckbxNewCheckBox.isSelected() && chckbxImagePower.isSelected())
+					JOptionPane.showMessageDialog(null, "Plese choose one option in each time", "Warning",JOptionPane.WARNING_MESSAGE);
 			}
 		});
 		chckbxNewCheckBox.setBounds(0, 0, 167, 25);
@@ -245,6 +251,8 @@ public class FocusMeasurement extends JFrame {
 					spinner_1.setVisible(false);
 				if(!chckbxImagePower.isSelected() && !chckbxNewCheckBox_1.isSelected() && !chckbxNewCheckBox.isSelected())
 					lblTreshold.setVisible(false);
+				if(chckbxImagePower.isSelected() && chckbxNewCheckBox_1.isSelected() || chckbxNewCheckBox_1.isSelected() && chckbxNewCheckBox.isSelected())
+					JOptionPane.showMessageDialog(null, "Plese choose one option in each time", "Warning",JOptionPane.WARNING_MESSAGE);
 			}
 		});
 		chckbxNewCheckBox_1.setBounds(180, 0, 113, 25);
@@ -261,6 +269,8 @@ public class FocusMeasurement extends JFrame {
 				spinner_2.setVisible(false);
 				if(!chckbxImagePower.isSelected() && !chckbxNewCheckBox_1.isSelected() && !chckbxNewCheckBox.isSelected())
 					lblTreshold.setVisible(false);
+				if(chckbxImagePower.isSelected() && chckbxNewCheckBox_1.isSelected() || chckbxImagePower.isSelected() && chckbxNewCheckBox.isSelected())
+					JOptionPane.showMessageDialog(null, "Plese choose one option in each time", "Warning",JOptionPane.WARNING_MESSAGE);
 			}
 		});
 		chckbxImagePower.setBounds(312, 0, 113, 25);
@@ -292,10 +302,23 @@ public class FocusMeasurement extends JFrame {
 		differentiationPanel.setVisible(false);
 		
 		chckbxNewCheckBox_3 = new JCheckBox("differences");
+		chckbxNewCheckBox_3.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				if(chckbxNewCheckBox_3.isSelected() && chckbxNewCheckBox_2.isSelected())
+					JOptionPane.showMessageDialog(null, "Plese choose one option in each time", "Warning",JOptionPane.WARNING_MESSAGE);
+			}
+		});
 		chckbxNewCheckBox_3.setBounds(0, 0, 113, 25);
 		differentiationPanel.add(chckbxNewCheckBox_3);
 		
 		chckbxNewCheckBox_2 = new JCheckBox("squar differences");
+		chckbxNewCheckBox_2.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				if(chckbxNewCheckBox_3.isSelected() && chckbxNewCheckBox_2.isSelected())
+					JOptionPane.showMessageDialog(null, "Plese choose one option in each time", "Warning",JOptionPane.WARNING_MESSAGE);
+			
+			}
+		});
 		chckbxNewCheckBox_2.setBounds(195, 0, 168, 25);
 		differentiationPanel.add(chckbxNewCheckBox_2);
 		
@@ -503,9 +526,9 @@ public class FocusMeasurement extends JFrame {
 						}
 						if(checkBox_2.isSelected()){
 							if(chckbxNewCheckBox_2.isSelected())
-								func.FocusMeasuresBasedOnImageDifferentiationB(CUtils.GetImagesDestPath() + "goodImages\\" + fileName);
+								func.FocusMeasuresBasedOnImageDifferentiationB(CUtils.GetImagesDestPath() + "goodImages\\" + fileName, (float)spinner_3.getValue());
 							if(chckbxNewCheckBox_3.isSelected())
-								func.FocusMeasuresBasedOnImageDifferentiationA(CUtils.GetImagesDestPath() + "goodImages\\" + fileName);
+								func.FocusMeasuresBasedOnImageDifferentiationA(CUtils.GetImagesDestPath() + "goodImages\\" + fileName,(float)spinner_3.getValue());
 						}
 					}
 				}

@@ -23,21 +23,25 @@ public class TestImageSharping {
 	@Test
 	public void test() {
 		Focus f= new Focus();
+		boolean bool = true ;
 		ImproveFocus improve = new ImproveFocus();
-		/*
-		try {
-			   BufferedImage img = ImageIO.read(new File("a.jpg"));
-			} catch (IOException e) {
-				System.err.println(e);
-			}
-			*/
 		improve.blur("C:\\project\\foucs\\","C:\\project\\foucs\\blurImage\\","R.png",1,2);
 		improve.mask("C:\\project\\foucs\\","C:\\project\\foucs\\blurImage\\","R.png");
 		improve.improveFocus("C:\\project\\foucs\\","C:\\project\\foucs\\maskImages\\","R.png");
 		double sharp = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\foucs\\sharpImages\\"+"sharp_R.png",(float) 20);
-		double r = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\foucs\\R.png",(float) 20);
-		Assert.assertTrue(sharp>r);
-			
+		double  orignal = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\foucs\\R.png",(float) 20);
+		
+		if(sharp<orignal)
+			bool = false;
+		
+		improve.laplacianMask("C:\\project\\foucs\\", "C:\\project\\foucs\\laplacianMask\\", "R.png", 1);
+		improve.improveFocusLaplacian("C:\\project\\foucs\\", "C:\\project\\foucs\\laplacianMask\\", "R.png");
+		sharp = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\foucs\\sharpLaplacian\\"+"sharp_R.png",(float) 20);
+		
+		if(sharp<orignal)
+			bool = false;	
+		
+		Assert.assertTrue(bool);
 	}
 
 }
