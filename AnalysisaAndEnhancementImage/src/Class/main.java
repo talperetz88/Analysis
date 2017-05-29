@@ -8,24 +8,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
-
 import static java.nio.file.StandardCopyOption.*;
 import javax.imageio.ImageIO;
-
-import org.apothem.mediainfo.api.MediaInfo;
 
 import GUI.*;
 public class main {
 
 	public static void main(String[] arg) throws IOException{
 		
-		
-		
-		//();
+		startGUI open = new startGUI();
 
-		//startGUI open = new startGUI();
-		BufferedImage img = null;
 		//ImproveFocusGUI j = new ImproveFocusGUI();
 		//FocusMeasurement f = new FocusMeasurement();
 		//CUtils.SetImagesDestinationPath("C:\\project\\images\\1\\");
@@ -38,7 +30,7 @@ public class main {
 
 
 		//loding an image 
-		
+		BufferedImage img = null;
 		try {
 		    img = ImageIO.read(new File("a.jpg"));
 		   
@@ -99,14 +91,14 @@ public class main {
 				String fileName = listOfFiles[i].getName();
 		byte [][]matrixg =CUtils.BlackWhiteImageToBinaryArray("C:\\project\\images\\1\\matlabRes\\" +"MatlabRes" +fileName);
         TriangleEdges edges = TriangleUtils.FindTriangleEdges(matrixg);
-		AreasOfInterest tr = new AreasOfInterest();
+		AreasOfInterest tr = new AreasOfInterest(10);
 		img = ImageIO.read(new File("C:\\project\\images\\1\\goodImages\\"+fileName));
 		//BufferedImage rounded= tr.Area7(img, 85,edges);
 		
-		BufferedImage rounded= tr.Area1(img,150,edges);  
-        ImageIO.write(rounded, "png", new File("C:\\project\\images\\1\\areas\\"+"area1"+fileName));
+		BufferedImage rounded= tr.Area1(img,65,edges.leftEdge.x,edges.leftEdge.y);  
+        ImageIO.write(rounded, "png", new File("C:\\project\\images\\1\\areas\\"+"area4"+fileName));
         
-		BufferedImage rounded1= tr.Area2(img,150,edges);  
+		BufferedImage rounded1= tr.Area2(img,65,edges.rightEdge.x,edges.rightEdge.y);  
         ImageIO.write(rounded1, "png", new File("C:\\project\\images\\1\\areas\\"+"area2"+fileName));
         
 		BufferedImage rounded2= tr.Area3(img,edges,40);  
@@ -201,11 +193,7 @@ public class main {
 				
 			} 
 		}*/
-		try {
-			   img = ImageIO.read(new File("a.jpg"));
-			} catch (IOException e) {
-				System.err.println(e);
-			}
+	/*
 		//System.out.println("the edeg is:");
 		Histogram hist = new Histogram(img);
 		// loading an image 
@@ -223,9 +211,9 @@ public class main {
 				System.err.println(e);
 			}
 			Histogram hist1 = new Histogram(img1);
-			res[i] =hist.chiSquareHSV(hist,hist1);
+			res[i] =hist.BhattacharyyaDistanceHSV(hist,hist1);
 			name [i] = n;
-			
+			/*
 			hist.intersectionRGB(hist,hist1);
 			hist.correlationHSV(hist,hist1);
 			hist.correlationRGB(hist,hist1);
@@ -233,9 +221,9 @@ public class main {
 			hist.chiSquareRGB(hist,hist1);
 			hist.BhattacharyyaDistanceHSV(hist,hist1);
 			hist.BhattacharyyaDistanceRGB(hist,hist1);
+			*/
 			
-			
-			
+			/*
 			
 		}
 		double temp ;
@@ -256,7 +244,7 @@ public class main {
 				System.out.println(name[i]+ " "+res[i]);
 			}
 		
-		
+		*/
 
 		/*
 			try {
