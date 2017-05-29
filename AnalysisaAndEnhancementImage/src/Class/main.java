@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 import static java.nio.file.StandardCopyOption.*;
 import javax.imageio.ImageIO;
 
-import org.apothem.mediainfo.api.MediaInfo;
+
 
 import GUI.*;
 public class main {
