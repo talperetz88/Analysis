@@ -421,7 +421,7 @@ public class FocusMeasurement extends JFrame {
 
 						if(chckbxArea_1.isSelected() || chckbxAllAreas.isSelected()){
 							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "FocusMeasurement\\localApproch\\Area 1\\")){
-							BufferedImage res = tr.Area1(image, 65, edges);
+							BufferedImage res = tr.Area1(image, 80, edges);
 							CUtils.SaveImage(res, CUtils.GetImagesDestPath()+"FocusMeasurement\\localApproch\\"+"Area 1\\" +"area_1"+fileName);
 							
 							System.out.println("test1");
@@ -429,7 +429,7 @@ public class FocusMeasurement extends JFrame {
 						}
 						if(chckbxArea_2.isSelected() || chckbxAllAreas.isSelected()){
 							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "FocusMeasurement\\localApproch\\Area 2\\")){
-								BufferedImage res = tr.Area2(image, 65, edges);
+								BufferedImage res = tr.Area2(image, 80, edges);
 								CUtils.SaveImage(res, CUtils.GetImagesDestPath()+"FocusMeasurement\\localApproch\\"+"Area 2\\" +"area_1"+fileName);
 								
 							System.out.println("test2");
@@ -437,7 +437,7 @@ public class FocusMeasurement extends JFrame {
 						}
 						if(chckbxArea_3.isSelected() || chckbxAllAreas.isSelected()){
 							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "FocusMeasurement\\localApproch\\Area 3\\")){
-								BufferedImage res = tr.Area3(image, edges,10);
+								BufferedImage res = tr.Area3(image, edges,20);
 								CUtils.SaveImage(res, CUtils.GetImagesDestPath()+"FocusMeasurement\\localApproch\\"+"Area 3\\" +"area_1"+fileName);
 								
 							System.out.println("test3");
@@ -555,12 +555,12 @@ public class FocusMeasurement extends JFrame {
 						}
 						if(checkBox_2.isSelected()){
 							if(chckbxNewCheckBox_2.isSelected()){
-								res[k] = func.FocusMeasuresBasedOnImageDifferentiationB(CUtils.GetImagesDestPath() + "goodImages\\" + fileName, (double)spinner_3.getValue());
+								res[k] = func.FocusMeasuresBasedOnImageDifferentiationB(CUtils.GetImagesDestPath() + "goodImages\\" + fileName, (int)spinner_3.getValue());
 								name[k] = fileName;
 						}
 							
 							if(chckbxNewCheckBox_3.isSelected()){
-								res[k] = func.FocusMeasuresBasedOnImageDifferentiationA(CUtils.GetImagesDestPath() + "goodImages\\" + fileName,(double)spinner_3.getValue());
+								res[k] = func.FocusMeasuresBasedOnImageDifferentiationA(CUtils.GetImagesDestPath() + "goodImages\\" + fileName,(int)spinner_3.getValue());
 								name[k] = fileName;
 						}
 						
@@ -621,7 +621,7 @@ public class FocusMeasurement extends JFrame {
 				}
 				if(checkBox_2.isSelected()){
 					if(chckbxNewCheckBox_2.isSelected()){
-						if(res[0] > 234)
+						if(res[0] > 3400000)
 							notNeedToImproveImages.add(name[0]);
 						else
 							needToImproveImages.add(name[0]);

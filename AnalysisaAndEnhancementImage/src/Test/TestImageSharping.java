@@ -28,15 +28,15 @@ public class TestImageSharping {
 		improve.blur("C:\\project\\foucs\\","C:\\project\\foucs\\blurImage\\","R.png",1,2);
 		improve.mask("C:\\project\\foucs\\","C:\\project\\foucs\\blurImage\\","R.png");
 		improve.improveFocus("C:\\project\\foucs\\","C:\\project\\foucs\\maskImages\\","R.png");
-		double sharp = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\foucs\\sharpImages\\"+"sharp_R.png",(float) 20);
-		double  orignal = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\foucs\\R.png",(float) 20);
+		double sharp = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\foucs\\sharpImages\\"+"sharp_R.png",(int) 20);
+		double  orignal = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\foucs\\R.png",(int) 20);
 		
 		if(sharp<orignal)
 			bool = false;
 		
 		improve.laplacianMask("C:\\project\\foucs\\", "C:\\project\\foucs\\laplacianMask\\", "R.png", 1);
 		improve.improveFocusLaplacian("C:\\project\\foucs\\", "C:\\project\\foucs\\laplacianMask\\", "R.png");
-		sharp = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\foucs\\sharpLaplacian\\"+"sharp_R.png",(float) 20);
+		sharp = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\foucs\\sharpLaplacian\\"+"sharp_R.png",(int) 20);
 		
 		if(sharp<orignal)
 			bool = false;	

@@ -81,8 +81,8 @@ public class TestFocusFunctionMeasures {
 		
 		
 		System.out.println("FocusMeasuresBasedOnImageDifferentiationA");
-		orignal = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\focusfunctiontest\\orignal.png",(float) 20);
-		blur = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\focusfunctiontest\\blur.png",(float) 20);
+		orignal = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\focusfunctiontest\\orignal.png",(int) 20);
+		blur = f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\focusfunctiontest\\blur.png",(int) 20);
 		System.out.println("the orignal is : "+orignal+" the blur is :"+blur);
 		
 		if(orignal<blur)
@@ -90,8 +90,8 @@ public class TestFocusFunctionMeasures {
 		
 		
 		System.out.println("FocusMeasuresBasedOnImageDifferentiationB");
-		orignal = f.FocusMeasuresBasedOnImageDifferentiationB("C:\\project\\focusfunctiontest\\orignal.png",(float) 9700);
-		blur = f.FocusMeasuresBasedOnImageDifferentiationB("C:\\project\\focusfunctiontest\\blur.png",(float) 9700);
+		orignal = f.FocusMeasuresBasedOnImageDifferentiationB("C:\\project\\focusfunctiontest\\orignal.png",(int) 9700);
+		blur = f.FocusMeasuresBasedOnImageDifferentiationB("C:\\project\\focusfunctiontest\\blur.png",(int) 9700);
 		System.out.println("the orignal is : "+orignal+" the blur is :"+blur);
 		
 		

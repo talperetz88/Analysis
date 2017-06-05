@@ -201,7 +201,7 @@ public class Focus {
 	//function 2.5.3 [12]
 	//high value is better
 	
-	public double FocusMeasuresBasedOnImageDifferentiationA(String path,double threshold){
+	public double FocusMeasuresBasedOnImageDifferentiationA(String path,int threshold){
 		double sum=0,sumtest=0,v;//v is the gradient threshold
 		v=threshold;
 		BufferedImage img = null;
@@ -227,7 +227,7 @@ public class Focus {
 	}
 	
 	//function 2.5.3 [13]
-	public double FocusMeasuresBasedOnImageDifferentiationB(String path,double threshold){
+	public double FocusMeasuresBasedOnImageDifferentiationB(String path,int threshold){
 		
 		double sumtest=0,sum=0,v=threshold;//v is the gradient threshold
 		BufferedImage img = null;

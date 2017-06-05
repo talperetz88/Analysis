@@ -19,8 +19,11 @@ public class main {
 		startGUI open = new startGUI();
 
 		//ImproveFocusGUI j = new ImproveFocusGUI();
-	/*	Focus f = new Focus();
-		double sum =0 ;
+	Focus f = new Focus();
+	/*System.out.println("orignal image - "+f.FocusMeasuresBasedOnImageDifferentiationB("C:\\project\\images\\1\\goodImages\\img-01279.png", 20));
+	System.out.println("blur image - "+f.FocusMeasuresBasedOnImageDifferentiationB("C:\\project\\images\\1\\goodImages\\blurImage\\blur_img-01297.png", 20));
+	System.out.println("sharp image - "+f.FocusMeasuresBasedOnImageDifferentiationB("C:\\project\\images\\1\\goodImages\\sharpImages\\sharp_img-01297.png", 20));
+	/*	double sum =0 ;
 		
 		File folder = new File("C:\\project\\images\\101\\goodImages\\");
 		File[] listOfFiles = folder.listFiles();
