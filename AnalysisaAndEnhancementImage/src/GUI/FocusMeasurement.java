@@ -17,6 +17,7 @@ import Class.TriangleUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.awt.BorderLayout;
 import java.awt.Panel;
 import java.awt.List;
@@ -53,8 +54,11 @@ public class FocusMeasurement extends JFrame {
 	private JLabel lblNewLabel;
 	private JSpinner spinner_3;
 	private JButton btnNewButton;
-	public FocusMeasurement(){
-		
+	private String path;
+	private ArrayList<String> needToImproveImages = new ArrayList <String>();
+	private ArrayList<String> notNeedToImproveImages = new ArrayList <String>();
+	public FocusMeasurement(String path){
+		this.path = path;
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(100,100,722,533);
 		getContentPane().setLayout(null);
@@ -334,7 +338,7 @@ public class FocusMeasurement extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				closeFrame();
-				ImproveFocusGUI next = new ImproveFocusGUI();
+				ImproveFocusGUI next = new ImproveFocusGUI(needToImproveImages,notNeedToImproveImages);
 			}
 		});
 		btnNewButton.setBounds(581, 433, 111, 40);
@@ -487,50 +491,152 @@ public class FocusMeasurement extends JFrame {
 			if(approch == 2){
 				BufferedImage image = null;
 				String fileName;
-				File folder = new File(CUtils.GetImagesDestPath() +"goodImages\\");
-				File[] listOfFiles = folder.listFiles();
+				File folder = new File(path);
+				File [] listOfFolders = folder.listFiles();
+				File[] listOfFiles = null ;//folder.listFiles();
 				Focus func = new Focus();
+				double [] res = null ;
+				String [] name = null;
 				int index;
-				for (int i = 0; i < listOfFiles.length -1; i++){
+				int k  = 0;
+				for(int j = 0 ; j < listOfFolders.length ; j ++)
+					if(listOfFolders[j].isDirectory()){
+						folder = new File(path + listOfFolders[j].getName());
+						listOfFiles = folder.listFiles();
+					
+					k=0;	
+				for (int i = 0; i < listOfFiles.length; i++){
 					if (listOfFiles[i].isFile()){
 						if(listOfFiles[i]==null)
 							continue ;
+						
 						fileName = listOfFiles[i].getName();
-				
+						if(k == 0){
+						res = new double[listOfFiles.length];
+						name = new String[listOfFiles.length];
+						}
 						if(checkBox.isSelected()){
 							if(LuminanceCheckBox.isSelected()){
 								if(normalCheckBox.isSelected()){
-								func.FocusMeasuresBasedOnImageStatisticsNormalizedVariance(CUtils.GetImagesDestPath() + "goodImages\\" + fileName, 2);	
+								res[k] = func.FocusMeasuresBasedOnImageStatisticsNormalizedVariance(CUtils.GetImagesDestPath() + "goodImages\\" + fileName, 2);	
+								name[k] = fileName;
+								
 								}else{
 								//the second value of index is: 1 it means grayscale , and 2 it means Luminance
-								func.FocusMeasuresBasedOnImageStatisticsVariance(CUtils.GetImagesDestPath() + "goodImages\\" + fileName, 2);
+								res[k] = func.FocusMeasuresBasedOnImageStatisticsVariance(CUtils.GetImagesDestPath() + "goodImages\\" + fileName, 2);
+								name[k] = fileName;
 								}
 							}
 							if(grayScaleCheckBox.isSelected()){
 								if(normalCheckBox.isSelected()){
-									func.FocusMeasuresBasedOnImageStatisticsNormalizedVariance(CUtils.GetImagesDestPath() + "goodImages\\" + fileName, 1);	
-									}else{
+									res[k] = func.FocusMeasuresBasedOnImageStatisticsNormalizedVariance(CUtils.GetImagesDestPath() + "goodImages\\" + fileName, 1);	
+									name[k] = fileName;	
+								}else{
 									//the second value of index is: 1 it means grayscale , and 2 it means Luminance
-									func.FocusMeasuresBasedOnImageStatisticsVariance(CUtils.GetImagesDestPath() + "goodImages\\" + fileName, 1);
+									res[k] = func.FocusMeasuresBasedOnImageStatisticsVariance(CUtils.GetImagesDestPath() + "goodImages\\" + fileName, 1);
+									name[k] = fileName;
 									}
 							}
 							
 						}
 						if(checkBox_1.isSelected()){
-							if(chckbxNewCheckBox.isSelected())
-								func.FunctionBasedOnDepthOfPeaksAndValleysA(CUtils.GetImagesDestPath() + "goodImages\\" + fileName, (int)spinner.getValue());
-							if(chckbxNewCheckBox_1.isSelected())
-								func.FunctionBasedOnDepthOfPeaksAndValleysB(CUtils.GetImagesDestPath() + "goodImages\\" + fileName, (int)spinner_1.getValue());
-							if(chckbxImagePower.isSelected())
-								func.FunctionBasedOnDepthOfPeaksAndValleysC(CUtils.GetImagesDestPath() + "goodImages\\" + fileName, (int)spinner_2.getValue());
+							if(chckbxNewCheckBox.isSelected()){
+								res[k] = func.FunctionBasedOnDepthOfPeaksAndValleysA(CUtils.GetImagesDestPath() + "goodImages\\" + fileName, (int)spinner.getValue());
+								name[k] = fileName;
+							}
+							if(chckbxNewCheckBox_1.isSelected()){
+								res[k] = func.FunctionBasedOnDepthOfPeaksAndValleysB(CUtils.GetImagesDestPath() + "goodImages\\" + fileName, (int)spinner_1.getValue());
+								name[k] = fileName;
+							}
+							if(chckbxImagePower.isSelected()){
+								res[k] = func.FunctionBasedOnDepthOfPeaksAndValleysC(CUtils.GetImagesDestPath() + "goodImages\\" + fileName, (int)spinner_2.getValue());
+								name[k] = fileName;
+							}
 						}
 						if(checkBox_2.isSelected()){
-							if(chckbxNewCheckBox_2.isSelected())
-								func.FocusMeasuresBasedOnImageDifferentiationB(CUtils.GetImagesDestPath() + "goodImages\\" + fileName, (float)spinner_3.getValue());
-							if(chckbxNewCheckBox_3.isSelected())
-								func.FocusMeasuresBasedOnImageDifferentiationA(CUtils.GetImagesDestPath() + "goodImages\\" + fileName,(float)spinner_3.getValue());
+							if(chckbxNewCheckBox_2.isSelected()){
+								res[k] = func.FocusMeasuresBasedOnImageDifferentiationB(CUtils.GetImagesDestPath() + "goodImages\\" + fileName, (double)spinner_3.getValue());
+								name[k] = fileName;
+						}
+							
+							if(chckbxNewCheckBox_3.isSelected()){
+								res[k] = func.FocusMeasuresBasedOnImageDifferentiationA(CUtils.GetImagesDestPath() + "goodImages\\" + fileName,(double)spinner_3.getValue());
+								name[k] = fileName;
+						}
+						
 						}
 					}
+					k++;
+				}
+				
+				getBestFocusImage(res,name);
+				if(checkBox.isSelected()){
+					if(LuminanceCheckBox.isSelected()){
+						if(normalCheckBox.isSelected()){
+							if(res[0] > 234)
+								notNeedToImproveImages.add(name[0]);
+							else
+								needToImproveImages.add(name[0]);
+						}else{
+							if(res[0] > 234)
+								notNeedToImproveImages.add(name[0]);
+							else
+								needToImproveImages.add(name[0]);
+						}
+					}
+					if(grayScaleCheckBox.isSelected()){
+						if(normalCheckBox.isSelected()){
+							if(res[0] > 234)
+								notNeedToImproveImages.add(name[0]);
+							else
+								needToImproveImages.add(name[0]);
+						}else{
+							if(res[0] > 50000)
+								notNeedToImproveImages.add(name[0]);
+							else
+								needToImproveImages.add(name[0]);
+							}
+					}
+					
+				}
+				if(checkBox_1.isSelected()){
+					if(chckbxNewCheckBox.isSelected()){
+						if(res[0] > 234)
+							notNeedToImproveImages.add(name[0]);
+						else
+							needToImproveImages.add(name[0]);
+					}
+					if(chckbxNewCheckBox_1.isSelected()){
+						if(res[0] > 234)
+							notNeedToImproveImages.add(name[0]);
+						else
+							needToImproveImages.add(name[0]);
+					}
+					if(chckbxImagePower.isSelected()){
+						if(res[0] > 234)
+							notNeedToImproveImages.add(name[0]);
+						else
+							needToImproveImages.add(name[0]);
+					}
+				}
+				if(checkBox_2.isSelected()){
+					if(chckbxNewCheckBox_2.isSelected()){
+						if(res[0] > 234)
+							notNeedToImproveImages.add(name[0]);
+						else
+							needToImproveImages.add(name[0]);
+				}
+					
+					if(chckbxNewCheckBox_3.isSelected()){
+						if(res[0] > 234)
+							notNeedToImproveImages.add(name[0]);
+						else
+							needToImproveImages.add(name[0]);
+				}
+				}
+
+				//BestImages.add(getBestFocusImage(res,name));
+				System.out.println(path + listOfFolders[j].getName());
 				}
 			}
 			}
@@ -538,6 +644,29 @@ public class FocusMeasurement extends JFrame {
 		return executeBtn;
 	}
 	
+		public String getBestFocusImage(double[] res, String[] name) {
+			double temp = 0;
+			String tempName = null;
+			for(int i =0; i < res.length; i ++)
+				for(int j=0;j<res.length;j++){
+					if(res[i]>res[j]){
+						temp=res[i];
+						res[i]=res[j];
+						res[j]=temp;
+						tempName=name[i];
+						name[i]=name[j];
+						name[j]=tempName;
+						
+					}
+				}
+			for(int i = 0 ; i < res.length; i++)
+				System.out.println(res[i] +" "+ name[i]);
+			//System.out.println("end Folder");
+			return name[0];
+		
+	}
+
+
 		public void closeFrame(){
  			super.dispose();
  		}

@@ -19,7 +19,22 @@ public class main {
 		startGUI open = new startGUI();
 
 		//ImproveFocusGUI j = new ImproveFocusGUI();
-		//FocusMeasurement f = new FocusMeasurement();
+	/*	Focus f = new Focus();
+		double sum =0 ;
+		
+		File folder = new File("C:\\project\\images\\101\\goodImages\\");
+		File[] listOfFiles = folder.listFiles();
+		for (int i = 0; i < listOfFiles.length; i++){
+			if (listOfFiles[i].isFile()){
+				if(listOfFiles[i]==null)
+					continue ;
+				sum=f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\images\\101\\goodImages\\"+, threshold);
+
+		
+			}
+		}
+		sum=sum/listOfFiles.length;
+		System.out.println("the avg is of FocusMeasuresBasedOnImageDifferentiationA is   " + sum);*/
 		//CUtils.SetImagesDestinationPath("C:\\project\\images\\1\\");
 		//classifyImages h = new classifyImages(null);
 

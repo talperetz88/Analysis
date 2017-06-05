@@ -14,7 +14,7 @@ public class ImproveFocus {
 	public void mask(String pathOriginal,String pathBlur,String fileName){
 		BufferedImage orignalImage = null, blurImage = null,maskimg = null,sharpImg = null;
 		try{
-		orignalImage =  ImageIO.read(new File(pathOriginal + fileName));
+		orignalImage =  ImageIO.read(new File(pathOriginal + "goodImages\\" + fileName));
 		blurImage =  ImageIO.read(new File(pathBlur +"blur_"+fileName));
 				
 		}catch (IOException e){
@@ -48,14 +48,14 @@ public class ImproveFocus {
 				
 			}
 		maskimg = CUtils.ArrayToColorImage(diff);
-		CUtils.SaveImage(maskimg, pathOriginal+ "maskImages\\" +"mask_"+fileName);
+		CUtils.SaveImage(maskimg, pathOriginal+ "ImproveFocus\\maskImages\\" +"mask_"+fileName);
 				
 	}
 
 	public void improveFocus(String pathOriginal,String pathMask,String fileName){
 		BufferedImage orignalImage = null, blurImage = null,maskimg = null,sharpImg = null;
 		try{
-			orignalImage =  ImageIO.read(new File(pathOriginal + fileName));
+			orignalImage =  ImageIO.read(new File(pathOriginal +"goodImages\\" + fileName));
 			maskimg =  ImageIO.read(new File(pathMask +"mask_"+fileName));
 					
 			}catch (IOException e){
@@ -89,7 +89,7 @@ public class ImproveFocus {
 				
 			}
 		sharpImg = CUtils.ArrayToColorImage(diff);
-		CUtils.SaveImage(sharpImg, pathOriginal +"sharpImages\\" +"sharp_"+fileName);
+		CUtils.SaveImage(sharpImg, pathOriginal +"ImproveFocus\\sharpImages\\" +"sharp_"+fileName);
 	}
 	
 	public void laplacianMask(String pathOriginal,String pathMask,String fileName,int ker){
@@ -98,9 +98,9 @@ public class ImproveFocus {
 		float[] kernel_3X3_90Degre = new float[]{0,-1,0,
 				-1,4,-1,
 				0,-1,0};
-		float[] kernel_3X3 = new float[]{1,1,1,
-				1,-8,1,
-				1,1,1};
+		float[] kernel_3X3 = new float[]{-1,-1,-1,
+				-1,8,-1,
+				-1,-1,-1};
 		
 		float[] kernel_5X5 = new float[]{1,1,1,1,1,
 				1,1,-24,1,1,
@@ -114,7 +114,7 @@ public class ImproveFocus {
 			kernelType = kernel_5X5;
 		
 		try {
-			orignalImage = ImageIO.read(new File(pathOriginal+fileName));//"sharp_"+fileName));
+			orignalImage = ImageIO.read(new File(pathOriginal + "sharp_" + fileName));//"sharp_"+fileName));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -131,7 +131,7 @@ public class ImproveFocus {
 	public void improveFocusLaplacian(String pathOriginal,String pathMask,String fileName){
 		BufferedImage orignalImage = null, blurImage = null,maskimg = null,sharpImg = null;
 		try{
-			orignalImage =  ImageIO.read(new File(pathOriginal + fileName));
+			orignalImage =  ImageIO.read(new File(pathOriginal + "goodImages\\" + fileName));
 			maskimg =  ImageIO.read(new File(pathMask +"laplacian_"+fileName));
 					
 			}catch (IOException e){
@@ -165,7 +165,7 @@ public class ImproveFocus {
 				
 			}
 		sharpImg = CUtils.ArrayToColorImage(diff);
-		CUtils.SaveImage(sharpImg, pathOriginal +"sharpLaplacian\\" +"sharp_"+fileName);
+		CUtils.SaveImage(sharpImg, CUtils.GetImagesDestPath()+"ImproveFocus\\sharpLaplacian\\" +"sharp_"+fileName);
 	}
 	public void cMask(String pathOriginal,String pathBlur,String fileName){
 		BufferedImage orignalImage = null, blurImage = null,maskimg = null,sharpImg = null;
@@ -328,7 +328,7 @@ public class ImproveFocus {
 		    int size = (int) Math.sqrt(kernelType.length);
 		    
 		    try {
-				orignalImage = ImageIO.read(new File(pathOriginal+fileName));
+				orignalImage = ImageIO.read(new File(pathOriginal+"goodImages\\"+fileName));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

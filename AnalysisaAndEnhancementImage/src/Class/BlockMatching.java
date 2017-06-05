@@ -107,6 +107,8 @@ public class BlockMatching {
 		int startY = ((leftCorY - (int) result[2]) + heightY> 400)?(400 - (leftCorY - (int) result[2])):heightY;
 		BufferedImage out1 = image2.getSubimage(leftCorX + (int)result[1] ,leftCorY - (int) result[2],startX,startY);
 		CUtils.SaveImage(out1, savePath + "BlockMatching" +name2);
+		CUtils.DeleteFileByPath(savePath + "BlockMatching" +name2);
+		CUtils.DeleteFileByPath(savePath + "BlockMatching" + name1);
 		return result [0];
 	}
 	

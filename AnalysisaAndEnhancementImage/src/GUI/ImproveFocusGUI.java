@@ -10,6 +10,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.awt.BorderLayout;
 import java.awt.Panel;
 import java.awt.List;
@@ -38,7 +39,10 @@ public class ImproveFocusGUI extends JFrame{
 	private JPanel panel_1;
 	private JLabel label;
 	private JComboBox comboBox_2;
-	public ImproveFocusGUI(){
+	private ArrayList<String> needImprove,notNeedImprove;
+	public ImproveFocusGUI(ArrayList<String> needToImproveImages, ArrayList<String> notNeedToImproveImages){
+		needImprove = needToImproveImages;
+		notNeedImprove = notNeedToImproveImages;
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(100,100,722,533);
 		getContentPane().setLayout(null);
@@ -56,8 +60,39 @@ public class ImproveFocusGUI extends JFrame{
 		getContentPane().add(methodsLbl);
 		
 		executeBtn = new JButton("Execute");
+		executeBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				File folder = new File(CUtils.GetImagesDestPath()+"goodImages\\");
+				File[] listOfFiles = folder.listFiles();
+				for (int i = 0; i < needImprove.size(); i++){
+				/*	if (listOfFiles[i].isFile()){
+						if(listOfFiles[i]==null)
+							continue ;
+						String fileName = listOfFiles[i].getName();*/
+					String fileName = needImprove.get(i);
+						if(methodCombo.getSelectedItem().toString() == "Unsharp masking"){
+							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\"))
+								if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\blurImage\\"))
+									if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\maskImages\\"))
+										if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\sharpImages\\"))
+							improve.blur(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath()+"ImproveFocus\\blurImage\\", fileName,ker,sigma);
+							improve.mask(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath()+"ImproveFocus\\blurImage\\", fileName);
+							improve.improveFocus(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath()+"ImproveFocus\\maskImages\\", fileName);
+						}
+						
+						if(methodCombo.getSelectedItem().toString() == "Spitial filter"){
+							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\"))
+								if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\laplacianMask\\"))
+									if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\sharpLaplacian\\"))
+							improve.laplacianMask(CUtils.GetImagesDestPath()+ "ImproveFocus\\sharpImages\\", CUtils.GetImagesDestPath()+"ImproveFocus\\laplacianMask\\", fileName, ker);
+							improve.improveFocusLaplacian(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath()+"ImproveFocus\\laplacianMask\\", fileName);
+						}
+					//}
+				}
+			}
+		});
 		executeBtn.setBounds(43, 241, 187, 40);
-		getContentPane().add(getExecuteBtn());
+		getContentPane().add(executeBtn);
 		getContentPane().add(getNextBtn());
 		
 	methodCombo = new JComboBox();
@@ -161,7 +196,7 @@ public class ImproveFocusGUI extends JFrame{
 					continue ;
 				String fileName = listOfFiles[i].getName();
 		
-				if(methodCombo.getSelectedItem().toString() == "Unsharp masking" || methodCombo.getSelectedItem().toString() == "Spitial filter"){
+				if(methodCombo.getSelectedItem().toString() == "Unsharp masking"){
 					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\"))
 						if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\blurImage\\"))
 							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\maskImages\\"))
@@ -187,7 +222,7 @@ public class ImproveFocusGUI extends JFrame{
 			nextImprovebtn = new JButton("Next");
 			nextImprovebtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				DisplayImages dis = new DisplayImages(CUtils.GetImagesDestPath() + "ImproveFocus\\sharpLaplacian\\");
 			}
 		});
 			nextImprovebtn.setBounds(581, 433, 111, 40);

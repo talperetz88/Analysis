@@ -23,7 +23,7 @@ public class ImageSimilarity {
 	@Test
 	public void test() {
 		CUtils.SetImagesDestinationPath("C:\\project\\testImageSimilarity\\");
-		classifyImages c = new classifyImages(null);
+		classifyImages c = new classifyImages();
 		/*c.MadFunc();
 		c.MesFunc();
 		c.intersectionFunc();

@@ -16,8 +16,11 @@ import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
 
 public class Check extends Thread{
-	
-	
+		float phase1,phase2;
+		public Check(float phase1,float phase2){
+			this.phase1 = phase1;
+			this.phase2 = phase2;
+		}
 		public void run(){
 			BufferedImage image;
 			
@@ -83,7 +86,7 @@ public class Check extends Thread{
 						CUtils.DeleteFileByPath(CUtils.GetImagesDestPath() +fileName);
 						continue;
 					}
-					if(!TriangleUtils.IsTriangleExist(matrixg, 0.5, 0.5, edges)){
+					if(!TriangleUtils.IsTriangleExist(matrixg, phase1, phase2, edges)){
 						System.out.println("Triangle not found in image #" + fileName);
 						CUtils.DeleteFileByPath(CUtils.GetImagesDestPath()+"matlabRes\\" + "MatlabRes"+fileName);
 						CUtils.DeleteFileByPath(CUtils.GetImagesDestPath() +fileName);

@@ -22,7 +22,7 @@ public class openPage extends JFrame{
 		private JButton btnSave = null;
 		private JTextField dirictTextFilde = null;
 		private JTextField textField = null;
-		private JSpinner spinner = null;
+		private JSpinner spinner = null,spinner_1 = null,spinner_2 = null;
 		private JLabel label = null;
 		private JButton nextButten = null;
 		private JLabel lblName = null;
@@ -49,6 +49,29 @@ public class openPage extends JFrame{
 			lblWelcom.setFont(new Font("Arial", Font.BOLD, 20));
 			lblWelcom.setBounds(35, 13, 273, 58);
 			getContentPane().add(lblWelcom);
+			
+			JLabel lblTriangleClean = new JLabel("Triangle clean");
+			lblTriangleClean.setFont(new Font("Arial", Font.BOLD, 16));
+			lblTriangleClean.setBounds(24, 316, 173, 16);
+			getContentPane().add(lblTriangleClean);
+			
+			JLabel lblPhase = new JLabel("phase 1:");
+			lblPhase.setBounds(24, 353, 56, 16);
+			getContentPane().add(lblPhase);
+			
+			JLabel lblPhase_1 = new JLabel("Phase 2:");
+			lblPhase_1.setBounds(24, 392, 56, 16);
+			getContentPane().add(lblPhase_1);
+			
+			spinner_1 = new JSpinner();
+			spinner_1.setModel(new SpinnerNumberModel(new Float(0.01), new Float(0.01), new Float(1), new Float(0.01)));
+			spinner_1.setBounds(92, 350, 62, 22);
+			getContentPane().add(spinner_1);
+			
+			spinner_2 = new JSpinner();
+			spinner_2.setModel(new SpinnerNumberModel(new Float(0.01), new Float(0.01), new Float(1), new Float(0.01)));
+			spinner_2.setBounds(92, 389, 62, 22);
+			getContentPane().add(spinner_2);
 		}
 
 		public JButton getOpenButn() {
@@ -146,10 +169,10 @@ public class openPage extends JFrame{
 	 					
 	 					closeFrame();
 	 					while(start.isAlive());
-	 					Check thread = new Check();					
+	 					Check thread = new Check((float)spinner_1.getValue(),(float)spinner_2.getValue());					
 	 					thread.start();
 	 					//while(thread.isAlive());
-	 					classifyImages next = new classifyImages(open);
+	 					classifyImages next = new classifyImages();
 	 					}
 	 					
 	 				}

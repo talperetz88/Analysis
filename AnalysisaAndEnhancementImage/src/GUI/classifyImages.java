@@ -42,8 +42,9 @@ public class classifyImages extends JFrame{
 	private boolean MAD = false, MES = false, COR = false, CHI = false, BHATT = false, INTER = false;
 	private JSpinner heightSpinner;
 	private JLabel heightLbl;
-	public classifyImages(openPage open){
-		this.open = open;
+	private String path = null;
+	public classifyImages(){
+		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(100,100,722,533);		
 		getContentPane().setLayout(null);
@@ -337,13 +338,13 @@ public class classifyImages extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				closeFrame();
 				//checkBox();
-				FocusMeasurement next = new FocusMeasurement();
-				try {
-					ImageList next1 = new ImageList();
+				FocusMeasurement next = new FocusMeasurement(getPath());
+			/*	try {
+					//ImageList next1 = new ImageList();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}//ImageList next1 = new ImageList(open);// new displaySimilarityGroups(open);
+				}//ImageList next1 = new ImageList(open);// new displaySimilarityGroups(open);*/
 			}
 		});
 		
@@ -400,7 +401,7 @@ public class classifyImages extends JFrame{
 			
 		System.out.println("end loop");
 	}	
-		public void chiSquareFunc() {
+	public void chiSquareFunc() {
 			BlockMatching block = new BlockMatching(); 
 			String fileName = null,fileName1 = null;
 			File folder = new File(CUtils.GetImagesDestPath() +"goodImages\\");
@@ -457,11 +458,13 @@ public class classifyImages extends JFrame{
 						}
 						BufferedImage out = image;
 						if(chckbxRgb.isSelected()){
+							setPath(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\RGB\\");
 							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\RGB\\" +numOfGroupD+"\\" ))
 								CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\RGB\\"+numOfGroupD+"\\"+fileName);
 						flag = 1;
 						}
 						if(chckbxHsv.isSelected()){
+							setPath(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\HSV\\");
 							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\HSV\\" +numOfGroupD+"\\" ))
 								CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\HSV\\"+numOfGroupD+"\\"+fileName);
 							flag = 1;
@@ -523,7 +526,7 @@ public class classifyImages extends JFrame{
 	}
 
 
-		public void bhattFunc() {
+	public void bhattFunc() {
 			BlockMatching block = new BlockMatching(); 
 			String fileName = null,fileName1 = null;
 			File folder = new File(CUtils.GetImagesDestPath() +"goodImages\\");
@@ -581,11 +584,13 @@ public class classifyImages extends JFrame{
 						}
 						BufferedImage out = image;
 						if(chckbxRgb.isSelected()){
+							setPath(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\RGB\\");
 							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\RGB\\" +numOfGroupC+"\\" ))
 								CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\RGB\\"+numOfGroupC+"\\"+fileName);
 							flag = 1;
 						}
 						if(chckbxHsv.isSelected()){
+							setPath(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\HSV\\");
 							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\HSV\\" +numOfGroupC+"\\" ))
 								CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\HSV\\"+numOfGroupC+"\\"+fileName);
 							flag = 1;
@@ -648,7 +653,7 @@ public class classifyImages extends JFrame{
 	}
 
 
-		public void intersectionFunc() {
+	public void intersectionFunc() {
 			BlockMatching block = new BlockMatching(); 
 			String fileName = null,fileName1 = null;
 			File folder = new File(CUtils.GetImagesDestPath() +"goodImages\\");
@@ -705,11 +710,13 @@ public class classifyImages extends JFrame{
 						}
 						BufferedImage out = image;
 							if(chckbxRgb.isSelected()){
+								setPath(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\RGB\\");
 								if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\RGB\\" +numOfGroupB+"\\" ))
 									CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Intersection\\RGB\\"+numOfGroupB+"\\"+fileName);
 								flag = 1;
 							}
 							if(chckbxHsv.isSelected()){
+								setPath(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\HSV\\");
 								if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\HSV\\" +numOfGroupB+"\\" ))
 									CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Intersection\\HSV\\"+numOfGroupB+"\\"+fileName);
 								flag = 1;
@@ -769,7 +776,7 @@ public class classifyImages extends JFrame{
 	}
 
 
-		public void correlationFunc() {
+	public void correlationFunc() {
 			BlockMatching block = new BlockMatching(); 
 			String fileName = null,fileName1 = null;
 			File folder = new File(CUtils.GetImagesDestPath() +"goodImages\\");
@@ -827,11 +834,13 @@ public class classifyImages extends JFrame{
 						}
 						BufferedImage out = image;
 						if(chckbxRgb.isSelected()){
+							setPath(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\RGB\\");
 							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\RGB\\" +numOfGroupA+"\\" ))
 								CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Correlation\\RGB\\"+numOfGroupA+"\\"+fileName);
 							flag = 1;
 						}
 						if(chckbxHsv.isSelected()){
+							setPath(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\HSV\\");
 							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\HSV\\" +numOfGroupA+"\\" ))
 								CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Correlation\\HSV\\"+numOfGroupA+"\\"+fileName);
 							flag = 1;
@@ -891,7 +900,7 @@ public class classifyImages extends JFrame{
 	}
 
 
-		public void MesFunc() {
+	public void MesFunc() {
 			BlockMatching block = new BlockMatching(); 
 			
 			int numOfGroup = 1,flag = 0,flagName =0;
@@ -911,7 +920,7 @@ public class classifyImages extends JFrame{
 					}
 					fileName1 = listOfFiles[i+1].getName();
 					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\")){
-						if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\MES\\"))
+						if(!CUtils.CreateDirectory(setPath(CUtils.GetImagesDestPath() + "BloackMatching\\MES\\")))
 						;
 					}
 					if(flag == 0){
@@ -930,14 +939,6 @@ public class classifyImages extends JFrame{
 					if(res == -1){
 						flag =0;
 						flagName = 0;
-					/*	try {
-							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
-							BufferedImage out = image;
-							CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "BloackMatching\\MES\\"+numOfGroup+"\\"+fileName);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}*/
 						numOfGroup ++;
 						
 					}else if(res != -44){
@@ -955,14 +956,13 @@ public class classifyImages extends JFrame{
 					
 	}
 
-		public void MadFunc() {
+	public void MadFunc() {
 			BlockMatching block = new BlockMatching(); 
 			
 			int numOfGroup = 1,flag = 0,flagName =0;
 			String fileName = null,fileName1 = null;
 			File folder = new File(CUtils.GetImagesDestPath() +"goodImages\\");
 			BufferedImage image = null;
-			//Histogram his = new Histogram(image);
 			File[] listOfFiles = folder.listFiles();
 			
 			for (int i = 0; i < listOfFiles.length -1; i++){
@@ -975,7 +975,7 @@ public class classifyImages extends JFrame{
 					}
 					fileName1 = listOfFiles[i+1].getName();
 			if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\")){
-				if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\MAD\\"))
+				if(!CUtils.CreateDirectory(setPath(CUtils.GetImagesDestPath() + "BloackMatching\\MAD\\")))
 				break;
 			}
 				if(flag == 0){
@@ -995,14 +995,6 @@ public class classifyImages extends JFrame{
 			if(res == -1){
 				flag = 0;
 				flagName = 0;
-				/*try {
-					image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1));
-					BufferedImage out = image;
-					CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "BloackMatching\\MAD\\"+numOfGroup+"\\"+fileName);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}*/
 				numOfGroup ++;
 				//fileName = fileName1;
 			}else if(res != -44){
@@ -1021,7 +1013,18 @@ public class classifyImages extends JFrame{
 	}
 
 
-		public void closeFrame(){
+	public void closeFrame(){
  			super.dispose();
  		}
+
+
+	public String getPath() {
+		return path;
+	}
+
+
+	public String setPath(String path) {
+		this.path = path;
+		return path;
+	}
 }
