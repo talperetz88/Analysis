@@ -162,7 +162,7 @@ public class Histogram {
 		
 		//function thats gets index , the index will indicate which component the function will calculate 1 for red 
 		//2 for blue 3 for green
-		public double helpToCorrelationRGB(int index , Histogram histA , Histogram histB){ // צריך שם יותר טוב 
+		public double helpToCorrelationRGB(int index , Histogram histA , Histogram histB){ 
 			double sumTop=0,sumDownFirst=0,sumDownSec=0;
 			if(index==1){
 				for(int i=0;i<256;i++){
@@ -349,7 +349,7 @@ public class Histogram {
 			 temp=(1/(Math.sqrt(histA.sTop*histB.sTop*256*256)));
 			
 			for(int i=0;i<256;i++){
-				if(Math.sqrt((histA.SBin[i]*histB.SBin[i]))<0)
+				if(Math.sqrt((histA.SBin[i]*histB.SBin[i]))>0)
 					sum+=Math.sqrt((histA.SBin[i]*histB.SBin[i]));
 			}
 			

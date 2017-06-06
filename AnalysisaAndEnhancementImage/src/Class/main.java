@@ -18,24 +18,34 @@ public class main {
 		
 		startGUI open = new startGUI();
 
+		Histogram h =null, h2 = null;
 		//ImproveFocusGUI j = new ImproveFocusGUI();
-	Focus f = new Focus();
+	//Focus f = new Focus();
 	/*System.out.println("orignal image - "+f.FocusMeasuresBasedOnImageDifferentiationB("C:\\project\\images\\1\\goodImages\\img-01279.png", 20));
 	System.out.println("blur image - "+f.FocusMeasuresBasedOnImageDifferentiationB("C:\\project\\images\\1\\goodImages\\blurImage\\blur_img-01297.png", 20));
 	System.out.println("sharp image - "+f.FocusMeasuresBasedOnImageDifferentiationB("C:\\project\\images\\1\\goodImages\\sharpImages\\sharp_img-01297.png", 20));
 	/*	double sum =0 ;
-		
-		File folder = new File("C:\\project\\images\\101\\goodImages\\");
+		*/
+		/*File folder = new File("C:\\project\\images\\1\\goodImages\\");
 		File[] listOfFiles = folder.listFiles();
-		for (int i = 0; i < listOfFiles.length; i++){
+		String fileName,fileName2;
+		for (int i = 0; i < listOfFiles.length -1; i++){
 			if (listOfFiles[i].isFile()){
 				if(listOfFiles[i]==null)
 					continue ;
-				sum=f.FocusMeasuresBasedOnImageDifferentiationA("C:\\project\\images\\101\\goodImages\\"+, threshold);
-
-		
+				fileName = listOfFiles[i].getName();
+				fileName2 = listOfFiles[i+1].getName();
+				h = new Histogram(ImageIO.read(new File("C:\\project\\images\\1\\goodImages\\" + fileName)));
+				h2 = new Histogram(ImageIO.read(new File("C:\\project\\images\\1\\goodImages\\" + fileName2)));
+				System.out.println("the result is :"+h.BhattacharyyaDistanceHSV(h, h2) + " file name 1 is" + fileName + " fileName 2 is" + fileName2);
 			}
 		}
+		
+		h = new Histogram(ImageIO.read(new File("C:\\project\\images\\1\\goodImages\\img-01285.png" )));
+		h2 = new Histogram(ImageIO.read(new File("C:\\project\\images\\1\\goodImages\\img-01285.png")));
+		
+		System.out.println("the result is :"+h.BhattacharyyaDistanceHSV(h, h2));
+		/*
 		sum=sum/listOfFiles.length;
 		System.out.println("the avg is of FocusMeasuresBasedOnImageDifferentiationA is   " + sum);*/
 		//CUtils.SetImagesDestinationPath("C:\\project\\images\\1\\");

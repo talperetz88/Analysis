@@ -99,7 +99,6 @@ public class classifyImages extends JFrame{
 
 	}
 	
-	
 	public JComboBox getMethods(){
 		if(comboBox == null){
 		comboBox = new JComboBox();
@@ -412,7 +411,7 @@ public class classifyImages extends JFrame{
 			TriangleEdges edges = null;
 			int heightTreshold = 5,numOfGroupA = 1, numOfGroupB = 1, numOfGroupC = 1 , numOfGroupD = 1 ;
 			int flagName = 0 , flag = 0;
-			double res = 0 ,res1 = 0,treshold = 0.2;
+			double res = 1 ,res1 = 1,treshold = 0.2;
 			Histogram hist = null,hist1 = null;
 			for (int i = 0; i < listOfFiles.length -1; i++){
 				if (listOfFiles[i].isFile() && listOfFiles[i+1].isFile()){
@@ -480,7 +479,7 @@ public class classifyImages extends JFrame{
 						}
 					}
 					if(res < treshold || res1 < treshold){
-						res = res1 = 0;
+						res = res1 = 1;
 						try{
 							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1));
 							BufferedImage out = image;
@@ -525,7 +524,6 @@ public class classifyImages extends JFrame{
 		
 	}
 
-
 	public void bhattFunc() {
 			BlockMatching block = new BlockMatching(); 
 			String fileName = null,fileName1 = null;
@@ -537,7 +535,7 @@ public class classifyImages extends JFrame{
 			TriangleEdges edges = null;
 			int heightTreshold = 5,numOfGroupA = 1, numOfGroupB = 1, numOfGroupC = 1 , numOfGroupD = 1 ;
 			int flagName = 0 , flag = 0;
-			double res = 0 ,res1 = 0,treshold = 0.2;
+			double res = 1 ,res1 = 1,treshold = 0.2,tresholdBhat = 0.1;
 			Histogram hist = null,hist1 = null;
 			for (int i = 0; i < listOfFiles.length -1; i++){
 				if (listOfFiles[i].isFile() && listOfFiles[i+1].isFile()){
@@ -604,13 +602,13 @@ public class classifyImages extends JFrame{
 							res1 = hist.BhattacharyyaDistanceHSV(hist, hist1);
 						}
 					}
-					if((1-res) < treshold || (1-res1) < treshold){
-						res = res1 = 0;
+					if((res) < tresholdBhat || (res1) < tresholdBhat){
+						res = res1 = 1;
 						try{
 							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1));
 							BufferedImage out = image;
 							if(chckbxRgb.isSelected()){
-								CUtils.SaveImage(out, CUtils.GetImagesDestPath() +"Histogram\\BhattacharyyaDistance\\RGB" +numOfGroupC+"\\"+fileName1);
+								CUtils.SaveImage(out, CUtils.GetImagesDestPath() +"Histogram\\BhattacharyyaDistance\\RGB\\" +numOfGroupC+"\\"+fileName1);
 								
 							}
 							if(chckbxHsv.isSelected()){
@@ -651,7 +649,6 @@ public class classifyImages extends JFrame{
 			}
 		
 	}
-
 
 	public void intersectionFunc() {
 			BlockMatching block = new BlockMatching(); 
@@ -774,7 +771,6 @@ public class classifyImages extends JFrame{
 			}
 		
 	}
-
 
 	public void correlationFunc() {
 			BlockMatching block = new BlockMatching(); 
@@ -899,7 +895,6 @@ public class classifyImages extends JFrame{
 		
 	}
 
-
 	public void MesFunc() {
 			BlockMatching block = new BlockMatching(); 
 			
@@ -1012,16 +1007,13 @@ public class classifyImages extends JFrame{
 		
 	}
 
-
 	public void closeFrame(){
  			super.dispose();
  		}
 
-
 	public String getPath() {
 		return path;
 	}
-
 
 	public String setPath(String path) {
 		this.path = path;

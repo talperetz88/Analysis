@@ -43,6 +43,8 @@ public class openPage extends JFrame{
 			getContentPane().add(getnextBtn());
 			getContentPane().add(getFramesLabel());
 			getContentPane().add(getCutLable());
+			getContentPane().add(getSpinner1());
+			getContentPane().add(getSpinner2());
 			this.setVisible(true);
 			
 			JLabel lblWelcom = new JLabel("Welcome");
@@ -52,7 +54,7 @@ public class openPage extends JFrame{
 			
 			JLabel lblTriangleClean = new JLabel("Triangle clean");
 			lblTriangleClean.setFont(new Font("Arial", Font.BOLD, 16));
-			lblTriangleClean.setBounds(24, 316, 173, 16);
+			lblTriangleClean.setBounds(24, 324, 173, 16);
 			getContentPane().add(lblTriangleClean);
 			
 			JLabel lblPhase = new JLabel("phase 1:");
@@ -63,15 +65,6 @@ public class openPage extends JFrame{
 			lblPhase_1.setBounds(24, 392, 56, 16);
 			getContentPane().add(lblPhase_1);
 			
-			spinner_1 = new JSpinner();
-			spinner_1.setModel(new SpinnerNumberModel(new Float(0.01), new Float(0.01), new Float(1), new Float(0.01)));
-			spinner_1.setBounds(92, 350, 62, 22);
-			getContentPane().add(spinner_1);
-			
-			spinner_2 = new JSpinner();
-			spinner_2.setModel(new SpinnerNumberModel(new Float(0.01), new Float(0.01), new Float(1), new Float(0.01)));
-			spinner_2.setBounds(92, 389, 62, 22);
-			getContentPane().add(spinner_2);
 		}
 
 		public JButton getOpenButn() {
@@ -136,6 +129,22 @@ public class openPage extends JFrame{
 			spinner.setBounds(153, 270, 99, 19);
  			}
 			return spinner;
+ 		}
+ 		public JSpinner getSpinner1(){
+ 			if(spinner_1 == null){
+			spinner_1 = new JSpinner();
+			spinner_1.setModel(new SpinnerNumberModel(1, 1, 10, 1));
+			spinner_1.setBounds(153, 270, 99, 19);
+ 			}
+			return spinner_1;
+ 		}
+ 		public JSpinner getSpinner2(){
+ 			if(spinner_2 == null){
+			spinner_2 = new JSpinner();
+			spinner_2.setModel(new SpinnerNumberModel(1, 1, 10, 1));
+			spinner_2.setBounds(24, 170, 99, 19);
+ 			}
+			return spinner_2;
  		}
  		public JTextField getSaveDirict(){
  			if(textField == null){
