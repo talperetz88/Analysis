@@ -17,7 +17,7 @@ public class main {
 	public static void main(String[] arg) throws IOException{
 		
 		startGUI open = new startGUI();
-
+		DisplayAreasOfInterestGUI d = new DisplayAreasOfInterestGUI();
 		Histogram h =null, h2 = null;
 		//ImproveFocusGUI j = new ImproveFocusGUI();
 	//Focus f = new Focus();

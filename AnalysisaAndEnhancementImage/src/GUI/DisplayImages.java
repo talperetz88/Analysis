@@ -114,7 +114,7 @@
 		File folder = new File(imagedir);
 		File[] listOfFiles = folder.listFiles();
 		String fileName = null;
-		for (int i = 0; i < listOfFiles.length -1; i++){
+		for (int i = 0; i < listOfFiles.length; i++){
 			if (listOfFiles[i].isFile()){
 				if(listOfFiles[i]==null)
 					continue ;
