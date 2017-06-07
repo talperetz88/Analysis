@@ -16,9 +16,10 @@ public class main {
 
 	public static void main(String[] arg) throws IOException{
 		
-		startGUI open = new startGUI();
-		DisplayAreasOfInterestGUI d = new DisplayAreasOfInterestGUI();
+		//startGUI open = new startGUI();
+		//DisplayAreasOfInterestGUI d = new DisplayAreasOfInterestGUI();
 		Histogram h =null, h2 = null;
+		BufferedImage img = null;
 		//ImproveFocusGUI j = new ImproveFocusGUI();
 	//Focus f = new Focus();
 	/*System.out.println("orignal image - "+f.FocusMeasuresBasedOnImageDifferentiationB("C:\\project\\images\\1\\goodImages\\img-01279.png", 20));
@@ -119,14 +120,14 @@ public class main {
 				String fileName = listOfFiles[i].getName();
 		byte [][]matrixg =CUtils.BlackWhiteImageToBinaryArray("C:\\project\\images\\1\\matlabRes\\" +"MatlabRes" +fileName);
         TriangleEdges edges = TriangleUtils.FindTriangleEdges(matrixg);
-		AreasOfInterest tr = new AreasOfInterest(10);
+		AreasOfInterest tr = new AreasOfInterest();
 		img = ImageIO.read(new File("C:\\project\\images\\1\\goodImages\\"+fileName));
-		//BufferedImage rounded= tr.Area7(img, 85,edges);
 		
-		BufferedImage rounded= tr.Area1(img,65,edges.leftEdge.x,edges.leftEdge.y);  
-        ImageIO.write(rounded, "png", new File("C:\\project\\images\\1\\areas\\"+"area4"+fileName));
+		
+		BufferedImage rounded= tr.Area1(img,150,edges);  
+        ImageIO.write(rounded, "png", new File("C:\\project\\images\\1\\areas\\"+"area1"+fileName));
         
-		BufferedImage rounded1= tr.Area2(img,65,edges.rightEdge.x,edges.rightEdge.y);  
+		BufferedImage rounded1= tr.Area2(img,150,edges);  
         ImageIO.write(rounded1, "png", new File("C:\\project\\images\\1\\areas\\"+"area2"+fileName));
         
 		BufferedImage rounded2= tr.Area3(img,edges,40);  
@@ -141,7 +142,6 @@ public class main {
 		BufferedImage rounded5= tr.Area6(img,edges);  
         ImageIO.write(rounded5, "png", new File("C:\\project\\images\\1\\areas\\"+"area6"+fileName));
         
-        System.out.print(fileName);
 		BufferedImage rounded6= tr.Area7(img,edges);  
         ImageIO.write(rounded6, "png", new File("C:\\project\\images\\1\\areas\\"+"area7"+fileName));
         
@@ -150,7 +150,7 @@ public class main {
 			}
 		}
 	    //tr.Area6(edges, 75);
-	    
+	    */
 	    //System.out.println(tr.leftEdge2.get(0).x+" "+tr.leftEdge2.get(0).y);
 	    //System.out.println(tr.leftEdge2.get(1).x+" "+tr.leftEdge2.get(1).y);
 	    //System.out.println(tr.leftEdge2.get(2).x+" "+tr.leftEdge2.get(2).y);

@@ -8,6 +8,7 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageProducer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class AreasOfInterest  {
 		leftEdge2 = new ArrayList<Point>(); 
 	}
 	
-	public static BufferedImage Area1(BufferedImage image, int cornerRadius,TriangleEdges edges) {
+	public static BufferedImage Area1(BufferedImage image, int size,TriangleEdges edges) {
         int w = image.getWidth();
         int h = image.getHeight();
         int x=	edges.leftEdge.x;
@@ -64,7 +65,7 @@ public class AreasOfInterest  {
         g2.setComposite(AlphaComposite.Src);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(Color.WHITE);
-        g2.fill(new Ellipse2D.Double((x-80),(y-80), cornerRadius,cornerRadius));
+        g2.fill(new Ellipse2D.Double((x-90),(y-90), size,size));
         g2.setComposite(AlphaComposite.SrcAtop);
         g2.drawImage(image, 0, 0, null);
 
@@ -73,7 +74,7 @@ public class AreasOfInterest  {
         return output;
     }
 	
-	public static BufferedImage Area2(BufferedImage image, int cornerRadius,TriangleEdges edges ) {
+	public static BufferedImage Area2(BufferedImage image, int size,TriangleEdges edges ) {
         int w = image.getWidth();
         int h = image.getHeight();
         BufferedImage output = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
@@ -85,7 +86,7 @@ public class AreasOfInterest  {
         g2.setComposite(AlphaComposite.Src);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(Color.WHITE);
-        g2.fill(new Ellipse2D.Double((x-80),(y-80), cornerRadius,cornerRadius));
+        g2.fill(new Ellipse2D.Double((x-40),(y-80), size,size));
         g2.setComposite(AlphaComposite.SrcAtop);
         g2.drawImage(image, 0, 0, null);
 
@@ -113,15 +114,15 @@ public class AreasOfInterest  {
         int [] x = new int [4];
         int [] y = new int [4];
         
-        x[0]=edges.leftEdge.x-3*AreasOfInterest.pixelsFactor;
-        x[1]=edges.rightEdge.x+3*AreasOfInterest.pixelsFactor;
-        x[3]=edges.leftEdge.x-3*AreasOfInterest.pixelsFactor;
-        x[2]=edges.rightEdge.x+3*AreasOfInterest.pixelsFactor;
+        x[0]=edges.leftEdge.x-5*AreasOfInterest.pixelsFactor;
+        x[1]=edges.rightEdge.x+5*AreasOfInterest.pixelsFactor;
+        x[3]=edges.leftEdge.x-5*AreasOfInterest.pixelsFactor;
+        x[2]=edges.rightEdge.x+5*AreasOfInterest.pixelsFactor;
         
-        y[0]=edges.leftEdge.y+height;
-        y[1]=edges.leftEdge.y+height;
-        y[3]=edges.leftEdge.y-height;
-        y[2]=edges.leftEdge.y-height;
+        y[0]=edges.leftEdge.y+10;
+        y[1]=edges.leftEdge.y+10;
+        y[3]=(int) (edges.leftEdge.y-(Math.round(2.5*height)));
+        y[2]=(int) (edges.leftEdge.y-Math.round(2.5*height));
       
         int w = image.getWidth();
         int h = image.getHeight();
@@ -166,13 +167,13 @@ public class AreasOfInterest  {
         BufferedImage output = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         int [] x = new int [4];
         int [] y = new int [4];
-        x[0]=edges.rightEdge.x-AreasOfInterest.pixelsFactor;
+        x[0]=edges.rightEdge.x;//-AreasOfInterest.pixelsFactor;
         x[1]=edges.rightEdge.x+width;
         x[2]=edges.bottomEdge.x+width;
-        x[3]=edges.bottomEdge.x-AreasOfInterest.pixelsFactor;
+        x[3]=edges.bottomEdge.x;//-AreasOfInterest.pixelsFactor;
 
         
-        y[0]=edges.rightEdge.y-AreasOfInterest.pixelsFactor;
+        y[0]=edges.rightEdge.y-2*AreasOfInterest.pixelsFactor;
         y[1]=edges.rightEdge.y;
         y[2]=edges.bottomEdge.y+5*AreasOfInterest.pixelsFactor;
         y[3]=edges.bottomEdge.y+5*AreasOfInterest.pixelsFactor;
@@ -254,13 +255,13 @@ public class AreasOfInterest  {
         BufferedImage output = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         int [] x = new int [3];
         int [] y = new int [3];
-        x[0]=edges.rightEdge.x+40;
-        x[1]=edges.leftEdge.x-40;
+        x[0]=edges.rightEdge.x+20;
+        x[1]=edges.leftEdge.x-20;
         x[2]=edges.bottomEdge.x+10;
         
-        y[0]=edges.rightEdge.y-30;
-        y[1]=edges.leftEdge.y-30;
-        y[2]=edges.bottomEdge.y+45;
+        y[0]=edges.rightEdge.y-20;
+        y[1]=edges.leftEdge.y-20;
+        y[2]=edges.bottomEdge.y+35;
         	
         Graphics2D g2 = output.createGraphics();
 
@@ -287,17 +288,16 @@ public class AreasOfInterest  {
         int [] x = new int [4];
         int [] y = new int [4];
         int hieght = edges.bottomEdge.y-edges.rightEdge.y;
-       // System.out.println(" hieght : "+hieght+"rightEdge.y :"+edges.rightEdge.y);
         x[0]=edges.rightEdge.x;//+40
-        x[1]=hieght*2;
-        x[2]=hieght*2;
-        x[3]=edges.bottomEdge.x-40;
+        x[1]=hieght*3;
+        x[2]=hieght*3;
+        x[3]=edges.bottomEdge.x;//-40
         
-        y[0]=edges.rightEdge.y-30;
+        y[0]=edges.rightEdge.y-20;
         y[1]=(int)(hieght*0.5*0.5)+edges.rightEdge.y;
         y[2]=(int)(hieght*0.7)+edges.rightEdge.y;
-        y[3]=edges.bottomEdge.y+45;
-        System.out.println(" y1: "+y[1]+" y2 : "+y[2]);
+        y[3]=edges.bottomEdge.y+55;
+        //System.out.println(" y1: "+y[1]+" y2 : "+y[2]);
         Graphics2D g2 = output.createGraphics();
 
         g2.setComposite(AlphaComposite.Src);
@@ -323,15 +323,17 @@ public class AreasOfInterest  {
         int [] x = new int [4];
         int [] y = new int [4];
         int hieght = edges.bottomEdge.y-edges.leftEdge.y;
-        x[0]=edges.leftEdge.x+40;
+        if(hieght>130)
+        	hieght=130;
+        x[0]=edges.leftEdge.x;
         x[1]=(int)(hieght/10);
         x[2]=(int)(hieght/10);
-        x[3]=edges.bottomEdge.x+10;
+        x[3]=edges.bottomEdge.x;
         
-        y[0]=edges.leftEdge.y-40;
-        y[1]=(int)(hieght*1.3);
-        y[2]=(int)(hieght*1.3*1.3);
-        y[3]=edges.bottomEdge.y+45;
+        y[0]=edges.leftEdge.y-20;
+        y[1]=(int)(hieght*1.5);
+        y[2]=(int)(hieght*2);
+        y[3]=edges.bottomEdge.y+65;
         	
         Graphics2D g2 = output.createGraphics();
 
