@@ -84,6 +84,12 @@ public class ImproveFocusGUI extends JFrame{
 							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\"))
 								if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\laplacianMask\\"))
 									if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\sharpLaplacian\\"))
+										if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\blurImage\\"))
+											if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\maskImages\\"))
+												if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\sharpImages\\"))
+										improve.blur(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath()+"ImproveFocus\\blurImage\\", fileName,2,2);
+									improve.mask(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath()+"ImproveFocus\\blurImage\\", fileName);
+									improve.improveFocus(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath()+"ImproveFocus\\maskImages\\", fileName);
 							improve.laplacianMask(CUtils.GetImagesDestPath()+ "ImproveFocus\\sharpImages\\", CUtils.GetImagesDestPath()+"ImproveFocus\\laplacianMask\\", fileName, ker);
 							improve.improveFocusLaplacian(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath()+"ImproveFocus\\laplacianMask\\", fileName);
 						}

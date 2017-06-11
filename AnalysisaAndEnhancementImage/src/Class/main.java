@@ -16,7 +16,7 @@ public class main {
 
 	public static void main(String[] arg) throws IOException{
 		
-		//startGUI open = new startGUI();
+		startGUI open = new startGUI();
 		//DisplayAreasOfInterestGUI d = new DisplayAreasOfInterestGUI();
 		Histogram h =null, h2 = null;
 		BufferedImage img = null;

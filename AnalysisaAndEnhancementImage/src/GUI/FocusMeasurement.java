@@ -396,15 +396,28 @@ public class FocusMeasurement extends JFrame {
 		executeBtn.setBounds(505, 261, 149, 44);
 		getContentPane().add(executeBtn);
 		executeBtn.setVisible(false);
-		CUtils.SetImagesDestinationPath("C:\\project\\images\\1\\");//dont forget to delete
+		//CUtils.SetImagesDestinationPath("C:\\project\\images\\1\\");//dont forget to delete
 		executeBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(approch == 1){
 				BufferedImage image = null;
 				String fileName;
-				File folder = new File(CUtils.GetImagesDestPath() +"goodImages\\");
-				File[] listOfFiles = folder.listFiles();
-				for (int i = 0; i < listOfFiles.length -1; i++){
+				File folder = new File(path);
+				File [] listOfFolders = folder.listFiles();
+				File[] listOfFiles = null ;//folder.listFiles();
+				Focus func = new Focus();
+				double [] res = null ;
+				String [] name = null;
+				int index;
+				int k  = 0;
+				if(approch == 1){
+				
+				for(int j = 0 ; j < listOfFolders.length ; j ++)
+					if(listOfFolders[j].isDirectory()){
+						String dir = listOfFolders[j].getName();
+						folder = new File(path + listOfFolders[j].getName());
+						listOfFiles = folder.listFiles();
+
+					for (int i = 0; i < listOfFiles.length; i++){
 					if (listOfFiles[i].isFile()){
 						if(listOfFiles[i]==null)
 							continue ;
@@ -420,85 +433,78 @@ public class FocusMeasurement extends JFrame {
 						}
 
 						if(chckbxArea_1.isSelected() || chckbxAllAreas.isSelected()){
-							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "FocusMeasurement\\localApproch\\Area 1\\")){
-							BufferedImage res = tr.Area1(image, 80, edges);
-							CUtils.SaveImage(res, CUtils.GetImagesDestPath()+"FocusMeasurement\\localApproch\\"+"Area 1\\" +"area_1"+fileName);
+							if(CUtils.CreateDirectory(path+dir+"\\Area 1\\")){
+							BufferedImage res1 = tr.Area1(image, 80, edges);
+							CUtils.SaveImage(res1, path+dir+"\\Area 1\\" +"area_1"+fileName);
 							
 							System.out.println("test1");
 							}
 						}
 						if(chckbxArea_2.isSelected() || chckbxAllAreas.isSelected()){
-							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "FocusMeasurement\\localApproch\\Area 2\\")){
-								BufferedImage res = tr.Area2(image, 80, edges);
-								CUtils.SaveImage(res, CUtils.GetImagesDestPath()+"FocusMeasurement\\localApproch\\"+"Area 2\\" +"area_1"+fileName);
+							if(CUtils.CreateDirectory(path+dir+"\\Area 2\\")){
+								BufferedImage res1 = tr.Area2(image, 80, edges);
+								CUtils.SaveImage(res1,path+dir+"\\Area 2\\" +"area_1"+fileName);
 								
 							System.out.println("test2");
 							}
 						}
 						if(chckbxArea_3.isSelected() || chckbxAllAreas.isSelected()){
-							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "FocusMeasurement\\localApproch\\Area 3\\")){
-								BufferedImage res = tr.Area3(image, edges,20);
-								CUtils.SaveImage(res, CUtils.GetImagesDestPath()+"FocusMeasurement\\localApproch\\"+"Area 3\\" +"area_1"+fileName);
+							if(CUtils.CreateDirectory(path+dir+"\\Area 3\\")){
+								BufferedImage res1 = tr.Area3(image, edges,20);
+								CUtils.SaveImage(res1,path+dir+"\\Area 3\\" +"area_1"+fileName);
 								
 							System.out.println("test3");
 							}
 						}
 						if(chckbxArea_4.isSelected() || chckbxAllAreas.isSelected()){
-							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "FocusMeasurement\\localApproch\\Area 4\\")){
-								BufferedImage res = tr.Area4(image, edges);
-								CUtils.SaveImage(res, CUtils.GetImagesDestPath()+"FocusMeasurement\\localApproch\\"+"Area 4\\" +"area_1"+fileName);
+							if(CUtils.CreateDirectory(path+dir+"\\Area 4\\")){
+								BufferedImage res1 = tr.Area4(image, edges);
+								CUtils.SaveImage(res1, path+dir+"\\Area 4\\" +"area_1"+fileName);
 								
 							System.out.println("test4");
 							}
 						}
 						if(chckbxArea_5.isSelected() || chckbxAllAreas.isSelected()){
-							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "FocusMeasurement\\localApproch\\Area 5\\")){
-								BufferedImage res = tr.Area5(image, edges);
-								CUtils.SaveImage(res, CUtils.GetImagesDestPath()+"FocusMeasurement\\localApproch\\"+"Area 5\\" +"area_1"+fileName);
+							if(CUtils.CreateDirectory(path+dir+"\\Area 5\\")){
+								BufferedImage res1 = tr.Area5(image, edges);
+								CUtils.SaveImage(res1, path+dir+"\\Area 5\\" +"area_1"+fileName);
 								
 							System.out.println("test5");
 							}
 						}
 						if(chckbxArea_6.isSelected() || chckbxAllAreas.isSelected()){
-							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "FocusMeasurement\\localApproch\\Area 6\\")){
-								BufferedImage res = tr.Area6(image, edges);
-								CUtils.SaveImage(res, CUtils.GetImagesDestPath()+"FocusMeasurement\\localApproch\\"+"Area 6\\" +"area_1"+fileName);
+							if(CUtils.CreateDirectory(path+dir+"\\Area 6\\")){
+								BufferedImage res1 = tr.Area6(image, edges);
+								CUtils.SaveImage(res1, path+dir+"\\Area 6\\" +"area_1"+fileName);
 								
 							System.out.println("test6");
 							}
 						}
 						if(chckbxArea_7.isSelected() || chckbxAllAreas.isSelected()){
-							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "FocusMeasurement\\localApproch\\Area 7\\")){
-								BufferedImage res = tr.Area7(image,edges);
-								CUtils.SaveImage(res, CUtils.GetImagesDestPath()+"FocusMeasurement\\localApproch\\"+"Area 7\\" +"area_1"+fileName);
+							if(CUtils.CreateDirectory(path+dir+"\\Area 7\\")){
+								BufferedImage res1 = tr.Area7(image,edges);
+								CUtils.SaveImage(res1, path+dir+"\\Area 7\\" +"area_1"+fileName);
 								
 							System.out.println("test7");
 							}
 						}
 						if(chckbxArea_8.isSelected() || chckbxAllAreas.isSelected()){
-							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "FocusMeasurement\\localApproch\\Area 8\\")){
-								BufferedImage res = tr.Area8(image,edges);
-								CUtils.SaveImage(res, CUtils.GetImagesDestPath()+"FocusMeasurement\\localApproch\\"+"Area 8\\" +"area_1"+fileName);
+							if(CUtils.CreateDirectory(path+dir+"\\Area 8\\")){
+								BufferedImage res1 = tr.Area8(image,edges);
+								CUtils.SaveImage(res1, path+dir+"\\Area 8\\" +"area_1"+fileName);
 								
 						
 							System.out.println("test8");
 							}
 						}
 					}
-				}	
+				}
+					}
+				//here 
 			}
 			
 			if(approch == 2){
-				BufferedImage image = null;
-				String fileName;
-				File folder = new File(path);
-				File [] listOfFolders = folder.listFiles();
-				File[] listOfFiles = null ;//folder.listFiles();
-				Focus func = new Focus();
-				double [] res = null ;
-				String [] name = null;
-				int index;
-				int k  = 0;
+
 				for(int j = 0 ; j < listOfFolders.length ; j ++)
 					if(listOfFolders[j].isDirectory()){
 						folder = new File(path + listOfFolders[j].getName());

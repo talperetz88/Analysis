@@ -16,13 +16,15 @@ import java.awt.Dimension;
 import java.awt.Label;
 import Class.CUtils;
 import Class.Check;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 public class openPage extends JFrame{
 		public static Object openPage;
 		private JButton openButten = null;
 		private JButton btnSave = null;
 		private JTextField dirictTextFilde = null;
 		private JTextField textField = null;
-		private JSpinner spinner = null,spinner_1 = null,spinner_2 = null;
+		private JSpinner spinner = null,spinner_1 = null,spinner_phase1 ,spinner_phase2;
 		private JLabel label = null;
 		private JButton nextButten = null;
 		private JLabel lblName = null;
@@ -30,6 +32,9 @@ public class openPage extends JFrame{
 		private openPage open;
 		private String saveUrl,openUrl;
 		private Process start;
+		private JTextField txtPleseEnterValue;
+		private JTextField textField_1;
+		private int flagPoint =0;
 		public openPage() {
 			this.open = this;
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,8 +48,7 @@ public class openPage extends JFrame{
 			getContentPane().add(getnextBtn());
 			getContentPane().add(getFramesLabel());
 			getContentPane().add(getCutLable());
-			getContentPane().add(getSpinner1());
-			getContentPane().add(getSpinner2());
+
 			this.setVisible(true);
 			
 			JLabel lblWelcom = new JLabel("Welcome");
@@ -64,6 +68,50 @@ public class openPage extends JFrame{
 			JLabel lblPhase_1 = new JLabel("Phase 2:");
 			lblPhase_1.setBounds(24, 392, 56, 16);
 			getContentPane().add(lblPhase_1);
+			
+			txtPleseEnterValue = new JTextField();
+			txtPleseEnterValue.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+					char c = e.getKeyChar();
+					if(c != '.' )
+					      if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+					         e.consume();  // ignore event
+					      }
+				}
+			});
+		;
+			txtPleseEnterValue.setText("Plese enter value between 0 - 0.7");
+			txtPleseEnterValue.setBounds(78, 351, 230, 20);
+			getContentPane().add(txtPleseEnterValue);
+			txtPleseEnterValue.setColumns(10);
+			
+			textField_1 = new JTextField();
+			
+			textField_1.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+				
+					char c = e.getKeyChar();
+					if(c != '.' || flagPoint == 1 )
+						
+				      if ( ((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
+				         e.consume();  // ignore event
+				      }else if (c == '.')
+				    	  flagPoint =1;
+				      if(false)
+						JOptionPane.showMessageDialog(null, "Plese enter correct value between 0 - 0.7", "Warning",JOptionPane.WARNING_MESSAGE);
+				}
+			});
+			
+					
+	
+			textField_1.setText("Plese enter value between 0 - 0.7");
+			textField_1.setColumns(10);
+			textField_1.setBounds(78, 390, 230, 20);
+			getContentPane().add(textField_1);
+			
+
 			
 		}
 
@@ -130,22 +178,7 @@ public class openPage extends JFrame{
  			}
 			return spinner;
  		}
- 		public JSpinner getSpinner1(){
- 			if(spinner_1 == null){
-			spinner_1 = new JSpinner();
-			spinner_1.setModel(new SpinnerNumberModel(1, 1, 10, 1));
-			spinner_1.setBounds(153, 270, 99, 19);
- 			}
-			return spinner_1;
- 		}
- 		public JSpinner getSpinner2(){
- 			if(spinner_2 == null){
-			spinner_2 = new JSpinner();
-			spinner_2.setModel(new SpinnerNumberModel(1, 1, 10, 1));
-			spinner_2.setBounds(24, 170, 99, 19);
- 			}
-			return spinner_2;
- 		}
+
  		public JTextField getSaveDirict(){
  			if(textField == null){
 			textField = new JTextField();
@@ -177,11 +210,19 @@ public class openPage extends JFrame{
 								System.out.println("eror");
 	 					
 	 					closeFrame();
+	 					Check thread =null;
 	 					while(start.isAlive());
-	 					Check thread = new Check((float)spinner_1.getValue(),(float)spinner_2.getValue());					
-	 					thread.start();
-	 					//while(thread.isAlive());
+	 					try{
+	 					 thread = new Check(Float.parseFloat(txtPleseEnterValue.getText().toString()),Float.parseFloat(textField_1.getText().toString()));	
+	 					 thread.start();
 	 					classifyImages next = new classifyImages();
+	 					} catch(Exception ex){
+	 						JOptionPane.showMessageDialog(null, "Plese enter correct value between 0 - 0.7", "Warning",JOptionPane.WARNING_MESSAGE);
+	 						openPage o = new openPage();
+	 					}
+	 					
+	 					//while(thread.isAlive());
+	 					
 	 					}
 	 					
 	 				}
