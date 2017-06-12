@@ -15,8 +15,12 @@ import Class.Focus;
 import Class.TriangleEdges;
 import Class.TriangleUtils;
 
+import static java.nio.file.StandardCopyOption.*;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.awt.BorderLayout;
 import java.awt.Panel;
@@ -431,10 +435,11 @@ public class FocusMeasurement extends JFrame {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-
+							if(!CUtils.CreateDirectory(path+dir+"\\Best\\"))
+								break;
 						if(chckbxArea_1.isSelected() || chckbxAllAreas.isSelected()){
 							if(CUtils.CreateDirectory(path+dir+"\\Area 1\\")){
-							BufferedImage res1 = tr.Area1(image, 80, edges);
+							BufferedImage res1 = tr.Area1(image, 150, edges);
 							CUtils.SaveImage(res1, path+dir+"\\Area 1\\" +"area_1"+fileName);
 							
 							System.out.println("test1");
@@ -442,16 +447,16 @@ public class FocusMeasurement extends JFrame {
 						}
 						if(chckbxArea_2.isSelected() || chckbxAllAreas.isSelected()){
 							if(CUtils.CreateDirectory(path+dir+"\\Area 2\\")){
-								BufferedImage res1 = tr.Area2(image, 80, edges);
-								CUtils.SaveImage(res1,path+dir+"\\Area 2\\" +"area_1"+fileName);
+								BufferedImage res1 = tr.Area2(image, 150, edges);
+								CUtils.SaveImage(res1,path+dir+"\\Area 2\\" +"area_2"+fileName);
 								
 							System.out.println("test2");
 							}
 						}
 						if(chckbxArea_3.isSelected() || chckbxAllAreas.isSelected()){
 							if(CUtils.CreateDirectory(path+dir+"\\Area 3\\")){
-								BufferedImage res1 = tr.Area3(image, edges,20);
-								CUtils.SaveImage(res1,path+dir+"\\Area 3\\" +"area_1"+fileName);
+								BufferedImage res1 = tr.Area3(image, edges,40);
+								CUtils.SaveImage(res1,path+dir+"\\Area 3\\" +"area_3"+fileName);
 								
 							System.out.println("test3");
 							}
@@ -459,7 +464,7 @@ public class FocusMeasurement extends JFrame {
 						if(chckbxArea_4.isSelected() || chckbxAllAreas.isSelected()){
 							if(CUtils.CreateDirectory(path+dir+"\\Area 4\\")){
 								BufferedImage res1 = tr.Area4(image, edges);
-								CUtils.SaveImage(res1, path+dir+"\\Area 4\\" +"area_1"+fileName);
+								CUtils.SaveImage(res1, path+dir+"\\Area 4\\" +"area_4"+fileName);
 								
 							System.out.println("test4");
 							}
@@ -467,7 +472,7 @@ public class FocusMeasurement extends JFrame {
 						if(chckbxArea_5.isSelected() || chckbxAllAreas.isSelected()){
 							if(CUtils.CreateDirectory(path+dir+"\\Area 5\\")){
 								BufferedImage res1 = tr.Area5(image, edges);
-								CUtils.SaveImage(res1, path+dir+"\\Area 5\\" +"area_1"+fileName);
+								CUtils.SaveImage(res1, path+dir+"\\Area 5\\" +"area_5"+fileName);
 								
 							System.out.println("test5");
 							}
@@ -475,7 +480,7 @@ public class FocusMeasurement extends JFrame {
 						if(chckbxArea_6.isSelected() || chckbxAllAreas.isSelected()){
 							if(CUtils.CreateDirectory(path+dir+"\\Area 6\\")){
 								BufferedImage res1 = tr.Area6(image, edges);
-								CUtils.SaveImage(res1, path+dir+"\\Area 6\\" +"area_1"+fileName);
+								CUtils.SaveImage(res1, path+dir+"\\Area 6\\" +"area_6"+fileName);
 								
 							System.out.println("test6");
 							}
@@ -483,7 +488,7 @@ public class FocusMeasurement extends JFrame {
 						if(chckbxArea_7.isSelected() || chckbxAllAreas.isSelected()){
 							if(CUtils.CreateDirectory(path+dir+"\\Area 7\\")){
 								BufferedImage res1 = tr.Area7(image,edges);
-								CUtils.SaveImage(res1, path+dir+"\\Area 7\\" +"area_1"+fileName);
+								CUtils.SaveImage(res1, path+dir+"\\Area 7\\" +"area_7"+fileName);
 								
 							System.out.println("test7");
 							}
@@ -491,7 +496,7 @@ public class FocusMeasurement extends JFrame {
 						if(chckbxArea_8.isSelected() || chckbxAllAreas.isSelected()){
 							if(CUtils.CreateDirectory(path+dir+"\\Area 8\\")){
 								BufferedImage res1 = tr.Area8(image,edges);
-								CUtils.SaveImage(res1, path+dir+"\\Area 8\\" +"area_1"+fileName);
+								CUtils.SaveImage(res1, path+dir+"\\Area 8\\" +"area_8"+fileName);
 								
 						
 							System.out.println("test8");
@@ -500,7 +505,109 @@ public class FocusMeasurement extends JFrame {
 					}
 				}
 					}
-				//here 
+				//here ..
+				folder = new File(path);
+				listOfFolders = folder.listFiles();
+				listOfFiles = null ;
+				for(int j = 0 ; j < listOfFolders.length ; j ++){
+					if(listOfFolders[j].isDirectory()){
+						folder = new File(listOfFolders[j].getPath());
+						//System.out.println(j +" "+listOfFolders[j].getPath());
+						File[] temp =listOfFolders[j].listFiles();
+						for(int w=0;w<temp.length;w++){
+							String dir = listOfFolders[j].getName();
+							if((temp[w]==null)||temp[w].isFile()||temp[w].getName().equals("Best"))
+								continue ;
+							File[] inside =temp[w].listFiles();
+							if(inside.length==1){//only one image in the dir
+								Path src = Paths.get(inside[0].getPath());
+								Path des = Paths.get(path+dir+"\\Best\\"+inside[0].getName());
+								try {
+									Files.copy(src,des,REPLACE_EXISTING);
+								} catch (IOException e2) {
+									// TODO Auto-generated catch block
+									e2.printStackTrace();
+								}
+							}
+							double [] focusRes = new double [inside.length];
+							String [] resName = new String [inside.length];
+							for(int t=0;t<inside.length;t++){
+								if(inside[t]==null)
+									continue ;
+								
+								if(checkBox.isSelected()){
+									if(LuminanceCheckBox.isSelected()){
+										if(normalCheckBox.isSelected()){
+										focusRes[t] = func.FocusMeasuresBasedOnImageStatisticsNormalizedVariance(inside[t].getPath(), 2);	
+										resName[t] = Integer.toString(t);
+										
+										}else{
+										//the second value of index is: 1 it means grayscale , and 2 it means Luminance
+										focusRes[t] = func.FocusMeasuresBasedOnImageStatisticsVariance(inside[t].getPath(), 2);
+										resName[t] = Integer.toString(t);
+										}
+									}
+									if(grayScaleCheckBox.isSelected()){
+										if(normalCheckBox.isSelected()){
+											focusRes[t] = func.FocusMeasuresBasedOnImageStatisticsNormalizedVariance(inside[t].getPath(), 1);	
+											resName[t] = Integer.toString(t);	
+										}else{
+											//the second value of index is: 1 it means grayscale , and 2 it means Luminance
+											focusRes[t] = func.FocusMeasuresBasedOnImageStatisticsVariance(inside[t].getPath(), 1);
+											resName[t] = Integer.toString(t);
+											}
+									}
+									
+								}
+								if(checkBox_1.isSelected()){
+									if(chckbxNewCheckBox.isSelected()){
+										focusRes[t] = func.FunctionBasedOnDepthOfPeaksAndValleysA(inside[t].getPath(), (int)spinner.getValue());
+										resName[k] = Integer.toString(t);
+									}
+									if(chckbxNewCheckBox_1.isSelected()){
+										focusRes[t] = func.FunctionBasedOnDepthOfPeaksAndValleysB(inside[t].getPath(), (int)spinner_1.getValue());
+										resName[t] = Integer.toString(t);
+									}
+									if(chckbxImagePower.isSelected()){
+										focusRes[t] = func.FunctionBasedOnDepthOfPeaksAndValleysC(inside[t].getPath(), (int)spinner_2.getValue());
+										resName[t] = Integer.toString(t);
+									}
+								}
+								if(checkBox_2.isSelected()){
+									if(chckbxNewCheckBox_2.isSelected()){
+										focusRes[t] = func.FocusMeasuresBasedOnImageDifferentiationB(inside[t].getPath(), (int)spinner_3.getValue());
+										resName[t] = Integer.toString(t);
+								}
+									
+									if(chckbxNewCheckBox_3.isSelected()){
+										focusRes[t] = func.FocusMeasuresBasedOnImageDifferentiationA(inside[t].getPath(),(int)spinner_3.getValue());
+										resName[t] = Integer.toString(t);
+								}
+								
+								}
+								//System.out.println("inside the area  "+inside[t].getPath());
+								/*
+								fileName = inside[t].getPath();
+								resName[t]=Integer.toString(t);
+								focusRes[t]=func.FocusMeasuresBasedOnImageStatisticsVariance(inside[t].getPath(),1);//need to change here to what ever the user is choosing
+								*/
+							}
+							//sort the array and return the best area 
+							String bestArea=getBestFocusImage(focusRes,resName);
+							Path src = Paths.get(inside[Integer.parseInt(bestArea)].getPath());
+							Path des = Paths.get(path+dir+"\\Best\\"+inside[Integer.parseInt(bestArea)].getName());
+							try {
+								Files.copy(src,des,REPLACE_EXISTING);
+							} catch (IOException e2) {
+								// TODO Auto-generated catch block
+								e2.printStackTrace();
+							}
+							
+						}
+							
+					}
+				}
+				
 			}
 			
 			if(approch == 2){
@@ -665,8 +772,8 @@ public class FocusMeasurement extends JFrame {
 						
 					}
 				}
-			for(int i = 0 ; i < res.length; i++)
-				System.out.println(res[i] +" "+ name[i]);
+			//for(int i = 0 ; i < res.length; i++)
+				//System.out.println(res[i] +" "+ name[i]);
 			//System.out.println("end Folder");
 			return name[0];
 		
