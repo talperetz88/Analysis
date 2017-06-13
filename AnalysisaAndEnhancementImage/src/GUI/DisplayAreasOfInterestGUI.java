@@ -17,7 +17,7 @@ import javax.swing.JLabel;
 
 public class DisplayAreasOfInterestGUI extends JFrame {
 	File[] listOfFiles;
-	public DisplayAreasOfInterestGUI() {
+	public DisplayAreasOfInterestGUI(String path) {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(100,100,722,533);
 		getContentPane().setLayout(null);
@@ -29,7 +29,7 @@ public class DisplayAreasOfInterestGUI extends JFrame {
 		JButton btnDisplay = new JButton("Display");
 		btnDisplay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				DisplayImages n = new DisplayImages("C:\\תמונות\\תמנות\\" + comboBox.getSelectedItem().toString()+"\\");
+				DisplayImages n = new DisplayImages(path + comboBox.getSelectedItem().toString()+"\\Best\\display\\");
 			}
 		});
 		btnDisplay.setBounds(229, 140, 122, 35);
@@ -39,7 +39,7 @@ public class DisplayAreasOfInterestGUI extends JFrame {
 		lblSelectTheWanted.setBounds(10, 58, 156, 54);
 		getContentPane().add(lblSelectTheWanted);
 		
-		File folder = new File("C:\\תמונות\\תמנות\\");
+		File folder = new File(path);
 		 listOfFiles = folder.listFiles();
 		String fileName = null;
 		for (int i = 0; i < listOfFiles.length; i++){

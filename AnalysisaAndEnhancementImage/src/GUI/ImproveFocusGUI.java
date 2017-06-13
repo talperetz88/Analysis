@@ -10,7 +10,13 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+
 import java.awt.BorderLayout;
 import java.awt.Panel;
 import java.awt.List;
@@ -19,6 +25,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Label;
 import Class.CUtils;
+import Class.Focus;
 import Class.BlockMatching;
 import Class.Histogram;
 import Class.ImproveFocus;
@@ -35,14 +42,155 @@ public class ImproveFocusGUI extends JFrame{
 	private JLabel lblChosseTheSize;
 	private JComboBox comboBox;
 	private JComboBox comboBox_1;
-	private int sigma,ker;
+	private int sigma,ker,builder =0;
 	private JPanel panel_1;
 	private JLabel label;
 	private JComboBox comboBox_2;
 	private ArrayList<String> needImprove,notNeedImprove;
+	public  ArrayList<String> needImproveLocal=new ArrayList <String>();
+	private String path;
+	private String focusFunc;
+	private JButton executeBtn1;
+	
+	public ImproveFocusGUI(String path,String focusFunc){
+		this.path = path;
+		builder = 1;
+		this.focusFunc=focusFunc;
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setBounds(100,100,722,533);
+		getContentPane().setLayout(null);
+		this.setVisible(true);
+		//methodCombo = new JComboBox();
+		//getContentPane().add(getMethods());
+		
+		titleLbl = new JLabel("Focus measurement");
+		titleLbl.setFont(new Font("Tahoma", Font.BOLD, 20));
+		titleLbl.setBounds(43, 13, 267, 44);
+		getContentPane().add(titleLbl);
+		
+		methodsLbl = new JLabel("Improving methods");
+		methodsLbl.setBounds(43,70,129,33);
+		getContentPane().add(methodsLbl);
+		
+		executeBtn1 = new JButton("Execute");
+		executeBtn1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//herre
+				System.out.println("dfsafdsfds");
+				File folder = new File(path);
+				File[] listOfFiles = folder.listFiles();
+				for (int i = 0; i < listOfFiles.length; i++){
+					if (listOfFiles[i].isDirectory()){
+						if(listOfFiles[i]==null||listOfFiles[i].getName().toString().equalsIgnoreCase("display"))
+							continue ;
+						//System.out.println("i am "+listOfFiles[i].getPath());
+						File temp = new File(listOfFiles[i].getPath()+"\\Best");
+						File[] listTemp = temp.listFiles();
+						checkIfNeedToImprove(listTemp);//adding all the unfocused images to the list 
+						improvList(); //sending the list to improve the focus 
+						needImproveLocal.clear();//clearing the list 
+					}
+				}
+					}
+		
+			
+		});
+		executeBtn1.setBounds(43, 241, 187, 40);
+		getContentPane().add(executeBtn1);
+		getContentPane().add(getNextBtn());
+		
+	methodCombo = new JComboBox();
+	methodCombo.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			if(methodCombo == null)
+				methodCombo = new JComboBox();
+			
+			if(methodCombo.getSelectedItem().toString() == "Unsharp masking"){
+				panel.setVisible(true);
+				panel_1.setVisible(false);
+			}
+			if(methodCombo.getSelectedItem().toString() == "Spitial filter"){
+				panel.setVisible(false);
+				panel_1.setVisible(true);
+			}
+			if(methodCombo.getSelectedItem().toString() == ""){
+				panel.setVisible(false);
+				panel_1.setVisible(false);
+			}
+		}
+	});
+	methodCombo.setModel(new DefaultComboBoxModel(new String[]{"","Unsharp masking","Spitial filter"}));
+	methodCombo.setBounds(169, 71, 214, 31);
+	getContentPane().add(methodCombo);
+	
+	panel = new JPanel();
+	panel.setBounds(43, 117, 363, 111);
+	getContentPane().add(panel);
+	panel.setLayout(null);
+	
+	lblNewLabel = new JLabel("Choose the size of sigma:");
+	lblNewLabel.setBounds(0, 13, 157, 16);
+	panel.add(lblNewLabel);
+	
+	lblChosseTheSize = new JLabel("Chosse the size of kernel:");
+	lblChosseTheSize.setBounds(0, 68, 182, 16);
+	panel.add(lblChosseTheSize);
+	panel.setVisible(false);
+	comboBox = new JComboBox();
+	comboBox.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			if(comboBox.getSelectedItem().toString() == "1")
+				sigma = 1;
+			if(comboBox.getSelectedItem().toString() == "2")
+				sigma = 2;
+		}
+	});
+	comboBox.setBounds(169, 10, 63, 22);
+	panel.add(comboBox);
+	comboBox.setModel(new DefaultComboBoxModel(new String[]{"","1","2"}));
+	
+	comboBox_1 = new JComboBox();
+	comboBox_1.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			if(comboBox_1.getSelectedItem().toString() == "5X5")
+				ker = 2;
+			if(comboBox_1.getSelectedItem().toString() == "3X3")
+				ker = 1;
+		}
+	});
+	comboBox_1.setBounds(169, 65, 63, 22);
+	comboBox_1.setModel(new DefaultComboBoxModel(new String[]{"","5X5","3X3"}));
+	panel.add(comboBox_1);
+	
+	panel_1 = new JPanel();
+	panel_1.setBounds(43, 116, 353, 123);
+	getContentPane().add(panel_1);
+	panel_1.setLayout(null);
+	
+	label = new JLabel("Chosse the size of kernel:");
+	label.setBounds(0, 16, 182, 16);
+	panel_1.add(label);
+	panel_1.setVisible(false);
+	comboBox_2 = new JComboBox();
+	comboBox_2.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			if(comboBox_2.getSelectedItem().toString() == "5X5")
+				ker = 3;
+			if(comboBox_2.getSelectedItem().toString() == "3X3")
+				ker = 2;
+			if(comboBox_2.getSelectedItem().toString() == "3X3_90")
+				ker = 1;
+		}
+	});
+	comboBox_2.setBounds(169, 13, 63, 22);
+	comboBox_2.setModel(new DefaultComboBoxModel(new String[]{"","5X5","3X3","3X3_90"}));
+	panel_1.add(comboBox_2);
+	}
+	
 	public ImproveFocusGUI(ArrayList<String> needToImproveImages, ArrayList<String> notNeedToImproveImages){
 		needImprove = needToImproveImages;
 		notNeedImprove = notNeedToImproveImages;
+		builder = 2;
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(100,100,722,533);
 		getContentPane().setLayout(null);
@@ -191,6 +339,209 @@ public class ImproveFocusGUI extends JFrame{
 		
 	}
 	
+	public JButton getExecuteBtn1(){
+		if(executeBtn1 == null)
+			executeBtn1 = new JButton();
+		//here 
+		/*
+		File folder = new File(path);
+		File[] listOfFiles = folder.listFiles();
+		for (int i = 0; i < listOfFiles.length; i++){
+			if (listOfFiles[i].isDirectory()){
+				if(listOfFiles[i]==null||listOfFiles[i].getName().toString().equalsIgnoreCase("display"))
+					continue ;
+				//System.out.println("i am "+listOfFiles[i].getPath());
+				File temp = new File(listOfFiles[i].getPath()+"\\Best");
+				File[] listTemp = temp.listFiles();
+				checkIfNeedToImprove(listTemp);//adding all the unfocused images to the list 
+				//while(true){
+					//if(methodCombo==null)
+				//		break;
+				//}
+				//improvList(); //sending the list to improve the focus 
+				//needImproveLocal.clear();//clearing the list 
+			}
+		}
+		*/
+
+		return executeBtn1;
+	}
+	
+	public void improvList(){
+		
+		ImproveFocus improv = new ImproveFocus();
+		if(CUtils.CreateDirectory("C:\\tempfororj"))
+			for(int i=0;i<needImproveLocal.size();i++){
+				if(methodCombo.getSelectedItem().toString().equalsIgnoreCase("Unsharp masking")){
+					File file = new File (needImproveLocal.get(i));
+					improv.blurLocal(file.getPath(), file.getName(),ker, sigma);
+					improv.maskLocal(file.getPath(), "C:\\tempfororj\\"+"blurred"+file.getName(), file.getName());
+					improv.improveFocusLocal(file.getPath(), "C:\\tempfororj\\"+"mask"+file.getName(), file.getName(), file.getParent()+"\\display\\");
+					
+				}
+				if(methodCombo.getSelectedItem().toString().equalsIgnoreCase("Spitial filter")){
+					File file = new File (needImproveLocal.get(i));
+					//improv.blurLocal(file.getPath(), file.getName(),ker, sigma);
+					//improv.maskLocal(file.getPath(), "C:\\tempfororj\\"+"blurred"+file.getName(), file.getName());
+					improv.laplacianMaskLocal(file.getPath(), "C:\\tempfororj\\"+"laplacian_mask"+file.getName(), file.getName(), ker);
+					improv.improveFocusLaplacianLocal(file.getPath(), "C:\\tempfororj\\"+"laplacian_mask"+file.getName(), file.getName(), file.getParent()+"\\display\\");
+				}
+			
+			
+			
+				}
+		
+		try {
+			CUtils.DeleteDirectory("C:\\tempfororj");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void checkIfNeedToImprove(File[] list){
+		for(int i=0;i<list.length;i++){
+			if(list[i].getName().toString().equalsIgnoreCase("display"))
+				continue ;
+		//	System.out.println("in the func "+list[i].getPath());
+			//System.out.println("in the getParent "+list[i].getParent());
+			
+			Focus focus= new Focus();
+			if(focusFunc.equalsIgnoreCase("FocusMeasuresBasedOnImageDifferentiationA")){
+				if(focus.FocusMeasuresBasedOnImageDifferentiationA(list[i].getPath(),20)<20)
+					needImproveLocal.add(list[i].getPath());
+				else{
+					Path src = Paths.get(list[i].getPath());
+					Path des = Paths.get(list[i].getParent()+"\\display\\"+list[i].getName());
+					try {
+						Files.copy(src,des,REPLACE_EXISTING);
+					} catch (IOException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+				}
+			}
+			if(focusFunc.equalsIgnoreCase("FocusMeasuresBasedOnImageDifferentiationB")){
+				if(focus.FocusMeasuresBasedOnImageDifferentiationB(list[i].getPath(),9700)<9700)
+					needImproveLocal.add(list[i].getPath());
+				else{
+					Path src = Paths.get(list[i].getPath());
+					Path des = Paths.get(list[i].getParent()+"\\display\\"+list[i].getName());
+					try {
+						Files.copy(src,des,REPLACE_EXISTING);
+					} catch (IOException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+				}
+			}
+			if(focusFunc.equalsIgnoreCase("FunctionBasedOnDepthOfPeaksAndValleysC")){
+				if(focus.FunctionBasedOnDepthOfPeaksAndValleysC(list[i].getPath(),120)<120)
+					needImproveLocal.add(list[i].getPath());
+				else{
+					Path src = Paths.get(list[i].getPath());
+					Path des = Paths.get(list[i].getParent()+"\\display\\"+list[i].getName());
+					try {
+						Files.copy(src,des,REPLACE_EXISTING);
+					} catch (IOException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+				}
+			}
+			if(focusFunc.equalsIgnoreCase("FunctionBasedOnDepthOfPeaksAndValleysB")){
+				if(focus.FunctionBasedOnDepthOfPeaksAndValleysB(list[i].getPath(),120)<120)
+					needImproveLocal.add(list[i].getPath());
+				else{
+					Path src = Paths.get(list[i].getPath());
+					Path des = Paths.get(list[i].getParent()+"\\display\\"+list[i].getName());
+					try {
+						Files.copy(src,des,REPLACE_EXISTING);
+					} catch (IOException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+				}
+			}
+			if(focusFunc.equalsIgnoreCase("FunctionBasedOnDepthOfPeaksAndValleysA")){
+				if(focus.FunctionBasedOnDepthOfPeaksAndValleysA(list[i].getPath(),120)<120)
+					needImproveLocal.add(list[i].getPath());
+				else{
+					Path src = Paths.get(list[i].getPath());
+					Path des = Paths.get(list[i].getParent()+"\\display\\"+list[i].getName());
+					try {
+						Files.copy(src,des,REPLACE_EXISTING);
+					} catch (IOException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+				}
+			}
+			if(focusFunc.equalsIgnoreCase("FocusMeasuresBasedOnImageStatisticsVariance1")){
+				if(focus.FocusMeasuresBasedOnImageStatisticsVariance(list[i].getPath(),1)<100000000)//need to change the threshold 
+					needImproveLocal.add(list[i].getPath());
+				else{
+					Path src = Paths.get(list[i].getPath());
+					Path des = Paths.get(list[i].getParent()+"\\display\\"+list[i].getName());
+					try {
+						Files.copy(src,des,REPLACE_EXISTING);
+					} catch (IOException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+				}
+			}
+			if(focusFunc.equalsIgnoreCase("FocusMeasuresBasedOnImageStatisticsNormalizedVariance1")){
+				if(focus.FocusMeasuresBasedOnImageStatisticsNormalizedVariance(list[i].getPath(),1)<100000000)//need to change the threshold 
+					needImproveLocal.add(list[i].getPath());
+				else{
+					Path src = Paths.get(list[i].getPath());
+					Path des = Paths.get(list[i].getParent()+"\\display\\"+list[i].getName());
+					try {
+						Files.copy(src,des,REPLACE_EXISTING);
+					} catch (IOException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+				}
+			}
+			if(focusFunc.equalsIgnoreCase("FocusMeasuresBasedOnImageStatisticsVariance2")){
+				
+				if(focus.FocusMeasuresBasedOnImageStatisticsVariance(list[i].getPath(),2)<100000000)//need to change the threshold 
+					needImproveLocal.add(list[i].getPath());
+				else{
+					Path src = Paths.get(list[i].getPath());
+					Path des = Paths.get(list[i].getParent()+"\\display\\"+list[i].getName());
+					try {
+						Files.copy(src,des,REPLACE_EXISTING);
+					} catch (IOException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+				}
+			}
+			if(focusFunc.equalsIgnoreCase("FocusMeasuresBasedOnImageStatisticsNormalizedVariance2")){
+				
+				if(focus.FocusMeasuresBasedOnImageStatisticsNormalizedVariance(list[i].getPath(),2)<10000){//need to change the threshold 
+					needImproveLocal.add(list[i].getPath());
+				}
+				else{
+					Path src = Paths.get(list[i].getPath());
+					Path des = Paths.get(list[i].getParent()+"\\display\\"+list[i].getName());
+					try {
+						Files.copy(src,des,REPLACE_EXISTING);
+					} catch (IOException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+				}
+				
+			}
+			
+		}
+		
+	}
+	
 	public JButton getExecuteBtn(){
 		if(executeBtn == null)
 			executeBtn = new JButton();
@@ -226,9 +577,15 @@ public class ImproveFocusGUI extends JFrame{
 	public JButton getNextBtn(){
 		if(nextImprovebtn == null){
 			nextImprovebtn = new JButton("Next");
+
 			nextImprovebtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DisplayImages dis = new DisplayImages(CUtils.GetImagesDestPath() + "ImproveFocus\\sharpLaplacian\\");
+				 DisplayAreasOfInterestGUI disArea;
+				 DisplayImages dis;
+				if(builder == 1)
+					disArea = new DisplayAreasOfInterestGUI(path);
+				if(builder == 2)
+					dis = new DisplayImages(CUtils.GetImagesDestPath() + "ImproveFocus\\sharpLaplacian\\");
 			}
 		});
 			nextImprovebtn.setBounds(581, 433, 111, 40);

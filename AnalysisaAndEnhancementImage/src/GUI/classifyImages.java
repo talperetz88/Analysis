@@ -914,8 +914,8 @@ public class classifyImages extends JFrame{
 						flagName = 1;
 					}
 					fileName1 = listOfFiles[i+1].getName();
-					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\")){
-						if(!CUtils.CreateDirectory(setPath(CUtils.GetImagesDestPath() + "BloackMatching\\MES\\")))
+					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BlockMatching\\")){
+						if(!CUtils.CreateDirectory(setPath(CUtils.GetImagesDestPath() + "BlockMatching\\MES\\")))
 						;
 					}
 					if(flag == 0){
@@ -926,11 +926,11 @@ public class classifyImages extends JFrame{
 							e.printStackTrace();
 						}
 						BufferedImage out = image;
-						if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\MES\\"+numOfGroup+"\\"))
-							CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "BloackMatching\\MES\\"+numOfGroup+"\\"+fileName);
+						if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BlockMatching\\MES\\"+numOfGroup+"\\"))
+							CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "BlockMatching\\MES\\"+numOfGroup+"\\"+fileName);
 						flag =1;
 					}
-					double res = block.identifyTheRequirArea(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath() + "BloackMatching\\MES\\"+numOfGroup+"\\", fileName, fileName1, "MES", (int)PSpinner.getValue(), (int)qSpinner.getValue(), (int)heightSpinner.getValue());
+					double res = block.identifyTheRequirArea(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath() + "BlockMatching\\MES\\"+numOfGroup+"\\", fileName, fileName1, "MES", (int)PSpinner.getValue(), (int)qSpinner.getValue(), (int)heightSpinner.getValue());
 					if(res == -1){
 						flag =0;
 						flagName = 0;
@@ -940,7 +940,7 @@ public class classifyImages extends JFrame{
 						try{
 							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1));
 							BufferedImage out = image;
-							CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "BloackMatching\\MES\\"+numOfGroup+"\\"+fileName1);
+							CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "BlockMatching\\MES\\"+numOfGroup+"\\"+fileName1);
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -969,8 +969,8 @@ public class classifyImages extends JFrame{
 						flagName = 1;
 					}
 					fileName1 = listOfFiles[i+1].getName();
-			if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\")){
-				if(!CUtils.CreateDirectory(setPath(CUtils.GetImagesDestPath() + "BloackMatching\\MAD\\")))
+			if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BlockMatching\\")){
+				if(!CUtils.CreateDirectory(setPath(CUtils.GetImagesDestPath() + "BlockMatching\\MAD\\")))
 				break;
 			}
 				if(flag == 0){
@@ -981,12 +981,12 @@ public class classifyImages extends JFrame{
 						e.printStackTrace();
 					}
 					BufferedImage out = image;
-					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BloackMatching\\MAD\\"+numOfGroup+"\\"))
-						CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "BloackMatching\\MAD\\"+numOfGroup+"\\"+fileName);
+					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BlockMatching\\MAD\\"+numOfGroup+"\\"))
+						CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "BlockMatching\\MAD\\"+numOfGroup+"\\"+fileName);
 					flag =1;
 				}
 										
-			double res = block.identifyTheRequirArea(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath() + "BloackMatching\\MAD\\"+numOfGroup+"\\", fileName, fileName1, "MAD", (int)PSpinner.getValue(), (int)qSpinner.getValue(), (int)heightSpinner.getValue());
+			double res = block.identifyTheRequirArea(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath() + "BlockMatching\\MAD\\"+numOfGroup+"\\", fileName, fileName1, "MAD", (int)PSpinner.getValue(), (int)qSpinner.getValue(), (int)heightSpinner.getValue());
 			if(res == -1){
 				flag = 0;
 				flagName = 0;
@@ -996,7 +996,7 @@ public class classifyImages extends JFrame{
 				try{
 					image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName1));
 					BufferedImage out = image;
-					CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "BloackMatching\\MAD\\"+numOfGroup+"\\"+fileName1);
+					CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "BlockMatching\\MAD\\"+numOfGroup+"\\"+fileName1);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

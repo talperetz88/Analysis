@@ -59,6 +59,7 @@ public class FocusMeasurement extends JFrame {
 	private JSpinner spinner_3;
 	private JButton btnNewButton;
 	private String path;
+	private String focusFunc;
 	private ArrayList<String> needToImproveImages = new ArrayList <String>();
 	private ArrayList<String> notNeedToImproveImages = new ArrayList <String>();
 	public FocusMeasurement(String path){
@@ -342,7 +343,11 @@ public class FocusMeasurement extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				closeFrame();
-				ImproveFocusGUI next = new ImproveFocusGUI(needToImproveImages,notNeedToImproveImages);
+				ImproveFocusGUI next;
+				if(comboBox.getSelectedItem().toString() == "Local approch");
+					next = new ImproveFocusGUI(path,focusFunc);
+				if(comboBox.getSelectedItem().toString() == "GlobalApproch")
+					next = new ImproveFocusGUI(needToImproveImages,notNeedToImproveImages);
 			}
 		});
 		btnNewButton.setBounds(581, 433, 111, 40);
@@ -436,6 +441,8 @@ public class FocusMeasurement extends JFrame {
 							e1.printStackTrace();
 						}
 							if(!CUtils.CreateDirectory(path+dir+"\\Best\\"))
+								break;
+							if(!CUtils.CreateDirectory(path+dir+"\\Best\\display"))
 								break;
 						if(chckbxArea_1.isSelected() || chckbxAllAreas.isSelected()){
 							if(CUtils.CreateDirectory(path+dir+"\\Area 1\\")){
@@ -532,27 +539,31 @@ public class FocusMeasurement extends JFrame {
 							double [] focusRes = new double [inside.length];
 							String [] resName = new String [inside.length];
 							for(int t=0;t<inside.length;t++){
-								if(inside[t]==null)
+								if(inside[t]==null||inside[t].isDirectory())
 									continue ;
 								
 								if(checkBox.isSelected()){
 									if(LuminanceCheckBox.isSelected()){
 										if(normalCheckBox.isSelected()){
-										focusRes[t] = func.FocusMeasuresBasedOnImageStatisticsNormalizedVariance(inside[t].getPath(), 2);	
-										resName[t] = Integer.toString(t);
+											focusFunc="FocusMeasuresBasedOnImageStatisticsNormalizedVariance2";
+											focusRes[t] = func.FocusMeasuresBasedOnImageStatisticsNormalizedVariance(inside[t].getPath(), 2);	
+											resName[t] = Integer.toString(t);
 										
 										}else{
 										//the second value of index is: 1 it means grayscale , and 2 it means Luminance
-										focusRes[t] = func.FocusMeasuresBasedOnImageStatisticsVariance(inside[t].getPath(), 2);
-										resName[t] = Integer.toString(t);
+											focusFunc="FocusMeasuresBasedOnImageStatisticsVariance2";
+											focusRes[t] = func.FocusMeasuresBasedOnImageStatisticsVariance(inside[t].getPath(), 2);
+											resName[t] = Integer.toString(t);
 										}
 									}
 									if(grayScaleCheckBox.isSelected()){
 										if(normalCheckBox.isSelected()){
+											focusFunc="FocusMeasuresBasedOnImageStatisticsNormalizedVariance1";
 											focusRes[t] = func.FocusMeasuresBasedOnImageStatisticsNormalizedVariance(inside[t].getPath(), 1);	
 											resName[t] = Integer.toString(t);	
 										}else{
 											//the second value of index is: 1 it means grayscale , and 2 it means Luminance
+											focusFunc="FocusMeasuresBasedOnImageStatisticsVariance1";
 											focusRes[t] = func.FocusMeasuresBasedOnImageStatisticsVariance(inside[t].getPath(), 1);
 											resName[t] = Integer.toString(t);
 											}
@@ -561,25 +572,30 @@ public class FocusMeasurement extends JFrame {
 								}
 								if(checkBox_1.isSelected()){
 									if(chckbxNewCheckBox.isSelected()){
+										focusFunc="FunctionBasedOnDepthOfPeaksAndValleysA";
 										focusRes[t] = func.FunctionBasedOnDepthOfPeaksAndValleysA(inside[t].getPath(), (int)spinner.getValue());
 										resName[k] = Integer.toString(t);
 									}
 									if(chckbxNewCheckBox_1.isSelected()){
+										focusFunc="FunctionBasedOnDepthOfPeaksAndValleysB";
 										focusRes[t] = func.FunctionBasedOnDepthOfPeaksAndValleysB(inside[t].getPath(), (int)spinner_1.getValue());
 										resName[t] = Integer.toString(t);
 									}
 									if(chckbxImagePower.isSelected()){
+										focusFunc="FunctionBasedOnDepthOfPeaksAndValleysC";
 										focusRes[t] = func.FunctionBasedOnDepthOfPeaksAndValleysC(inside[t].getPath(), (int)spinner_2.getValue());
 										resName[t] = Integer.toString(t);
 									}
 								}
 								if(checkBox_2.isSelected()){
 									if(chckbxNewCheckBox_2.isSelected()){
+										focusFunc="FocusMeasuresBasedOnImageDifferentiationB";
 										focusRes[t] = func.FocusMeasuresBasedOnImageDifferentiationB(inside[t].getPath(), (int)spinner_3.getValue());
 										resName[t] = Integer.toString(t);
 								}
 									
 									if(chckbxNewCheckBox_3.isSelected()){
+										focusFunc="FocusMeasuresBasedOnImageDifferentiationA";
 										focusRes[t] = func.FocusMeasuresBasedOnImageDifferentiationA(inside[t].getPath(),(int)spinner_3.getValue());
 										resName[t] = Integer.toString(t);
 								}
@@ -594,6 +610,7 @@ public class FocusMeasurement extends JFrame {
 							}
 							//sort the array and return the best area 
 							String bestArea=getBestFocusImage(focusRes,resName);
+							//System.out.println("blbbl  "+bestArea);
 							Path src = Paths.get(inside[Integer.parseInt(bestArea)].getPath());
 							Path des = Paths.get(path+dir+"\\Best\\"+inside[Integer.parseInt(bestArea)].getName());
 							try {
