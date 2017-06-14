@@ -303,12 +303,37 @@ public class main {
 
 		//System.out.println("the MES is "+blockMatching.identifyTheRequirArea("C:\\Users\\talpe\\Desktop\\img\\img\\1\\res\\","MatlabRes124.jpg","MatlabRes125.jpg","MES",10,5,5));
 
+		///test ///
+		/*
+		double sumtest=0;
+		File folder = new File("C:\\Users\\omri\\Desktop\\testtt");
+		File[] listOfFiles = folder.listFiles();
+		sumtest =test(listOfFiles,2);
+		/*
+		for (int i = 0; i < listOfFiles.length; i++){
+				if(listOfFiles[i]==null||listOfFiles[i].getName().toString().equalsIgnoreCase("display"))
+					continue ;
+				//System.out.println("i am "+listOfFiles[i].getPath());
+				File temp = new File(listOfFiles[i].getPath()+"\\Best");
+				File[] listTemp = temp.listFiles();
+				sumtest+=test(listTemp,i);
+		}
+		*/
 		
-		 
-		
+		// System.out.println("finale avg is :"+sumtest);
 		 
 	}
-	
+	/*
+	public static double test(File[] list,int k){
+		Focus focus= new Focus();
+		double sum=0;
+		for(int i=0;i<list.length;i++){
+			System.out.println(i+"  "+list[i].getName());
+			sum+=focus.FocusMeasuresBasedOnImageDifferentiationB(list[i].getPath(),9700);
+		}
+		sum=sum/list.length;
+		return sum;
+	}*/
 	
 
 }

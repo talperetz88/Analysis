@@ -89,6 +89,7 @@ public class classifyImages extends JFrame{
 		btnExecute.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				checkBox();
+				classifyImageNextBtn.setEnabled(true);
 			}
 		});
 		btnExecute.setBounds(391, 108, 134, 40);
@@ -352,6 +353,7 @@ public class classifyImages extends JFrame{
 		//classifyImageNextBtn.setBorder(BorderFactory.createEmptyBorder());
 		//classifyImageNextBtn.setContentAreaFilled(false);
 		}
+		classifyImageNextBtn.setEnabled(false);
 		return classifyImageNextBtn;
 	}
 	
@@ -445,6 +447,7 @@ public class classifyImages extends JFrame{
 					if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\"))
 						break;
 					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\"))
+						deleteDir(new File(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\"));
 						if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\HSV\\"))
 							if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\RGB\\"))
 						break;
@@ -570,6 +573,7 @@ public class classifyImages extends JFrame{
 						break;
 			
 					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\"))
+						deleteDir(new File(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\"));
 						if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\HSV\\"))
 							if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\RGB\\"))
 								break;
@@ -695,6 +699,7 @@ public class classifyImages extends JFrame{
 					if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\"))
 						break;
 					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\"))
+						deleteDir(new File(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\"));
 						if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\RGB\\"))
 							if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\HSV\\"))
 									break;
@@ -818,6 +823,8 @@ public class classifyImages extends JFrame{
 						break;
 			
 					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\"))
+						CUtils.DeleteAllFilesInDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\");
+					deleteDir(new File(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\"));
 						if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\RGB\\"))
 							if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\HSV\\"))
 								break;
@@ -915,6 +922,7 @@ public class classifyImages extends JFrame{
 					}
 					fileName1 = listOfFiles[i+1].getName();
 					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BlockMatching\\")){
+						deleteDir(new File(CUtils.GetImagesDestPath() + "BlockMatching\\"));
 						if(!CUtils.CreateDirectory(setPath(CUtils.GetImagesDestPath() + "BlockMatching\\MES\\")))
 						;
 					}
@@ -970,6 +978,7 @@ public class classifyImages extends JFrame{
 					}
 					fileName1 = listOfFiles[i+1].getName();
 			if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "BlockMatching\\")){
+				deleteDir(new File(CUtils.GetImagesDestPath() + "BlockMatching\\"));
 				if(!CUtils.CreateDirectory(setPath(CUtils.GetImagesDestPath() + "BlockMatching\\MAD\\")))
 				break;
 			}
@@ -1018,5 +1027,18 @@ public class classifyImages extends JFrame{
 	public String setPath(String path) {
 		this.path = path;
 		return path;
+	}
+	public static boolean deleteDir(File dir) {
+	    if (dir.isDirectory()) {
+	        String[] children = dir.list();
+	        for (int i = 0; i < children.length; i++) {
+	            boolean success = deleteDir(new File(dir, children[i]));
+	            if (!success) {
+	                return false;
+	            }
+	        }
+	    }
+
+	    return true; // The directory is empty now and can be deleted.
 	}
 }

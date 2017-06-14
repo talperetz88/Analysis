@@ -129,7 +129,7 @@ public class FocusMeasurement extends JFrame {
 		
 		//NextBtn = new JButton("Next");
 		
-		getContentPane().add(getExecute());
+		
 		
 		globalPanel = new JPanel();
 		globalPanel.setBounds(43, 104, 611, 158);
@@ -353,6 +353,8 @@ public class FocusMeasurement extends JFrame {
 		btnNewButton.setBounds(581, 433, 111, 40);
 		getContentPane().add(btnNewButton);
 		btnNewButton.setVisible(true);
+		btnNewButton.setEnabled(false);
+		getContentPane().add(getExecute());
 		spinner_2.setVisible(false);
 		
 	/*	JPanel Localpanel1 = new JPanel();
@@ -408,6 +410,7 @@ public class FocusMeasurement extends JFrame {
 		//CUtils.SetImagesDestinationPath("C:\\project\\images\\1\\");//dont forget to delete
 		executeBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				btnNewButton.setEnabled(true);
 				BufferedImage image = null;
 				String fileName;
 				File folder = new File(path);

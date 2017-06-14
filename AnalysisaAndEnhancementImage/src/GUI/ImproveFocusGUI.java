@@ -50,7 +50,7 @@ public class ImproveFocusGUI extends JFrame{
 	public  ArrayList<String> needImproveLocal=new ArrayList <String>();
 	private String path;
 	private String focusFunc;
-	private JButton executeBtn1;
+	private JButton executeBtn1;//
 	
 	public ImproveFocusGUI(String path,String focusFunc){
 		this.path = path;
@@ -76,7 +76,7 @@ public class ImproveFocusGUI extends JFrame{
 		executeBtn1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//herre
-				System.out.println("dfsafdsfds");
+				nextImprovebtn.setEnabled(true);
 				File folder = new File(path);
 				File[] listOfFiles = folder.listFiles();
 				for (int i = 0; i < listOfFiles.length; i++){
@@ -87,10 +87,12 @@ public class ImproveFocusGUI extends JFrame{
 						File temp = new File(listOfFiles[i].getPath()+"\\Best");
 						File[] listTemp = temp.listFiles();
 						checkIfNeedToImprove(listTemp);//adding all the unfocused images to the list 
+						//test(listTemp);
 						improvList(); //sending the list to improve the focus 
 						needImproveLocal.clear();//clearing the list 
 					}
 				}
+
 					}
 		
 			
@@ -210,6 +212,7 @@ public class ImproveFocusGUI extends JFrame{
 		executeBtn = new JButton("Execute");
 		executeBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				nextImprovebtn.setEnabled(true);
 				File folder = new File(CUtils.GetImagesDestPath()+"goodImages\\");
 				File[] listOfFiles = folder.listFiles();
 				for (int i = 0; i < needImprove.size(); i++){
@@ -399,16 +402,20 @@ public class ImproveFocusGUI extends JFrame{
 		}
 	}
 	
+	
+	
+
+	
+	
 	public void checkIfNeedToImprove(File[] list){
+		Focus focus= new Focus();
 		for(int i=0;i<list.length;i++){
 			if(list[i].getName().toString().equalsIgnoreCase("display"))
 				continue ;
 		//	System.out.println("in the func "+list[i].getPath());
 			//System.out.println("in the getParent "+list[i].getParent());
-			
-			Focus focus= new Focus();
 			if(focusFunc.equalsIgnoreCase("FocusMeasuresBasedOnImageDifferentiationA")){
-				if(focus.FocusMeasuresBasedOnImageDifferentiationA(list[i].getPath(),20)<20)
+				if(focus.FocusMeasuresBasedOnImageDifferentiationA(list[i].getPath(),9700)<60195.6457779598)
 					needImproveLocal.add(list[i].getPath());
 				else{
 					Path src = Paths.get(list[i].getPath());
@@ -422,7 +429,7 @@ public class ImproveFocusGUI extends JFrame{
 				}
 			}
 			if(focusFunc.equalsIgnoreCase("FocusMeasuresBasedOnImageDifferentiationB")){
-				if(focus.FocusMeasuresBasedOnImageDifferentiationB(list[i].getPath(),9700)<9700)
+				if(focus.FocusMeasuresBasedOnImageDifferentiationB(list[i].getPath(),9700)<3615107.80110014)
 					needImproveLocal.add(list[i].getPath());
 				else{
 					Path src = Paths.get(list[i].getPath());
@@ -436,7 +443,7 @@ public class ImproveFocusGUI extends JFrame{
 				}
 			}
 			if(focusFunc.equalsIgnoreCase("FunctionBasedOnDepthOfPeaksAndValleysC")){
-				if(focus.FunctionBasedOnDepthOfPeaksAndValleysC(list[i].getPath(),120)<120)
+				if(focus.FunctionBasedOnDepthOfPeaksAndValleysC(list[i].getPath(),120)<1.1509)
 					needImproveLocal.add(list[i].getPath());
 				else{
 					Path src = Paths.get(list[i].getPath());
@@ -450,7 +457,7 @@ public class ImproveFocusGUI extends JFrame{
 				}
 			}
 			if(focusFunc.equalsIgnoreCase("FunctionBasedOnDepthOfPeaksAndValleysB")){
-				if(focus.FunctionBasedOnDepthOfPeaksAndValleysB(list[i].getPath(),120)<120)
+				if(focus.FunctionBasedOnDepthOfPeaksAndValleysB(list[i].getPath(),120)<5478.94792)
 					needImproveLocal.add(list[i].getPath());
 				else{
 					Path src = Paths.get(list[i].getPath());
@@ -464,7 +471,7 @@ public class ImproveFocusGUI extends JFrame{
 				}
 			}
 			if(focusFunc.equalsIgnoreCase("FunctionBasedOnDepthOfPeaksAndValleysA")){
-				if(focus.FunctionBasedOnDepthOfPeaksAndValleysA(list[i].getPath(),120)<120)
+				if(focus.FunctionBasedOnDepthOfPeaksAndValleysA(list[i].getPath(),120)<786937.384575268)
 					needImproveLocal.add(list[i].getPath());
 				else{
 					Path src = Paths.get(list[i].getPath());
@@ -478,7 +485,7 @@ public class ImproveFocusGUI extends JFrame{
 				}
 			}
 			if(focusFunc.equalsIgnoreCase("FocusMeasuresBasedOnImageStatisticsVariance1")){
-				if(focus.FocusMeasuresBasedOnImageStatisticsVariance(list[i].getPath(),1)<100000000)//need to change the threshold 
+				if(focus.FocusMeasuresBasedOnImageStatisticsVariance(list[i].getPath(),1)<1098.289) 
 					needImproveLocal.add(list[i].getPath());
 				else{
 					Path src = Paths.get(list[i].getPath());
@@ -492,7 +499,7 @@ public class ImproveFocusGUI extends JFrame{
 				}
 			}
 			if(focusFunc.equalsIgnoreCase("FocusMeasuresBasedOnImageStatisticsNormalizedVariance1")){
-				if(focus.FocusMeasuresBasedOnImageStatisticsNormalizedVariance(list[i].getPath(),1)<100000000)//need to change the threshold 
+				if(focus.FocusMeasuresBasedOnImageStatisticsNormalizedVariance(list[i].getPath(),1)<83.516)
 					needImproveLocal.add(list[i].getPath());
 				else{
 					Path src = Paths.get(list[i].getPath());
@@ -507,7 +514,7 @@ public class ImproveFocusGUI extends JFrame{
 			}
 			if(focusFunc.equalsIgnoreCase("FocusMeasuresBasedOnImageStatisticsVariance2")){
 				
-				if(focus.FocusMeasuresBasedOnImageStatisticsVariance(list[i].getPath(),2)<100000000)//need to change the threshold 
+				if(focus.FocusMeasuresBasedOnImageStatisticsVariance(list[i].getPath(),2)<1102.413)
 					needImproveLocal.add(list[i].getPath());
 				else{
 					Path src = Paths.get(list[i].getPath());
@@ -522,7 +529,7 @@ public class ImproveFocusGUI extends JFrame{
 			}
 			if(focusFunc.equalsIgnoreCase("FocusMeasuresBasedOnImageStatisticsNormalizedVariance2")){
 				
-				if(focus.FocusMeasuresBasedOnImageStatisticsNormalizedVariance(list[i].getPath(),2)<10000){//need to change the threshold 
+				if(focus.FocusMeasuresBasedOnImageStatisticsNormalizedVariance(list[i].getPath(),2)<83.672){
 					needImproveLocal.add(list[i].getPath());
 				}
 				else{
@@ -539,6 +546,7 @@ public class ImproveFocusGUI extends JFrame{
 			}
 			
 		}
+
 		
 	}
 	
@@ -590,6 +598,7 @@ public class ImproveFocusGUI extends JFrame{
 		});
 			nextImprovebtn.setBounds(581, 433, 111, 40);
 		}
+		nextImprovebtn.setEnabled(false);
 		return nextImprovebtn;
 	}
 	public JComboBox getMethods(){

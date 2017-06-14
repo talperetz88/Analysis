@@ -70,6 +70,12 @@ public class openPage extends JFrame{
 			getContentPane().add(lblPhase_1);
 			
 			txtPleseEnterValue = new JTextField();
+			txtPleseEnterValue.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					txtPleseEnterValue.setText(null);
+				}
+			});
 			txtPleseEnterValue.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyTyped(KeyEvent e) {
@@ -87,6 +93,12 @@ public class openPage extends JFrame{
 			txtPleseEnterValue.setColumns(10);
 			
 			textField_1 = new JTextField();
+			textField_1.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					textField_1.setText(null);
+				}
+			});
 			
 			textField_1.addKeyListener(new KeyAdapter() {
 				@Override
