@@ -187,6 +187,7 @@ public class openPage extends JFrame{
 			spinner = new JSpinner();
 			spinner.setModel(new SpinnerNumberModel(1, 1, 10, 1));
 			spinner.setBounds(153, 270, 99, 19);
+			spinner.setValue(5);
  			}
 			return spinner;
  		}
@@ -227,14 +228,14 @@ public class openPage extends JFrame{
 	 					try{
 	 					 thread = new Check(Float.parseFloat(txtPleseEnterValue.getText().toString()),Float.parseFloat(textField_1.getText().toString()));	
 	 					 thread.start();
+	 					//thread.join();
+	 				//	 while(!thread.getRun());
 	 					classifyImages next = new classifyImages();
 	 					} catch(Exception ex){
 	 						JOptionPane.showMessageDialog(null, "Plese enter correct value between 0 - 0.7", "Warning",JOptionPane.WARNING_MESSAGE);
 	 						openPage o = new openPage();
 	 					}
-	 					
-	 					//while(thread.isAlive());
-	 					
+
 	 					}
 	 					
 	 				}

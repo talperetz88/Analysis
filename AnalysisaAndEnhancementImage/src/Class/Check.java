@@ -15,8 +15,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
 
+import GUI.classifyImages;
+
 public class Check extends Thread{
 		float phase1,phase2;
+		boolean run = false;
 		public Check(float phase1,float phase2){
 			this.phase1 = phase1;
 			this.phase2 = phase2;
@@ -47,16 +50,17 @@ public class Check extends Thread{
 
 			for (int i = 0; i < listOfFiles.length; i++){
 				final  int currentValue = i;
-				 try {
+				 pb.setValue(currentValue);
+			/*	 try {
 		                SwingUtilities.invokeLater(new Runnable() {
 		                    public void run() {
-		                        pb.setValue(currentValue);
+		                       // pb.setValue(currentValue);
 		                    }
 		                });
 		                java.lang.Thread.sleep(100);
 		            } catch (InterruptedException e) {
 		                JOptionPane.showMessageDialog(frame, e.getMessage());
-		            }
+		            }*/
 	
 				if (listOfFiles[i].isFile()){
 					if(listOfFiles[i]==null)
@@ -105,7 +109,14 @@ public class Check extends Thread{
 			 }
 			pb.setValue(100);
 			frame.dispose();
+			setRun(true);
 			}
 			
+		public boolean getRun(){
+		return run;
+		}
+		public void setRun(boolean t){
+			run = t;
+		}
 
 }

@@ -56,7 +56,7 @@ public class FocusMeasurement extends JFrame {
 	private JCheckBox chckbxNewCheckBox_2;
 	private JCheckBox chckbxNewCheckBox_3;
 	private JLabel lblNewLabel;
-	private JSpinner spinner_3;
+	private JSpinner spinner_3,spinner_4;
 	private JButton btnNewButton;
 	private String path;
 	private String focusFunc;
@@ -287,6 +287,7 @@ public class FocusMeasurement extends JFrame {
 		
 		spinner = new JSpinner();
 		spinner.setBounds(87, 37, 40, 22);
+		spinner.setValue(120);
 		depthPanel.add(spinner);
 		spinner.setVisible(false);
 		
@@ -297,11 +298,13 @@ public class FocusMeasurement extends JFrame {
 		
 		spinner_1 = new JSpinner();
 		spinner_1.setBounds(180, 37, 40, 22);
+		spinner_1.setValue(120);
 		depthPanel.add(spinner_1);
 		spinner_1.setVisible(false);
 		
 		spinner_2 = new JSpinner();
 		spinner_2.setBounds(312, 37, 40, 22);
+		spinner_2.setValue(120);
 		depthPanel.add(spinner_2);
 		
 		differentiationPanel = new JPanel();
@@ -313,6 +316,11 @@ public class FocusMeasurement extends JFrame {
 		chckbxNewCheckBox_3 = new JCheckBox("differences");
 		chckbxNewCheckBox_3.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
+				if(chckbxNewCheckBox_3.isSelected()){
+					spinner_4.setVisible(true);
+					spinner_3.setVisible(false);
+				}else
+					spinner_4.setVisible(false);
 				if(chckbxNewCheckBox_3.isSelected() && chckbxNewCheckBox_2.isSelected())
 					JOptionPane.showMessageDialog(null, "Plese choose one option in each time", "Warning",JOptionPane.WARNING_MESSAGE);
 			}
@@ -323,6 +331,11 @@ public class FocusMeasurement extends JFrame {
 		chckbxNewCheckBox_2 = new JCheckBox("squar differences");
 		chckbxNewCheckBox_2.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
+				if(chckbxNewCheckBox_2.isSelected()){
+					spinner_3.setVisible(true);
+				}else{
+					spinner_3.setVisible(false);
+				}
 				if(chckbxNewCheckBox_3.isSelected() && chckbxNewCheckBox_2.isSelected())
 					JOptionPane.showMessageDialog(null, "Plese choose one option in each time", "Warning",JOptionPane.WARNING_MESSAGE);
 			
@@ -338,6 +351,14 @@ public class FocusMeasurement extends JFrame {
 		spinner_3 = new JSpinner();
 		spinner_3.setBounds(91, 40, 44, 20);
 		differentiationPanel.add(spinner_3);
+		spinner_3.setVisible(false);
+		spinner_3.setValue(9700);
+		
+		spinner_4 = new JSpinner();
+		spinner_4.setBounds(130,40,44,20);
+		differentiationPanel.add(spinner_4);
+		spinner_4.setVisible(false);
+		spinner_4.setValue(20);
 		
 		btnNewButton = new JButton("Next");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -545,7 +566,7 @@ public class FocusMeasurement extends JFrame {
 								if(inside[t]==null||inside[t].isDirectory())
 									continue ;
 								
-								if(checkBox.isSelected()){
+								if(checkBox.isSelected()){//imageStatistic CheckBox
 									if(LuminanceCheckBox.isSelected()){
 										if(normalCheckBox.isSelected()){
 											focusFunc="FocusMeasuresBasedOnImageStatisticsNormalizedVariance2";
@@ -573,7 +594,7 @@ public class FocusMeasurement extends JFrame {
 									}
 									
 								}
-								if(checkBox_1.isSelected()){
+								if(checkBox_1.isSelected()){//DepthOfPeaksAndValleys checkBox
 									if(chckbxNewCheckBox.isSelected()){
 										focusFunc="FunctionBasedOnDepthOfPeaksAndValleysA";
 										focusRes[t] = func.FunctionBasedOnDepthOfPeaksAndValleysA(inside[t].getPath(), (int)spinner.getValue());
@@ -590,7 +611,7 @@ public class FocusMeasurement extends JFrame {
 										resName[t] = Integer.toString(t);
 									}
 								}
-								if(checkBox_2.isSelected()){
+								if(checkBox_2.isSelected()){//ImageDifferentiation checkBox
 									if(chckbxNewCheckBox_2.isSelected()){
 										focusFunc="FocusMeasuresBasedOnImageDifferentiationB";
 										focusRes[t] = func.FocusMeasuresBasedOnImageDifferentiationB(inside[t].getPath(), (int)spinner_3.getValue());
@@ -648,7 +669,7 @@ public class FocusMeasurement extends JFrame {
 						res = new double[listOfFiles.length];
 						name = new String[listOfFiles.length];
 						}
-						if(checkBox.isSelected()){
+						if(checkBox.isSelected()){//ImageStatistics checkBox
 							if(LuminanceCheckBox.isSelected()){
 								if(normalCheckBox.isSelected()){
 								res[k] = func.FocusMeasuresBasedOnImageStatisticsNormalizedVariance(CUtils.GetImagesDestPath() + "goodImages\\" + fileName, 2);	
@@ -672,7 +693,7 @@ public class FocusMeasurement extends JFrame {
 							}
 							
 						}
-						if(checkBox_1.isSelected()){
+						if(checkBox_1.isSelected()){//DepthOfPeaksAndValleys checkBox
 							if(chckbxNewCheckBox.isSelected()){
 								res[k] = func.FunctionBasedOnDepthOfPeaksAndValleysA(CUtils.GetImagesDestPath() + "goodImages\\" + fileName, (int)spinner.getValue());
 								name[k] = fileName;
@@ -686,14 +707,14 @@ public class FocusMeasurement extends JFrame {
 								name[k] = fileName;
 							}
 						}
-						if(checkBox_2.isSelected()){
+						if(checkBox_2.isSelected()){//ImageDifferentiation checkBox
 							if(chckbxNewCheckBox_2.isSelected()){
 								res[k] = func.FocusMeasuresBasedOnImageDifferentiationB(CUtils.GetImagesDestPath() + "goodImages\\" + fileName, (int)spinner_3.getValue());
 								name[k] = fileName;
 						}
 							
 							if(chckbxNewCheckBox_3.isSelected()){
-								res[k] = func.FocusMeasuresBasedOnImageDifferentiationA(CUtils.GetImagesDestPath() + "goodImages\\" + fileName,(int)spinner_3.getValue());
+								res[k] = func.FocusMeasuresBasedOnImageDifferentiationA(CUtils.GetImagesDestPath() + "goodImages\\" + fileName,(int)spinner_4.getValue());
 								name[k] = fileName;
 						}
 						
@@ -706,12 +727,12 @@ public class FocusMeasurement extends JFrame {
 				if(checkBox.isSelected()){
 					if(LuminanceCheckBox.isSelected()){
 						if(normalCheckBox.isSelected()){
-							if(res[0] > 234)
+							if(res[0] > 19)
 								notNeedToImproveImages.add(name[0]);
 							else
 								needToImproveImages.add(name[0]);
 						}else{
-							if(res[0] > 234)
+							if(res[0] > 2237)
 								notNeedToImproveImages.add(name[0]);
 							else
 								needToImproveImages.add(name[0]);
@@ -719,12 +740,12 @@ public class FocusMeasurement extends JFrame {
 					}
 					if(grayScaleCheckBox.isSelected()){
 						if(normalCheckBox.isSelected()){
-							if(res[0] > 234)
+							if(res[0] > 19)
 								notNeedToImproveImages.add(name[0]);
 							else
 								needToImproveImages.add(name[0]);
 						}else{
-							if(res[0] > 50000)
+							if(res[0] > 2238)
 								notNeedToImproveImages.add(name[0]);
 							else
 								needToImproveImages.add(name[0]);
@@ -734,19 +755,19 @@ public class FocusMeasurement extends JFrame {
 				}
 				if(checkBox_1.isSelected()){
 					if(chckbxNewCheckBox.isSelected()){
-						if(res[0] > 234)
+						if(res[0] > 9836699)
 							notNeedToImproveImages.add(name[0]);
 						else
 							needToImproveImages.add(name[0]);
 					}
 					if(chckbxNewCheckBox_1.isSelected()){
-						if(res[0] > 234)
+						if(res[0] > 62267)
 							notNeedToImproveImages.add(name[0]);
 						else
 							needToImproveImages.add(name[0]);
 					}
 					if(chckbxImagePower.isSelected()){
-						if(res[0] > 234)
+						if(res[0] > 1.5)
 							notNeedToImproveImages.add(name[0]);
 						else
 							needToImproveImages.add(name[0]);
@@ -754,14 +775,14 @@ public class FocusMeasurement extends JFrame {
 				}
 				if(checkBox_2.isSelected()){
 					if(chckbxNewCheckBox_2.isSelected()){
-						if(res[0] > 3400000)
+						if(res[0] > 284368)
 							notNeedToImproveImages.add(name[0]);
 						else
 							needToImproveImages.add(name[0]);
 				}
 					
 					if(chckbxNewCheckBox_3.isSelected()){
-						if(res[0] > 234)
+						if(res[0] > 1894207)
 							notNeedToImproveImages.add(name[0]);
 						else
 							needToImproveImages.add(name[0]);

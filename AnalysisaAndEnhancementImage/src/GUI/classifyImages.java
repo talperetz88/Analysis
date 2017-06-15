@@ -371,9 +371,25 @@ public class classifyImages extends JFrame{
 		if(comboBox.getSelectedItem().toString() == "Block matching"){
 				
 				if(MADCheckBox.isSelected()){
+					File folder1 = new File(CUtils.GetImagesDestPath() + "BlockMatching\\MAD\\");
+					if(folder1.isDirectory())
+						try {
+							CUtils.DeleteDirectory(CUtils.GetImagesDestPath() + "BlockMatching\\MAD\\");
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 				MadFunc();
 				}
 				if(MSECheckBox.isSelected()){
+					File folder1 = new File(CUtils.GetImagesDestPath() + "BlockMatching\\MES\\");
+					if(folder1.isDirectory())
+						try {
+							CUtils.DeleteDirectory(CUtils.GetImagesDestPath() + "BlockMatching\\MES\\");
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					MesFunc();
 					
 				}
@@ -382,18 +398,49 @@ public class classifyImages extends JFrame{
 		if(comboBox.getSelectedItem().toString() == "RGB histogram"){
 			
 						if(correlationCheckBox.isSelected()){
+							File folder1 = new File(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\");
+							if(folder1.isDirectory())
+								try {
+									CUtils.DeleteDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\");
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 							correlationFunc();
 						
 						}
 						if(intersectionCheckBox.isSelected()){
+							File folder2 = new File(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\");
+							if(folder2.isDirectory())
+								try {
+									CUtils.DeleteDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\");
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+								}	
 							intersectionFunc();
 						}
 					
 						if(bhattCheckBox.isSelected()){
+							File folder3 = new File(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\");
+							if(folder3.isDirectory())
+								try {
+									CUtils.DeleteDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\");
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									
+								}
 							bhattFunc();
 						}
 					
 						if(chiSquareCheckBox.isSelected()){
+							File folder4 = new File(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\");
+							if(folder4.isDirectory())
+								try {
+									CUtils.DeleteDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\");
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									
+								}
 							chiSquareFunc();
 						}
 					
@@ -446,10 +493,7 @@ public class classifyImages extends JFrame{
 					
 					if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\"))
 						break;
-					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\"))
-						deleteDir(new File(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\"));
-						if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\HSV\\"))
-							if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\RGB\\"))
+					if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\"))
 						break;
 					if(flag == 0){
 						try {
@@ -460,12 +504,14 @@ public class classifyImages extends JFrame{
 						}
 						BufferedImage out = image;
 						if(chckbxRgb.isSelected()){
+							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\RGB\\"))
 							setPath(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\RGB\\");
 							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\RGB\\" +numOfGroupD+"\\" ))
 								CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\RGB\\"+numOfGroupD+"\\"+fileName);
 						flag = 1;
 						}
 						if(chckbxHsv.isSelected()){
+							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\HSV\\"))
 							setPath(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\HSV\\");
 							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\HSV\\" +numOfGroupD+"\\" ))
 								CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Chi-Square\\HSV\\"+numOfGroupD+"\\"+fileName);
@@ -572,11 +618,8 @@ public class classifyImages extends JFrame{
 					if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\"))
 						break;
 			
-					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\"))
-						deleteDir(new File(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\"));
-						if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\HSV\\"))
-							if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\RGB\\"))
-								break;
+					if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\"))
+						break;
 					if(flag == 0){
 						try {
 							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
@@ -586,12 +629,14 @@ public class classifyImages extends JFrame{
 						}
 						BufferedImage out = image;
 						if(chckbxRgb.isSelected()){
+							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\RGB\\"))
 							setPath(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\RGB\\");
 							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\RGB\\" +numOfGroupC+"\\" ))
 								CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\RGB\\"+numOfGroupC+"\\"+fileName);
 							flag = 1;
 						}
 						if(chckbxHsv.isSelected()){
+							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\HSV\\"))
 							setPath(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\HSV\\");
 							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\HSV\\" +numOfGroupC+"\\" ))
 								CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\BhattacharyyaDistance\\HSV\\"+numOfGroupC+"\\"+fileName);
@@ -698,11 +743,8 @@ public class classifyImages extends JFrame{
 					
 					if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\"))
 						break;
-					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\"))
-						deleteDir(new File(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\"));
-						if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\RGB\\"))
-							if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\HSV\\"))
-									break;
+					if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\"))
+						break;
 					if(flag == 0){
 						try {
 							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
@@ -712,12 +754,14 @@ public class classifyImages extends JFrame{
 						}
 						BufferedImage out = image;
 							if(chckbxRgb.isSelected()){
+								if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\RGB\\"))
 								setPath(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\RGB\\");
 								if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\RGB\\" +numOfGroupB+"\\" ))
 									CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Intersection\\RGB\\"+numOfGroupB+"\\"+fileName);
 								flag = 1;
 							}
 							if(chckbxHsv.isSelected()){
+								if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\HSV\\"))
 								setPath(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\HSV\\");
 								if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Intersection\\HSV\\" +numOfGroupB+"\\" ))
 									CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Intersection\\HSV\\"+numOfGroupB+"\\"+fileName);
@@ -821,13 +865,10 @@ public class classifyImages extends JFrame{
 					
 					if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\"))
 						break;
-			
-					if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\"))
-						CUtils.DeleteAllFilesInDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\");
-					deleteDir(new File(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\"));
-						if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\RGB\\"))
-							if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\HSV\\"))
-								break;
+
+					if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\"))
+						break;
+										
 					if(flag == 0){
 						try {
 							image = ImageIO.read(new File(CUtils.GetImagesDestPath() +"goodImages\\" + fileName));
@@ -837,12 +878,14 @@ public class classifyImages extends JFrame{
 						}
 						BufferedImage out = image;
 						if(chckbxRgb.isSelected()){
-							setPath(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\RGB\\");
+							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\RGB\\"))
+								setPath(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\RGB\\");
 							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\RGB\\" +numOfGroupA+"\\" ))
 								CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Correlation\\RGB\\"+numOfGroupA+"\\"+fileName);
 							flag = 1;
 						}
 						if(chckbxHsv.isSelected()){
+							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\HSV\\"))
 							setPath(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\HSV\\");
 							if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "Histogram\\Correlation\\HSV\\" +numOfGroupA+"\\" ))
 								CUtils.SaveImage(out, CUtils.GetImagesDestPath() + "Histogram\\Correlation\\HSV\\"+numOfGroupA+"\\"+fileName);
