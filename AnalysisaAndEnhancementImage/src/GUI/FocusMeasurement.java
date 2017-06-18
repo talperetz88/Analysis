@@ -79,7 +79,7 @@ public class FocusMeasurement extends JFrame {
 		
 		
 		getContentPane().add(getApproch());
-		this.setVisible(true);
+		
 		//getContentPane().add(getLocal());
 		
 		panel = new JPanel();
@@ -382,7 +382,7 @@ public class FocusMeasurement extends JFrame {
 		panel.setBounds(32, 207, 444, 197);
 		getContentPane().add(panel);
 		panel.setLayout(null);*/
-		
+		this.setVisible(true);
 		
 	}
 	

@@ -49,7 +49,7 @@ public class classifyImages extends JFrame{
 		this.setBounds(100,100,722,533);		
 		getContentPane().setLayout(null);
 		getContentPane().add(getMethods());
-		this.setVisible(true);
+		
 		getContentPane().add(getPanelHistogram());
 		panel.setVisible(false);
 		getContentPane().add(getPanelBlock());
@@ -95,7 +95,7 @@ public class classifyImages extends JFrame{
 		btnExecute.setBounds(391, 108, 134, 40);
 		getContentPane().add(btnExecute);
 		
-
+		this.setVisible(true);
 		
 
 	}
