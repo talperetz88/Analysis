@@ -35,6 +35,7 @@ public class openPage extends JFrame{
 		private JTextField txtPleseEnterValue;
 		private JTextField textField_1;
 		private int flagPoint =0;
+		private Check thread =null;
 		public openPage() {
 			this.open = this;
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,7 +50,7 @@ public class openPage extends JFrame{
 			getContentPane().add(getFramesLabel());
 			getContentPane().add(getCutLable());
 
-			this.setVisible(true);
+			
 			
 			JLabel lblWelcom = new JLabel("Welcome");
 			lblWelcom.setFont(new Font("Arial", Font.BOLD, 20));
@@ -123,8 +124,21 @@ public class openPage extends JFrame{
 			textField_1.setBounds(78, 390, 230, 20);
 			getContentPane().add(textField_1);
 			
-
-			
+			JButton nexttBtn = new JButton("Next");
+			nexttBtn.setBounds(581, 433, 111, 40);
+			getContentPane().add(nexttBtn);
+			nexttBtn.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent arg0){
+					
+					 if(thread.getRun()){
+	 						System.out.println("here");
+	 						classifyImages next = new classifyImages();
+	 					 }else{
+	 						JOptionPane.showMessageDialog(null, "Please wait until the program finishes running", "Warning",JOptionPane.WARNING_MESSAGE);
+	 					 }
+				}
+			});
+			this.setVisible(true);
 		}
 
 		public JButton getOpenButn() {
@@ -202,7 +216,7 @@ public class openPage extends JFrame{
  		}
  		public JButton getnextBtn(){
  			if(nextButten == null){
-	 			nextButten = new JButton("Next");
+	 			nextButten = new JButton("Execute");
 	 			nextButten.addActionListener(new ActionListener() {
 	 				public void actionPerformed(ActionEvent arg0) {
 	 					if(textField.getText().isEmpty()){
@@ -222,15 +236,15 @@ public class openPage extends JFrame{
 							if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "matlabRes\\"))
 								System.out.println("eror");
 	 					
-	 					closeFrame();
-	 					Check thread =null;
+	 					//closeFrame();
+	 					
 	 					while(start.isAlive());
 	 					try{
 	 					 thread = new Check(Float.parseFloat(txtPleseEnterValue.getText().toString()),Float.parseFloat(textField_1.getText().toString()));	
 	 					 thread.start();
 	 					//thread.join();
-	 				//	 while(!thread.getRun());
-	 					classifyImages next = new classifyImages();
+	 					 //while(true)
+	 					
 	 					} catch(Exception ex){
 	 						JOptionPane.showMessageDialog(null, "Plese enter correct value between 0 - 0.7", "Warning",JOptionPane.WARNING_MESSAGE);
 	 						openPage o = new openPage();
@@ -240,7 +254,8 @@ public class openPage extends JFrame{
 	 					
 	 				}
 	 			});
-				nextButten.setBounds(581, 433, 111, 40);
+	 			nextButten.setBounds(433, 333, 150, 40);
+				
 	 		}
  			return nextButten;
  		}

@@ -108,8 +108,10 @@ public class Check extends Thread{
 			  }
 			 }
 			pb.setValue(100);
+			
 			frame.dispose();
 			setRun(true);
+			
 			}
 			
 		public boolean getRun(){
@@ -118,5 +120,6 @@ public class Check extends Thread{
 		public void setRun(boolean t){
 			run = t;
 		}
+ 		
 
 }

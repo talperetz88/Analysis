@@ -74,7 +74,7 @@ public class classifyImages extends JFrame{
 		lblClassifyMethods.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblClassifyMethods.setBounds(31, 13, 310, 57);
 		getContentPane().add(lblClassifyMethods);
-		//lblClassifyMethods.setVisible(false);
+		lblClassifyMethods.setVisible(true);
 		
 		lblDistanceFunction = new JLabel("Distance function");
 		lblDistanceFunction.setBounds(45, 178, 165, 16);
