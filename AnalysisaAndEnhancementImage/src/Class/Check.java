@@ -29,7 +29,7 @@ public class Check extends Thread{
 			
 			File folder = new File(CUtils.GetImagesDestPath());
 			File[] listOfFiles = folder.listFiles();
-	        final JFrame frame = new JFrame("JProgress");
+	        final JFrame frame = new JFrame("");
 	        
 	        // creates progress bar
 	        final JProgressBar pb = new JProgressBar();

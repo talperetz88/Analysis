@@ -131,7 +131,7 @@ public class openPage extends JFrame{
 				public void actionPerformed(ActionEvent arg0){
 					
 					 if(thread.getRun()){
-	 						System.out.println("here");
+						 	closeFrame();
 	 						classifyImages next = new classifyImages();
 	 					 }else{
 	 						JOptionPane.showMessageDialog(null, "Please wait until the program finishes running", "Warning",JOptionPane.WARNING_MESSAGE);

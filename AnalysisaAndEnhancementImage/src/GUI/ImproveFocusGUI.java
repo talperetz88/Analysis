@@ -226,9 +226,20 @@ public class ImproveFocusGUI extends JFrame{
 								if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\blurImage\\"))
 									if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\maskImages\\"))
 										if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\sharpImages\\"))
+											if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\best\\"))
+												break;
 							improve.blur(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath()+"ImproveFocus\\blurImage\\", fileName,ker,sigma);
 							improve.mask(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath()+"ImproveFocus\\blurImage\\", fileName);
 							improve.improveFocus(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath()+"ImproveFocus\\maskImages\\", fileName);
+							Path src = Paths.get(CUtils.GetImagesDestPath() + "ImproveFocus\\sharpImages\\" + "sharp_"+fileName);
+							Path des = Paths.get(CUtils.GetImagesDestPath() + "ImproveFocus\\best\\" +  "sharp_" + fileName);
+						System.out.println(src +" "+ des);
+							try {
+								Files.copy(src,des,REPLACE_EXISTING);
+							} catch (IOException e2) {
+								// TODO Auto-generated catch block
+								e2.printStackTrace();
+							}
 						}
 						
 						if(methodCombo.getSelectedItem().toString() == "Spitial filter"){
@@ -238,14 +249,38 @@ public class ImproveFocusGUI extends JFrame{
 										if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\blurImage\\"))
 											if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\maskImages\\"))
 												if(CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\sharpImages\\"))
-										improve.blur(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath()+"ImproveFocus\\blurImage\\", fileName,2,2);
-									improve.mask(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath()+"ImproveFocus\\blurImage\\", fileName);
-									improve.improveFocus(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath()+"ImproveFocus\\maskImages\\", fileName);
+													if(!CUtils.CreateDirectory(CUtils.GetImagesDestPath() + "ImproveFocus\\best\\"))
+														break;
+							improve.blur(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath()+"ImproveFocus\\blurImage\\", fileName,2,2);
+							improve.mask(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath()+"ImproveFocus\\blurImage\\", fileName);
+							improve.improveFocus(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath()+"ImproveFocus\\maskImages\\", fileName);
 							improve.laplacianMask(CUtils.GetImagesDestPath()+ "ImproveFocus\\sharpImages\\", CUtils.GetImagesDestPath()+"ImproveFocus\\laplacianMask\\", fileName, ker);
 							improve.improveFocusLaplacian(CUtils.GetImagesDestPath(), CUtils.GetImagesDestPath()+"ImproveFocus\\laplacianMask\\", fileName);
+							Path src = Paths.get(CUtils.GetImagesDestPath() + "ImproveFocus\\sharpLaplacian\\" + "sharp_"+fileName);
+							Path des = Paths.get(CUtils.GetImagesDestPath() + "ImproveFocus\\best\\" +  "sharp_" + fileName);
+						System.out.println(src +" "+ des);
+							try {
+								Files.copy(src,des,REPLACE_EXISTING);
+							} catch (IOException e2) {
+								// TODO Auto-generated catch block
+								e2.printStackTrace();
+							}
 						}
 					//}
 				}
+				if(!notNeedToImproveImages.isEmpty())
+					for(int i = 0 ; i < notNeedToImproveImages.size() ; i ++){
+						String fileName = notNeedToImproveImages.get(i);
+						Path src = Paths.get(CUtils.GetImagesDestPath() + "goodImages\\" +fileName);
+						Path des = Paths.get(CUtils.GetImagesDestPath() + "ImproveFocus\\best\\" + fileName);
+					System.out.println(src +" "+ des);
+						try {
+							Files.copy(src,des,REPLACE_EXISTING);
+						} catch (IOException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}
+					}
 			}
 		});
 		executeBtn.setBounds(43, 241, 187, 40);
@@ -448,6 +483,7 @@ public class ImproveFocusGUI extends JFrame{
 				else{
 					Path src = Paths.get(list[i].getPath());
 					Path des = Paths.get(list[i].getParent()+"\\display\\"+list[i].getName());
+					
 					try {
 						Files.copy(src,des,REPLACE_EXISTING);
 					} catch (IOException e2) {
@@ -456,6 +492,7 @@ public class ImproveFocusGUI extends JFrame{
 					}
 				}
 			}
+			
 			if(focusFunc.equalsIgnoreCase("FunctionBasedOnDepthOfPeaksAndValleysB")){
 				if(focus.FunctionBasedOnDepthOfPeaksAndValleysB(list[i].getPath(),120)<5478.94792)
 					needImproveLocal.add(list[i].getPath());
@@ -490,6 +527,7 @@ public class ImproveFocusGUI extends JFrame{
 				else{
 					Path src = Paths.get(list[i].getPath());
 					Path des = Paths.get(list[i].getParent()+"\\display\\"+list[i].getName());
+					System.out.println(src+" "+des);
 					try {
 						Files.copy(src,des,REPLACE_EXISTING);
 					} catch (IOException e2) {
@@ -519,6 +557,7 @@ public class ImproveFocusGUI extends JFrame{
 				else{
 					Path src = Paths.get(list[i].getPath());
 					Path des = Paths.get(list[i].getParent()+"\\display\\"+list[i].getName());
+					System.out.println(src+" "+des);
 					try {
 						Files.copy(src,des,REPLACE_EXISTING);
 					} catch (IOException e2) {
@@ -593,7 +632,7 @@ public class ImproveFocusGUI extends JFrame{
 				if(builder == 1)
 					disArea = new DisplayAreasOfInterestGUI(path);
 				if(builder == 2)
-					dis = new DisplayImages(CUtils.GetImagesDestPath() + "ImproveFocus\\sharpLaplacian\\");
+					dis = new DisplayImages(CUtils.GetImagesDestPath() + "ImproveFocus\\best\\");
 			}
 		});
 			nextImprovebtn.setBounds(581, 433, 111, 40);

@@ -211,7 +211,7 @@
 	
 	public void actionPerformed(ActionEvent e) {
 	photographLabel.setIcon(displayPhoto);
-	setTitle("Icon Demo: " + getValue(SHORT_DESCRIPTION).toString());
+	setTitle("Display images: " + getValue(SHORT_DESCRIPTION).toString());
 	}
 	}
 	}
